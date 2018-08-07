@@ -9,6 +9,10 @@
 # production
 /build
 
+# photos
+/public/data/**/*.JPG
+/public/data/**/*.jpg
+
 # misc
 .DS_Store
 .env.local
