@@ -11,6 +11,7 @@ class Photos extends Component {
             selected: 0,
             dragStartX: null,
             drag: null,
+            draggedFrom: null,
         };
     }
 
@@ -30,13 +31,16 @@ class Photos extends Component {
     }
     
     click(e) {
-        console.log(e.type);
-        e.preventDefault();
-        this.next();
+        if (this.state.draggedFrom===null) {
+            e.preventDefault();
+            this.next();
+        }
+        else {
+            this.setState({draggedFrom: null})
+        }
     }
 
     switchStart(e) {
-        console.log(e.type);
         let x;
         if (e.type==='touchstart') {
             x = e.touches[0].clientX;
@@ -50,9 +54,7 @@ class Photos extends Component {
 
     switchMove(e) {
         if (e.buttons&1 || e.type==='touchmove') {
-            console.log(e.type);
             let x = e.type==='touchmove' ? e.touches[0].clientX : e.clientX;
-            console.log(x)
             let diffX = x - this.state.dragStartX;
             this.setState({drag: diffX});
             e.currentTarget.style.transform = `translate(${diffX}px)`
@@ -60,18 +62,18 @@ class Photos extends Component {
     }
 
     switchEnd(e) {
-        console.log(e.type);
         if (this.state.drag) {
             e.preventDefault();
             const w = e.currentTarget.offsetWidth;
             const shift = this.state.drag / w;
+            const selected = this.state.selected;
             if (shift < -.5) {
                 this.next();
             }
             else if (shift > .5) {
                 this.prev();
             }
-            this.setState({dragStartX: null, drag: null});
+            this.setState({dragStartX: null, drag: null, draggedFrom: selected});
         }
     }
 
