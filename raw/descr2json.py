@@ -10,7 +10,7 @@ import os.path
 date = '2015-06-11'
 
 filename = '%s/descript.ion' % date
-file2 = io.open('%s.json' % date, 'w', encoding='utf8')
+file2 = io.open('../public/data/%s.json' % date, 'w', encoding='utf8')
 
 rxPhoto = re.compile('[a-z_]+\d+\.[a-z0-9]{3,5}', re.I)
 
@@ -27,7 +27,7 @@ with open(filename) as fd:
     episodeId = 1
     for pair in pairs:
         item = {}
-        filepath = '%s/%s' % (date, pair[0])
+        filepath = '../public/data/%s/%s' % (date, pair[0])
         if rxPhoto.match(pair[0]) and os.path.isfile(filepath):
             if len(pair) > 1:
                 item['descr'] = pair[1]
