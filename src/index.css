@@ -4,6 +4,20 @@ body {
   font-family: sans-serif;
 }
 
+
+.events-list {
+  list-style: none;
+}
+
+.events-list .event-item {
+  margin: 0 20px 20px 0;
+}
+
+.events-list .event-item img {
+  display: block;
+  border: 1px solid silver;
+}
+
 .event-date {
   color: #999;
 }

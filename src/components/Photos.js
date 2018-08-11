@@ -82,7 +82,7 @@ class Photos extends Component {
             const click = this.select.bind(this);
             return <span className="dots">
                 {
-                    this.props.photos.map((_, i) => (i===this.state.selected ? <b key={i}>●</b> : <a key={i} onClick={() => click(i)}>○</a>))
+                    this.props.photos.map((_, i) => (i===this.state.selected ? <a key={i}>●</a> : <a key={i} onClick={() => click(i)}>○</a>))
                 }
             </span>;
         } else {

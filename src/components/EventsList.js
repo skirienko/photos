@@ -25,7 +25,7 @@ class EventsList extends React.Component {
         }
     
         return (<ul className="events-list">
-                {this.state.events.map(item => <EventListItem key={item.id} id={item.id} title={item.title}></EventListItem>)}
+                {this.state.events.map(item => <EventListItem key={item.id} {...item}></EventListItem>)}
             </ul>);
     
     }
