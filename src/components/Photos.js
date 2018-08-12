@@ -59,6 +59,7 @@ class Photos extends Component {
             this.setState({drag: diffX});
             e.currentTarget.style.transform = `translate(${diffX}px)`
         }
+        e.preventDefault();
     }
 
     switchEnd(e) {
@@ -67,10 +68,10 @@ class Photos extends Component {
             const w = e.currentTarget.offsetWidth;
             const shift = this.state.drag / w;
             const selected = this.state.selected;
-            if (shift < -.5) {
+            if (shift < -.25) {
                 this.next();
             }
-            else if (shift > .5) {
+            else if (shift > .25) {
                 this.prev();
             }
             this.setState({dragStartX: null, drag: null, draggedFrom: selected});
