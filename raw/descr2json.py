@@ -5,9 +5,9 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 import os.path
 
-# date = '2009-07-01'
+date = '2009-07-01'
 # date = '2014-06-11'
-date = '2015-06-11'
+# date = '2015-06-11'
 
 filename = '%s/descript.ion' % date
 file2 = io.open('../public/data/%s.json' % date, 'w', encoding='utf8')
@@ -17,12 +17,12 @@ rxPhoto = re.compile('[a-z_]+\d+\.[a-z0-9]{3,5}', re.I)
 episodes = []
 title = 'Istanbul'
 descr = ''
-with open(filename) as fd:
+with open(filename, 'r', encoding='cp1251') as fd:
     lines = fd.readlines()
 
-    title = lines[0].decode('cp1251').strip()
-    descr = lines[1].decode('cp1251').strip()
-    pairs = [line.decode('cp1251').strip().split(' ', 1) for line in lines]
+    title = lines[0].strip()
+    descr = lines[1].strip()
+    pairs = [line.strip().split(' ', 1) for line in lines]
     prevItem = {}
     episodeId = 1
     for pair in pairs:
@@ -62,5 +62,5 @@ data = {
 data['episodes'] = episodes
 #file2.write(' '.join(pair).encode('utf-8')+'\n')
 jsondump = json.dumps(data, ensure_ascii=False)
-file2.write(unicode(jsondump))
+file2.write(jsondump)
 # print(data)
