@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import './Photos.css';
 
-
 class Photos extends Component {
 
     constructor(props) {
         super(props);
+        this.len = props.photos.length;
         this.PREFIX = `/data/${props.event}/`;
         this.state = {
+            transition: false,
             selected: 0,
             dragStartX: null,
             drag: null,
@@ -15,25 +16,34 @@ class Photos extends Component {
         };
     }
 
-    select (i) {
-        if (i >= 0 && i < this.props.photos.length) {
-            this.setState({selected: i});
-        }
+    cycle(num) {
+        const mod = this.props.photos.length;
+        return ((num % mod) + mod) % mod;
     }
-    next() {
-        const newValue = (this.state.selected + 1) % this.props.photos.length;
+
+    select(i) {
+        this.setState({selected: this.cycle(i)});
+    }
+    next(e) {
+        const newValue = this.cycle(this.state.selected + 1);
+        e.currentTarget.style.transform = 'translate(-100%)';
         this.setState({selected: newValue});
     }
 
-    prev() {
-        const newValue = (this.state.selected - 1) % this.props.photos.length;
+    prev(e) {
+        const newValue = this.cycle(this.state.selected - 1);
+        e.currentTarget.style.transform = 'translate(100%)';
         this.setState({selected: newValue});
+    }
+
+    restore(e) {
+        e.currentTarget.style.transform = null;
     }
     
     click(e) {
         if (this.state.draggedFrom===null) {
             e.preventDefault();
-            this.next();
+            this.next(e);
         }
         else {
             this.setState({draggedFrom: null})
@@ -67,11 +77,14 @@ class Photos extends Component {
             const w = e.currentTarget.offsetWidth;
             const shift = this.state.drag / w;
             const selected = this.state.selected;
-            if (shift < -.5) {
-                this.next();
+            if (shift < -.1) {
+                this.next(e);
             }
-            else if (shift > .5) {
-                this.prev();
+            else if (shift > .1) {
+                this.prev(e);
+            }
+            else {
+                this.restore(e);
             }
             this.setState({dragStartX: null, drag: null, draggedFrom: selected});
         }
@@ -92,31 +105,40 @@ class Photos extends Component {
 
     render() {
         const photosStyle = this.props.aspect ? {paddingBottom: this.props.aspect+"%"} : null;
-        const itemStyle = this.state.dragStartX ? null : {transform: 'translate(0)'};
+
+        const currIdx = this.state.selected % this.len;
+        const prevIdx = (currIdx - 1) % this.len;
+        const nextIdx = (currIdx + 1) % this.len;
+
+        const frames = [
+            {type: 'prev', photo: this.props.photos[prevIdx]},
+            {type: 'curr', photo: this.props.photos[currIdx], events: {
+                onClick: this.click.bind(this),
+                onMouseDown: this.switchStart.bind(this),
+                onTouchStart: this.switchStart.bind(this),
+                onMouseMove: this.switchMove.bind(this),
+                onTouchMove: this.switchMove.bind(this),
+                onMouseUp: this.switchEnd.bind(this),
+                onMouseLeave: this.switchEnd.bind(this),
+                onTouchEnd: this.switchEnd.bind(this),
+        }},
+            {type: 'next', photo: this.props.photos[nextIdx]},
+        ];
+
         return (
-        <div className="stretch">
-          <div className="photos" style={photosStyle}>
-            {this.props.photos.map((photo, i) => {
-                const classes = ['photo'];
-                if (i===this.state.selected) {
-                    classes.push('selected');
+            <div className="stretch">
+              <div className="photos" style={photosStyle}>
+                {
+                    frames.map(frame => (
+                        <div key={frame.type+frame.photo} className={'photo '+frame.type} {...frame.events}>
+                            <img src={this.PREFIX + frame.photo} alt=""/>
+                        </div>
+                    ))
                 }
-                return (<div key={photo} className={classes.join(' ')}
-                            onClick={this.click.bind(this)}
-                            onMouseDown={this.switchStart.bind(this)}
-                            onTouchStart={this.switchStart.bind(this)}
-                            onMouseMove={this.switchMove.bind(this)}
-                            onTouchMove={this.switchMove.bind(this)}
-                            onMouseUp={this.switchEnd.bind(this)}
-                            onMouseLeave={this.switchEnd.bind(this)}
-                            onTouchEnd={this.switchEnd.bind(this)}
-                            style={itemStyle}>
-                            <img src={this.PREFIX + photo} alt=""/>
-                        </div>);
-            })}
-            <div className="counter">{this.getCounter()}</div>
-          </div>
-        </div>);
+              <div className="counter">{this.getCounter()}</div>
+              </div>
+            </div>
+          );
     }
 }
 

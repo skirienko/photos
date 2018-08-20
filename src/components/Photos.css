@@ -18,10 +18,11 @@
     width: 100%;
 }
 
-.photos > .photo.selected {
+.photos > .photo.curr {
     /* border: 1px solid red; */
     opacity: 1;
-    transition: opacity .3s linear;
+    /* transition: opacity .3s linear; */
+    transition: all .5s ease-out-out;
     z-index: 5;
 }
 
