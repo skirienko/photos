@@ -69,6 +69,7 @@ class Photos extends Component {
             this.setState({drag: diffX});
             e.currentTarget.style.transform = `translate(${diffX}px)`
         }
+        e.preventDefault();
     }
 
     switchEnd(e) {
