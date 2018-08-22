@@ -3,8 +3,11 @@ import os
 import re
 from shutil import copy2
 
-dirname = "2009-07-01/orig"
-outdir = "../public/data/2009-07-01"
+# date = '2009-07-01'
+date = '2016-07-01'
+
+dirname = "%s/orig" % date
+outdir = "../public/data/%s" % date
 MAX_SIDE = 1200
 PANO_MIN_SIZE = 600
 quality = 90
@@ -25,7 +28,7 @@ def limit_size(size):
             return [int(round(MAX_SIDE * aspect)), MAX_SIDE]
 
 print("Started")
-rxPhoto = re.compile('[a-z_]+\d+x?\.jpg', re.I) 
+rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
 # rxPhoto = re.compile('[a-z_]+0166\.jpg', re.I) 
 dirs = os.listdir(dirname)
 for filename in dirs:

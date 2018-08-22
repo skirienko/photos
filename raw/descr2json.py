@@ -5,14 +5,15 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 import os.path
 
-date = '2009-07-01'
+# date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'
+date = '2016-07-01'
 
 filename = '%s/descript.ion' % date
 file2 = io.open('../public/data/%s.json' % date, 'w', encoding='utf8')
 
-rxPhoto = re.compile('[a-z_]+\d+\.[a-z0-9]{3,5}', re.I)
+rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
 
 episodes = []
 title = 'Istanbul'
@@ -29,6 +30,8 @@ with open(filename, 'r', encoding='cp1251') as fd:
         item = {}
         filepath = '../public/data/%s/%s' % (date, pair[0])
         if rxPhoto.match(pair[0]) and os.path.isfile(filepath):
+            print(pair[0])
+            print(len(pair))
             if len(pair) > 1:
                 item['descr'] = pair[1]
                 item['photo'] = pair[0]
