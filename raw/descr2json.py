@@ -14,6 +14,7 @@ filename = '%s/descript.ion' % date
 file2 = io.open('../public/data/%s.json' % date, 'w', encoding='utf8')
 
 rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
+rxVimeo = re.compile('^vimeo:(\d+)$', re.I)
 
 episodes = []
 title = 'Istanbul'
@@ -56,6 +57,16 @@ with open(filename, 'r', encoding='cp1251') as fd:
                 item['photos'].append(pair[0])
             prevItem = item
             # print(item)
+        elif rxVimeo.match(pair[0]):
+            m = rxVimeo.match(pair[0])
+            print('Vimeo!')
+            item['id'] = episodeId
+            item['type'] = 'vimeo'
+            item['descr'] = pair[1] if len(pair) > 1 else ''
+            item['video'] = m.group(1)
+            episodes.append(item)
+            episodeId += 1
+            prevItem = item
 
 data = {
     "title": title,
