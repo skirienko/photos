@@ -12,6 +12,7 @@
 # photos
 /public/data/**/*.JPG
 /public/data/**/*.jpg
+/raw/**/*.JPG
 
 # misc
 .DS_Store
