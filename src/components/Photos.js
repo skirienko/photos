@@ -50,6 +50,18 @@ class Photos extends Component {
         }
     }
 
+    wheel(e) {
+        if (e.deltaX) {
+            if(e.deltaX > 0) {
+                this.next(e);
+            }
+            else {
+                this.prev(e);
+            }
+            e.preventDefault();
+        }
+    }
+
     switchStart(e) {
         let x;
         if (e.type==='touchstart') {
@@ -122,6 +134,7 @@ class Photos extends Component {
                 onMouseUp: this.switchEnd.bind(this),
                 onMouseLeave: this.switchEnd.bind(this),
                 onTouchEnd: this.switchEnd.bind(this),
+                onWheel: this.wheel.bind(this),
         }},
             {type: 'next', photo: this.props.photos[nextIdx]},
         ];
