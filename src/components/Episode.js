@@ -10,7 +10,7 @@ const Episode = (props) => {
     const style = props.episode.aspect ? {paddingBottom: props.episode.aspect+"%"} : null;
     return (
         <div className="episode" id={`episode-${props.episode.id}`}>
-        <p>{props.episode.id}. {props.episode.descr}</p>
+        <p className="normal-text"><span className="cnt">{props.episode.id}.</span> {props.episode.descr}</p>
         {props.episode.photo ?
             <div className="stretch">
                 <div className="photo" style={style}><img alt="" src={PREFIX + props.episode.photo} /></div>

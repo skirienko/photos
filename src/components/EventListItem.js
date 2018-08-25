@@ -6,7 +6,7 @@ const EventListItem = (props) => {
     return (<li className="event-item">
         <NavLink to={"/"+props.city+"/"+props.id}>
             <img src={["/data", props.id, props.img].join('/')} alt="" width="240" height="160"/>
-            <div>{props.title}</div>
+            <div className="event-title">{props.title}</div>
         </NavLink>
         </li>);
 }

@@ -42,8 +42,8 @@ class EventPage extends React.Component {
         return item ?
             (<div className="event-page">
                 <h2>{item.title}</h2>
-                <p className="event-date">{item.date}</p>
-                <p className="description">{item.description}</p>
+                <p className="normal-text event-date">{item.date}</p>
+                <p className="normal-text description">{item.description}</p>
                 {item.episodes.map(episode => (<Episode episode={episode} event={eventId} key={episode.id}></Episode>))}
             </div>)
             :
