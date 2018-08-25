@@ -7,6 +7,11 @@ class Photos extends Component {
         super(props);
         this.len = props.photos.length;
         this.PREFIX = `/data/${props.event}/`;
+        this.jsxFrames = {
+            'prev': null,
+            'curr': null,
+            'next': null,
+        };
         this.state = {
             transition: false,
             selected: 0,
@@ -116,6 +121,16 @@ class Photos extends Component {
         }
     }
 
+    renderFrame(frame) {
+        const jsxFrame = (
+            <div key={frame.type+frame.photo} className={'photo '+frame.type} {...frame.events}>
+                <img src={this.PREFIX + frame.photo} alt=""/>
+            </div>
+        );
+        this.jsxFrames[frame.type] = jsxFrame;
+        return jsxFrame;
+    }
+
     render() {
         const photosStyle = this.props.aspect ? {paddingBottom: this.props.aspect+"%"} : null;
 
@@ -142,13 +157,7 @@ class Photos extends Component {
         return (
             <div className="stretch">
               <div className="photos" style={photosStyle}>
-                {
-                    frames.map(frame => (
-                        <div key={frame.type+frame.photo} className={'photo '+frame.type} {...frame.events}>
-                            <img src={this.PREFIX + frame.photo} alt=""/>
-                        </div>
-                    ))
-                }
+                { frames.map(frame => this.renderFrame(frame)) }
               <div className="counter">{this.getCounter()}</div>
               </div>
             </div>
