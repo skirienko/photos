@@ -1,5 +1,6 @@
 import React from 'react';
 import Photos from './Photos';
+import Vimeo from './Vimeo';
 
 const Episode = (props) => {
     const PREFIX = `/data/${props.event}/`;
@@ -18,7 +19,7 @@ const Episode = (props) => {
             null
         }
         {props.episode.video ?
-            <div className="stretch"><div style={{padding:'56.25% 0 0 0', position:'relative'}}><iframe src={'https://player.vimeo.com/video/'+props.episode.video+'?byline=0&portrait=0'} style={{position:'absolute',top:0,left:0,width:'100%',height:'100%'}} frameBorder="0" allowFullScreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script></div>
+            <Vimeo {...props.episode}></Vimeo>
             :
             null
         }
