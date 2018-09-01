@@ -15,6 +15,16 @@ body {
   margin: 0 40px 20px 0;
 }
 
+.progressive-img {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+.progressive-img img {
+  opacity: 0;
+}
+
 .events-list .event-item a {
   text-decoration: none;
   color: #336699;
