@@ -5,6 +5,7 @@
     /* border: 1px solid gray; */
     position: relative;
     overflow: hidden;
+    cursor: grip;
 }
 
 .photos > .photo {
