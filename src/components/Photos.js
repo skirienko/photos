@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './Photos.css';
 
+const DEBOUNCE_RATE = 500;
+
 class Photos extends Component {
 
     constructor(props) {
@@ -19,6 +21,8 @@ class Photos extends Component {
             drag: null,
             draggedFrom: null,
         };
+        this.debouncedNext = this.debounce(this.next, DEBOUNCE_RATE).bind(this);
+        this.debouncedPrev = this.debounce(this.prev, DEBOUNCE_RATE).bind(this);
     }
 
     cycle(num) {
@@ -26,29 +30,47 @@ class Photos extends Component {
         return ((num % mod) + mod) % mod;
     }
 
+    debounce(f, ms) {
+        let occupied = false;
+        let context = this;
+
+        return function () {
+            if (!occupied) {
+                occupied = true;
+                f.apply(context, arguments);
+
+                setTimeout(() => {
+                    occupied = false;
+                }, ms);
+        
+            }
+        }
+    }
+
     select(i) {
         this.setState({selected: this.cycle(i)});
     }
-    next(e) {
+    
+    next(el) {
         const newValue = this.cycle(this.state.selected + 1);
-        e.currentTarget.style.transform = 'translate(-100%)';
+        el.style.transform = 'translate(-100%)';
         this.setState({selected: newValue});
     }
 
-    prev(e) {
+    prev(el) {
         const newValue = this.cycle(this.state.selected - 1);
-        e.currentTarget.style.transform = 'translate(100%)';
+        el.style.transform = 'translate(100%)';
         this.setState({selected: newValue});
     }
 
-    restore(e) {
-        e.currentTarget.style.transform = null;
+    restore(el) {
+        el.style.transform = null;
     }
     
     click(e) {
         if (this.state.draggedFrom===null) {
             e.preventDefault();
-            this.next(e);
+            this.next(e.currentTarget);
         }
         else {
             this.setState({draggedFrom: null})
@@ -56,12 +78,13 @@ class Photos extends Component {
     }
 
     wheel(e) {
-        if (e.deltaX) {
+        if (e.deltaX && Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            const el = e.currentTarget;
             if(e.deltaX > 0) {
-                this.next(e);
+                this.debouncedNext(el);
             }
             else {
-                this.prev(e);
+                this.debouncedPrev(el);
             }
             e.preventDefault();
         }
@@ -92,17 +115,18 @@ class Photos extends Component {
     switchEnd(e) {
         if (this.state.drag) {
             e.preventDefault();
+            const el = e.currentTarget;
             const w = e.currentTarget.offsetWidth;
             const shift = this.state.drag / w;
             const selected = this.state.selected;
             if (shift < -.1) {
-                this.next(e);
+                this.next(el);
             }
             else if (shift > .1) {
-                this.prev(e);
+                this.prev(el);
             }
             else {
-                this.restore(e);
+                this.restore(el);
             }
             this.setState({dragStartX: null, drag: null, draggedFrom: selected});
         }
