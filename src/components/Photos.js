@@ -104,7 +104,6 @@ class Photos extends Component {
             let diffX = x - this.state.dragStartX;
             this.setState({dragX: diffX});
         }
-        e.preventDefault();
     }
 
     switchEnd(e) {
