@@ -18,7 +18,7 @@ class Photos extends Component {
             transition: false,
             selected: 0,
             dragStartX: null,
-            drag: null,
+            dragX: null,
             draggedFrom: null,
         };
         this.debouncedNext = this.debounce(this.next, DEBOUNCE_RATE).bind(this);
@@ -42,7 +42,6 @@ class Photos extends Component {
                 setTimeout(() => {
                     occupied = false;
                 }, ms);
-        
             }
         }
     }
@@ -51,26 +50,24 @@ class Photos extends Component {
         this.setState({selected: this.cycle(i)});
     }
     
-    next(el) {
+    next() {
         const newValue = this.cycle(this.state.selected + 1);
-        el.style.transform = 'translate(-100%)';
         this.setState({selected: newValue});
     }
 
-    prev(el) {
+    prev() {
         const newValue = this.cycle(this.state.selected - 1);
-        el.style.transform = 'translate(100%)';
         this.setState({selected: newValue});
     }
 
-    restore(el) {
-        el.style.transform = null;
+    restore() {
+        this.setState({dragX: null});
     }
     
     click(e) {
         if (this.state.draggedFrom===null) {
             e.preventDefault();
-            this.next(e.currentTarget);
+            this.next();
         }
         else {
             this.setState({draggedFrom: null})
@@ -79,14 +76,13 @@ class Photos extends Component {
 
     wheel(e) {
         if (e.deltaX && Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            const el = e.currentTarget;
-            if(e.deltaX > 0) {
-                this.debouncedNext(el);
+            e.preventDefault();
+            if (e.deltaX > 0) {
+                this.debouncedNext();
             }
             else {
-                this.debouncedPrev(el);
+                this.debouncedPrev();
             }
-            e.preventDefault();
         }
     }
 
@@ -106,29 +102,28 @@ class Photos extends Component {
         if (e.buttons&1 || e.type==='touchmove') {
             let x = e.type==='touchmove' ? e.touches[0].clientX : e.clientX;
             let diffX = x - this.state.dragStartX;
-            this.setState({drag: diffX});
-            e.currentTarget.style.transform = `translate(${diffX}px)`
+            this.setState({dragX: diffX});
         }
         e.preventDefault();
     }
 
     switchEnd(e) {
-        if (this.state.drag) {
+        if (this.state.dragX) {
             e.preventDefault();
             const el = e.currentTarget;
             const w = e.currentTarget.offsetWidth;
-            const shift = this.state.drag / w;
+            const shift = this.state.dragX / w;
             const selected = this.state.selected;
-            if (shift < -.1) {
+            if (shift < -.5) {
                 this.next(el);
             }
             else if (shift > .1) {
                 this.prev(el);
             }
             else {
-                this.restore(el);
+                this.restore();
             }
-            this.setState({dragStartX: null, drag: null, draggedFrom: selected});
+            this.setState({dragStartX: null, dragX: null, draggedFrom: selected});
         }
     }
 
@@ -156,31 +151,34 @@ class Photos extends Component {
     }
 
     render() {
-        const photosStyle = this.props.aspect ? {paddingBottom: this.props.aspect+"%"} : null;
+        const photosStyle = {
+            paddingBottom: this.props.aspect ? this.props.aspect+"%" : null,
+            transform: this.state.dragX ? `translate(${this.state.dragX}px)` : null,
+        };
 
         const currIdx = this.state.selected % this.len;
-        const prevIdx = (currIdx - 1) % this.len;
+        const prevIdx = (this.len + currIdx - 1) % this.len;
         const nextIdx = (currIdx + 1) % this.len;
 
         const frames = [
             {type: 'prev', photo: this.props.photos[prevIdx]},
-            {type: 'curr', photo: this.props.photos[currIdx], events: {
-                onClick: this.click.bind(this),
-                onMouseDown: this.switchStart.bind(this),
-                onTouchStart: this.switchStart.bind(this),
-                onMouseMove: this.switchMove.bind(this),
-                onTouchMove: this.switchMove.bind(this),
-                onMouseUp: this.switchEnd.bind(this),
-                onMouseLeave: this.switchEnd.bind(this),
-                onTouchEnd: this.switchEnd.bind(this),
-                onWheel: this.wheel.bind(this),
-        }},
+            {type: 'curr', photo: this.props.photos[currIdx]},
             {type: 'next', photo: this.props.photos[nextIdx]},
         ];
-
+        let frameEvents = {
+            onClick: this.click.bind(this),
+            onMouseDown: this.switchStart.bind(this),
+            onTouchStart: this.switchStart.bind(this),
+            onMouseMove: this.switchMove.bind(this),
+            onTouchMove: this.switchMove.bind(this),
+            onMouseUp: this.switchEnd.bind(this),
+            onMouseLeave: this.switchEnd.bind(this),
+            onTouchEnd: this.switchEnd.bind(this),
+            onWheel: this.wheel.bind(this),
+        };
         return (
             <div className="stretch">
-              <div className="photos" style={photosStyle}>
+              <div className="photos" style={photosStyle} {...frameEvents}>
                 { frames.map(frame => this.renderFrame(frame)) }
               <div className="counter">{this.getCounter()}</div>
               </div>
