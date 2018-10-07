@@ -4,12 +4,10 @@
     padding-bottom: 66.67%;
     /* border: 1px solid gray; */
     position: relative;
-    overflow: hidden;
     cursor: grip;
 }
 
 .photos > .photo {
-    opacity: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -20,12 +18,13 @@
     width: 100%;
 }
 
-.photos > .photo.curr {
-    /* border: 1px solid red; */
-    opacity: 1;
-    /* transition: opacity .3s linear; */
-    transition: all .5s ease-out-out;
-    z-index: 5;
+.photos > .photo.prev {
+    left: -100%;
+    transform: translateX(-2px);
+}
+.photos > .photo.next {
+    left: 100%;
+    transform: translateX(2px);
 }
 
 .photos > .counter {
