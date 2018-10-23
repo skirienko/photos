@@ -32,6 +32,10 @@ def limit_size(size):
 print("Started")
 rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
 # rxPhoto = re.compile('[a-z_]+1707\.jpg', re.I) 
+
+if not os.path.exists(outdir):
+    os.makedirs(outdir)
+
 dirs = os.listdir(dirname)
 for filename in dirs:
     if rxPhoto.match(filename):
