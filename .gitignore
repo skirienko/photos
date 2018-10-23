@@ -14,6 +14,9 @@
 /public/data/**/*.jpg
 /raw/**/*.JPG
 
+# video
+/raw/**/*.mp4
+
 # misc
 .DS_Store
 .env.local
