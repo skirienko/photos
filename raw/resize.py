@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import os
 import re
 from shutil import copy2
@@ -13,6 +13,19 @@ outdir = "../public/data/%s" % date
 MAX_SIDE = 1200
 PANO_MIN_SIZE = 600
 quality = 90
+
+def add_watermark(img):
+
+    drawing = ImageDraw.Draw(img)
+    text = 'Sergey Kirienko'
+    font = ImageFont.load_default()
+
+    pos = (100, 100)
+    fill = (255, 255, 255, 128)
+    print("watermark '%s'" % text)
+
+    drawing.text(pos, text, fill=fill, font=font)
+
 
 def limit_size(size):
     if size[0] <= MAX_SIDE and size[1] <= MAX_SIDE:
@@ -31,7 +44,7 @@ def limit_size(size):
 
 print("Started")
 rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
-# rxPhoto = re.compile('[a-z_]+1707\.jpg', re.I) 
+# rxPhoto = re.compile('[a-z_]+1891\.jpg', re.I) 
 
 if not os.path.exists(outdir):
     os.makedirs(outdir)
@@ -66,6 +79,7 @@ for filename in dirs:
                     print("Need to resize")
                     print(limit_size(img.size))
                     resized_img = img.resize(limit_size(img.size), Image.ANTIALIAS)
+                    # add_watermark(resized_img)
                     resized_img.save('/'.join( (outdir, filename) ), 'JPEG', quality=quality, exif=byte_exif)
                 else:
                     print("Copy intact")
