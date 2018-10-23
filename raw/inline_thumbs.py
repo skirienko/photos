@@ -8,7 +8,7 @@ dir = '../public/data'
 infile = '%s/all-events.json' % dir
 outfile = '%s/all-events2.json' % dir
 
-with open(infile, 'r') as fd:
+with open(infile, 'r', encoding='utf8') as fd:
     data = json.load(fd)
 
 for event in data:
