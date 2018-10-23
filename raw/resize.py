@@ -43,8 +43,8 @@ def limit_size(size):
             return [int(round(MAX_SIDE * aspect)), MAX_SIDE]
 
 print("Started")
-# rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
-rxPhoto = re.compile('[a-z_]+1891\.jpg', re.I) 
+rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
+# rxPhoto = re.compile('[a-z_]+1891\.jpg', re.I) 
 dirs = os.listdir(dirname)
 for filename in dirs:
     if rxPhoto.match(filename):
@@ -75,7 +75,7 @@ for filename in dirs:
                     print("Need to resize")
                     print(limit_size(img.size))
                     resized_img = img.resize(limit_size(img.size), Image.ANTIALIAS)
-                    add_watermark(resized_img)
+                    # add_watermark(resized_img)
                     resized_img.save('/'.join( (outdir, filename) ), 'JPEG', quality=quality, exif=byte_exif)
                 else:
                     print("Copy intact")
