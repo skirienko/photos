@@ -2,9 +2,11 @@ from PIL import Image
 import os
 import re
 from shutil import copy2
+import piexif
 
 # date = '2009-07-01'
-date = '2016-07-01'
+date = '2015-06-20'
+# date = '2016-07-01'
 
 dirname = "%s/orig" % date
 outdir = "../public/data/%s" % date
@@ -29,7 +31,7 @@ def limit_size(size):
 
 print("Started")
 rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
-# rxPhoto = re.compile('[a-z_]+0166\.jpg', re.I) 
+# rxPhoto = re.compile('[a-z_]+1707\.jpg', re.I) 
 dirs = os.listdir(dirname)
 for filename in dirs:
     if rxPhoto.match(filename):
@@ -37,14 +39,30 @@ for filename in dirs:
         with Image.open('/'.join((dirname, filename)), 'r') as img:
             if img:
                 print(img.size)
-                exif = b''
                 if 'exif' in img.info:
-                    exif = img.info['exif']
+                    byte_exif = img.info['exif']
+                    exif = piexif.load(byte_exif)
+
+                if exif and byte_exif:
+                    print('EXIF size: %d' % len(byte_exif))
+                    orientation = exif['0th'][piexif.ImageIFD.Orientation]
+                    if orientation == 6:
+                        print('Rotating 270')
+                        img = img.transpose(Image.ROTATE_270)
+                        exif['0th'][piexif.ImageIFD.Orientation] = 1
+                    elif orientation == 8:
+                        print('Rotating 90')
+                        img = img.transpose(Image.ROTATE_90)
+                        exif['0th'][piexif.ImageIFD.Orientation] = 1
+                    
+                    del exif['thumbnail']
+                    byte_exif = piexif.dump(exif)
+
                 if img.size[0] > MAX_SIDE or img.size[1] > MAX_SIDE:
                     print("Need to resize")
                     print(limit_size(img.size))
                     resized_img = img.resize(limit_size(img.size), Image.ANTIALIAS)
-                    resized_img.save('/'.join( (outdir, filename) ), 'JPEG', quality=quality, exif=exif)
+                    resized_img.save('/'.join( (outdir, filename) ), 'JPEG', quality=quality, exif=byte_exif)
                 else:
                     print("Copy intact")
                     copy2('/'.join(dirname, filename), '/'.join( (outdir, filename)))

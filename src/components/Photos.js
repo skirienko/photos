@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import animate from 'dom-helpers/transition/animate';
 import './Photos.css';
 
-const DEBOUNCE_RATE = 500;
+const TRANSITION_TIME = 500;
 
 class Photos extends Component {
 
@@ -21,8 +22,8 @@ class Photos extends Component {
             dragX: null,
             draggedFrom: null,
         };
-        this.debouncedNext = this.debounce(this.next, DEBOUNCE_RATE).bind(this);
-        this.debouncedPrev = this.debounce(this.prev, DEBOUNCE_RATE).bind(this);
+        this.debouncedNext = this.debounce(this.next, TRANSITION_TIME).bind(this);
+        this.debouncedPrev = this.debounce(this.prev, TRANSITION_TIME).bind(this);
     }
 
     cycle(num) {
@@ -52,18 +53,30 @@ class Photos extends Component {
     
     next() {
         const newValue = this.cycle(this.state.selected + 1);
-        this.setState({selected: newValue});
+        this.reset(newValue);
     }
 
     prev() {
         const newValue = this.cycle(this.state.selected - 1);
-        this.setState({selected: newValue});
+        this.reset(newValue);
     }
 
     restore() {
-        this.setState({dragX: null});
+        this.reset();
     }
-    
+ 
+    reset(newValue) {
+        let state = {
+            dragStartX: null,
+            dragX: null,
+            animating: null,
+        };
+        if (typeof newValue !== 'undefined') {
+            state.selected = newValue;
+        }
+        this.setState(state);
+    }
+
     click(e) {
         if (this.state.draggedFrom===null) {
             e.preventDefault();
@@ -76,13 +89,16 @@ class Photos extends Component {
 
     wheel(e) {
         if (e.deltaX && Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            if (!this.state.animating) {
+                const el = e.currentTarget;
+                if (e.deltaX > 0) {
+                    this.glide(el, 'next');
+                }
+                else {
+                    this.glide(el, 'prev');
+                }    
+            }
             e.preventDefault();
-            if (e.deltaX > 0) {
-                this.debouncedNext();
-            }
-            else {
-                this.debouncedPrev();
-            }
         }
     }
 
@@ -108,21 +124,47 @@ class Photos extends Component {
 
     switchEnd(e) {
         if (this.state.dragX) {
-            e.preventDefault();
             const el = e.currentTarget;
-            const w = e.currentTarget.offsetWidth;
+            const w = el.offsetWidth;
             const shift = this.state.dragX / w;
-            const selected = this.state.selected;
-            if (shift < -.5) {
-                this.next(el);
+            this.setState({draggedFrom: this.state.selected});
+            if (shift < -.1) {
+                this.glide(el, 'next');
             }
             else if (shift > .1) {
-                this.prev(el);
+                this.glide(el, 'prev');
             }
             else {
-                this.restore();
+                this.glide(el, 'restore');
             }
-            this.setState({dragStartX: null, dragX: null, draggedFrom: selected});
+            e.preventDefault();
+        }
+    }
+
+    glide(el, direction) {
+        if (el) {
+            this.setState({animating:true});
+            const w = el.offsetWidth;
+            let to, callback;
+            switch(direction) {
+                case 'next':
+                    to = -w;
+                    callback = this.next;
+                    break;
+                case 'prev':
+                    to = w;
+                    callback = this.prev;
+                    break;
+                default:
+                    to = 0;
+                    callback = this.restore;
+            }
+            // transition time should depend on length to glide (even linear is better than const)
+            const time = Math.abs(this.state.dragX - to) / w * TRANSITION_TIME;
+            animate(el, {translate: to+'px'}, time, 'ease-out', () => {
+                this.setState({dragX:to});
+                callback.call(this);
+            });    
         }
     }
 
@@ -177,9 +219,11 @@ class Photos extends Component {
         };
         return (
             <div className="stretch">
-              <div className="photos" style={photosStyle} {...frameEvents}>
-                { frames.map(frame => this.renderFrame(frame)) }
-              <div className="counter">{this.getCounter()}</div>
+              <div className="frame">
+                <div className="photos" style={photosStyle} {...frameEvents}>
+                  { frames.map(frame => this.renderFrame(frame)) }
+                </div>
+                <div className="counter">{this.getCounter()}</div>
               </div>
             </div>
           );

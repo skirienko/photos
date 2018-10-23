@@ -8,7 +8,8 @@ import os.path
 # date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'
-date = '2016-07-01'
+date = '2015-06-20'
+# date = '2016-07-01'
 
 filename = '%s/descript.ion' % date
 file2 = io.open('../public/data/%s.json' % date, 'w', encoding='utf8')
