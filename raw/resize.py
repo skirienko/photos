@@ -14,17 +14,41 @@ MAX_SIDE = 1200
 PANO_MIN_SIZE = 600
 quality = 90
 
-def add_watermark(img):
+watermarks = {}
 
+def generate_watermark(text):
+
+    font_size_px = 20
+
+    if text in watermarks:
+        return watermarks[text]
+
+    font_size_pt = font_size_px // 4 * 3
+    s = (len(text) + 2) * font_size_px // 2
+    img = Image.new('RGBA', (s, s), (0,0,0,0))
     drawing = ImageDraw.Draw(img)
-    text = 'Sergey Kirienko'
-    font = ImageFont.load_default()
+    font = ImageFont.truetype(font='./fonts/PTSansBold.ttf', size=font_size_pt)
 
-    pos = (100, 100)
-    fill = (255, 255, 255, 128)
+    fill = (255, 255, 255, 80)
     print("watermark '%s'" % text)
 
-    drawing.text(pos, text, fill=fill, font=font)
+    line_height = font_size_px + font_size_px // 4
+    drawing.text((font_size_px // 2, s - line_height), text, fill=fill, font=font)
+    img = img.rotate(90, resample=Image.BICUBIC).crop((s - line_height, 0, s, s))
+    watermarks[text] = img
+    return img
+
+
+def add_watermark(img):
+
+    transparent = Image.new('RGBA', img.size, (0,0,0,0))
+    transparent.paste(img)
+
+    watermark = generate_watermark('Sergey Kirienko')
+    # bottom right corner
+    position = (img.size[0] - watermark.size[0], img.size[1] - watermark.size[1])
+    transparent.paste(watermark, position, mask=watermark)
+    return transparent
 
 
 def limit_size(size):
@@ -44,7 +68,6 @@ def limit_size(size):
 
 print("Started")
 rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
-# rxPhoto = re.compile('[a-z_]+1891\.jpg', re.I) 
 
 if not os.path.exists(outdir):
     os.makedirs(outdir)
@@ -79,7 +102,7 @@ for filename in dirs:
                     print("Need to resize")
                     print(limit_size(img.size))
                     resized_img = img.resize(limit_size(img.size), Image.ANTIALIAS)
-                    # add_watermark(resized_img)
+                    resized_img = add_watermark(resized_img).convert('RGB')
                     resized_img.save('/'.join( (outdir, filename) ), 'JPEG', quality=quality, exif=byte_exif)
                 else:
                     print("Copy intact")
