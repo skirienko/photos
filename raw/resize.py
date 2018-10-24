@@ -5,6 +5,7 @@ from shutil import copy2
 import piexif
 
 # date = '2009-07-01'
+# date = '2015-06-11'
 date = '2015-06-20'
 # date = '2016-07-01'
 
@@ -66,8 +67,23 @@ def limit_size(size):
         else:
             return [int(round(MAX_SIDE * aspect)), MAX_SIDE]
 
+
+def repair_exif(exif):
+    if exif:
+        # this field should be Rational but iPhone claims it Ascii
+        broken_field = piexif.GPSIFD.GPSHPositioningError
+        if 'GPS' in exif:
+            if broken_field in exif['GPS'] and isinstance(exif['GPS'][broken_field], bytes):
+                value = exif['GPS'][broken_field]
+                pair = value.decode().split('/')
+                pair[0] = int(pair[0])
+                pair[1] = int(pair[1])
+                exif['GPS'][broken_field] = tuple(pair)              
+
+
 print("Started")
 rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
+# rxPhoto = re.compile('[a-z_]+1498[a-z_]*\.jpg', re.I) 
 
 if not os.path.exists(outdir):
     os.makedirs(outdir)
@@ -79,24 +95,26 @@ for filename in dirs:
         with Image.open('/'.join((dirname, filename)), 'r') as img:
             if img:
                 print(img.size)
+                byte_exif = b''
                 if 'exif' in img.info:
                     byte_exif = img.info['exif']
                     exif = piexif.load(byte_exif)
+                    repair_exif(exif)
 
-                if exif and byte_exif:
-                    print('EXIF size: %d' % len(byte_exif))
-                    orientation = exif['0th'][piexif.ImageIFD.Orientation]
-                    if orientation == 6:
-                        print('Rotating 270')
-                        img = img.transpose(Image.ROTATE_270)
-                        exif['0th'][piexif.ImageIFD.Orientation] = 1
-                    elif orientation == 8:
-                        print('Rotating 90')
-                        img = img.transpose(Image.ROTATE_90)
-                        exif['0th'][piexif.ImageIFD.Orientation] = 1
-                    
-                    del exif['thumbnail']
-                    byte_exif = piexif.dump(exif)
+                    if exif and byte_exif:
+                        if piexif.ImageIFD.Orientation in exif['0th']:
+                            orientation = exif['0th'][piexif.ImageIFD.Orientation]
+                            if orientation == 6:
+                                print('Rotating 270')
+                                img = img.transpose(Image.ROTATE_270)
+                                exif['0th'][piexif.ImageIFD.Orientation] = 1
+                            elif orientation == 8:
+                                print('Rotating 90')
+                                img = img.transpose(Image.ROTATE_90)
+                                exif['0th'][piexif.ImageIFD.Orientation] = 1
+                        
+                        del exif['thumbnail']
+                        byte_exif = piexif.dump(exif)
 
                 if img.size[0] > MAX_SIDE or img.size[1] > MAX_SIDE:
                     print("Need to resize")
