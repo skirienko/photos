@@ -5,6 +5,7 @@ from shutil import copy2
 import piexif
 
 # date = '2009-07-01'
+# date = '2014-06-11'
 # date = '2015-06-11'
 date = '2015-06-20'
 # date = '2016-07-01'
@@ -75,15 +76,12 @@ def repair_exif(exif):
         if 'GPS' in exif:
             if broken_field in exif['GPS'] and isinstance(exif['GPS'][broken_field], bytes):
                 value = exif['GPS'][broken_field]
-                pair = value.decode().split('/')
-                pair[0] = int(pair[0])
-                pair[1] = int(pair[1])
-                exif['GPS'][broken_field] = tuple(pair)              
+                exif['GPS'][broken_field] = tuple(map(int, value.decode().split('/')))
 
 
 print("Started")
 rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
-# rxPhoto = re.compile('[a-z_]+1498[a-z_]*\.jpg', re.I) 
+# rxPhoto = re.compile('[a-z_]+1498[a-z_]*\.jpg', re.I)
 
 if not os.path.exists(outdir):
     os.makedirs(outdir)
