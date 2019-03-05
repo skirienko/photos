@@ -6,7 +6,7 @@ from PIL.ExifTags import TAGS
 import os.path
 from datetime import datetime, timedelta
 
-date = '2015-06-11'
+date = '2018-09-10'
 
 EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S'
 
@@ -15,18 +15,18 @@ file2 = io.open('%s/descript.ion' % date, 'w', encoding='cp1251')
 
 rxPhoto = re.compile('[a-z_]+\d+\.(jpg|jpeg)', re.I)
 
-with open(filename) as fd:
+with open(filename, 'r', encoding='cp1251') as fd:
     lines = fd.readlines()
 
-    title = lines[0].decode('cp1251').strip()
-    descr = lines[1].decode('cp1251').strip()
-    pairs = [line.decode('cp1251').strip().split(' ', 1) for line in lines]
+    title = lines[0].strip()
+    descr = lines[1].strip()
+    pairs = [line.strip().split(' ', 1) for line in lines]
 
     items = []
 
     for pair in pairs:
         item = {}
-        filepath = '%s/%s' % (date, pair[0])
+        filepath = '%s/orig/%s' % (date, pair[0])
         if rxPhoto.match(pair[0]) and os.path.isfile(filepath):
             item['photo'] = pair[0]
             if len(pair) > 1:
@@ -46,8 +46,8 @@ with open(filename) as fd:
                         item['dt'] = datetime.strptime(exif['DateTimeOriginal'], EXIF_DT_FORMAT)
                     if 'Model' in exif:
                         item['model'] = exif['Model']
-                        if item['model'] == 'Canon PowerShot SX50 HS':
-                            item['dt'] = item['dt'] - timedelta(minutes=57)
+#                        if item['model'] == 'Canon PowerShot SX50 HS':
+#                            item['dt'] = item['dt'] - timedelta(minutes=57)
                 except:
                     pass
                 if 'dt' not in item:
