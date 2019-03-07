@@ -4,12 +4,14 @@ import io
 from PIL import Image
 from PIL.ExifTags import TAGS
 import os.path
+import cchardet as chardet
 
 # date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'
-date = '2015-06-20'
+# date = '2015-06-20'
 # date = '2016-07-01'
+date = '2018-09-10'
 
 filename = '%s/descript.ion' % date
 file2 = io.open('../public/data/%s.json' % date, 'w', encoding='utf8')
@@ -20,7 +22,13 @@ rxVimeo = re.compile('^vimeo:(\d+)$', re.I)
 episodes = []
 title = 'Istanbul'
 descr = ''
-with open(filename, 'r', encoding='cp1251') as fd:
+
+with open(filename, 'rb') as probe:
+    txt = probe.read()
+    enc = chardet.detect(txt)
+
+with open(filename, 'r', encoding=enc['encoding']) as fd:
+
     lines = fd.readlines()
 
     title = lines[0].strip()
