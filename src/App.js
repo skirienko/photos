@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 import EventsList from './components/EventsList';
 import EventPage from './components/EventPage';
+import ProperLink from './components/ProperLink';
 
 class App extends Component {
 
-  constructor({match}) {
+  constructor() {
     super();
-    this.match = match;
     this.state = {
       event: null,
       events: null
@@ -23,13 +23,17 @@ class App extends Component {
   }
 
   render() {
+    const ProperLinkWithRouter = withRouter((props) =>
+          <ProperLink title={props.title} pathTo={props.path}
+            currentPath={props.location.pathname} className={props.className}/>);
+    
     return (
       <Router>
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title"><NavLink to="/">Photos</NavLink></h1>
+      <div className="app">
+        <header className="app__header">
+          <h1 className="app__title"><ProperLinkWithRouter title="Фотографии" path="/" className="app__home"/></h1>
         </header>
-        <div className="App-content">
+        <div className="app__content">
           <Route exact path="/" component={EventsList}/>
           <Route path="/:place/:event" component={EventPage}/>
         </div>
