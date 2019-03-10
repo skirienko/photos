@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 import EventsList from './components/EventsList';
 import EventPage from './components/EventPage';
-import ProperLink from './components/ProperLink';
+import LinkOrSpan from './components/LinkOrSpan';
 
 class App extends Component {
 
@@ -23,15 +23,16 @@ class App extends Component {
   }
 
   render() {
-    const ProperLinkWithRouter = withRouter((props) =>
-          <ProperLink title={props.title} pathTo={props.path}
-            currentPath={props.location.pathname} className={props.className}/>);
+    const ProperLink = withRouter((props) =>
+          <LinkOrSpan title={props.title}
+            path={props.path!==props.location.pathname ? props.path : null}
+            className={props.className}/>);
     
     return (
       <Router>
       <div className="app">
         <header className="app__header">
-          <h1 className="app__title"><ProperLinkWithRouter title="Фотографии" path="/" className="app__home"/></h1>
+          <h1 className="app__title"><ProperLink title="Фотографии" path="/" className="app__home"/></h1>
         </header>
         <div className="app__content">
           <Route exact path="/" component={EventsList}/>
