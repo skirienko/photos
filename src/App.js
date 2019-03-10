@@ -24,7 +24,7 @@ class App extends Component {
 
   render() {
     const ProperLink = withRouter((props) =>
-          <LinkOrSpan title={props.title}
+          <LinkOrSpan content={props.content}
             path={props.path!==props.location.pathname ? props.path : null}
             className={props.className}/>);
     
@@ -32,7 +32,7 @@ class App extends Component {
       <Router>
       <div className="app">
         <header className="app__header">
-          <h1 className="app__title"><ProperLink title="Фотографии" path="/" className="app__home"/></h1>
+          <h1 className="app__title"><ProperLink content="Фотографии" path="/" className="app__home"/></h1>
         </header>
         <div className="app__content">
           <Route exact path="/" component={EventsList}/>

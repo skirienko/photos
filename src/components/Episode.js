@@ -4,26 +4,28 @@ import Vimeo from './Vimeo';
 
 const Episode = (props) => {
     const PREFIX = `/data/${props.event}/`;
-    if (props.episode.hide) {
+    const episode = props.episode;
+    if (episode.hide) {
         return null;
     }
-    const style = props.episode.aspect ? {paddingBottom: props.episode.aspect+"%"} : null;
+
+    const style = episode.aspect ? {paddingBottom: episode.aspect+"%"} : null;
     return (
-        <div className="episode" id={`episode-${props.episode.id}`}>
-        <p className="normal-text"><span className="cnt">{props.episode.id}.</span> {props.episode.descr}</p>
-        {props.episode.photo ?
+        <div className="episode" id={`episode-${episode.id}`}>
+        <p className="normal-text"><span className="cnt">{episode.id}.</span> {episode.descr}</p>
+        {episode.photo ?
             <div className="stretch">
-                <div className="photo" style={style}><img alt="" src={PREFIX + props.episode.photo} /></div>
+                <div className="photo" style={style}><img alt="" src={PREFIX + episode.photo} /></div>
             </div>
             :
             null
         }
-        {props.episode.video ?
-            <Vimeo {...props.episode}></Vimeo>
+        {episode.video ?
+            <Vimeo {...episode}></Vimeo>
             :
             null
         }
-        {props.episode.photos ? <Photos aspect={props.episode.aspect} photos={props.episode.photos} event={props.event}/> : null}
+        {episode.photos ? <Photos aspect={episode.aspect} photos={episode.photos} episode={episode.id} event={props.event}/> : null}
         </div>
     );
 }

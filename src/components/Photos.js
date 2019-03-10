@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import animate from 'dom-helpers/transition/animate';
+import LinkOrSpan from './LinkOrSpan';
 import './Photos.css';
 
 const TRANSITION_TIME = 500;
@@ -10,6 +11,7 @@ class Photos extends Component {
         super(props);
         this.len = props.photos.length;
         this.PREFIX = `/data/${props.event}/`;
+        this.episode = props.episode;
         this.jsxFrames = {
             'prev': null,
             'curr': null,
@@ -168,16 +170,28 @@ class Photos extends Component {
         }
     }
 
+    getHash(i) {
+        return `e${this.episode}.p${i}`;
+    }
+
     getCounter() {
-        if (this.props.photos.length <= 7) {
-            const click = this.select.bind(this);
-            return <span className="dots">
-                {
-                    this.props.photos.map((_, i) => (i===this.state.selected ? <a key={i}>●</a> : <a key={i} onClick={() => click(i)}>○</a>))
-                }
+        const items = this.props.photos;
+        const click = this.select.bind(this);
+
+        const CounterDot = ({i}) => {
+            const hash = this.getHash(i);
+            return (i===this.state.selected) ?
+                <LinkOrSpan content="●"/>
+                :
+                <LinkOrSpan path={'#'+hash} content="○" onClick={() => click(i)}/>
+        }
+
+        if (items.length <= 7) {
+            return <span className="counter__dots">
+                { items.map((_, i) => <CounterDot key={i} i={i}/>) }
             </span>;
         } else {
-            return [this.state.selected+1, this.props.photos.length].join(' / ');
+            return [this.state.selected+1, items.length].join(' / ');
         }
     }
 

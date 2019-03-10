@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 
 export default function LinkOrSpan(props) {
 
-    const {path, title, className} = props;
+    const {path, content, ...rest} = props;
 
     return (path) ?
-        <Link to={path} className={className}>{title}</Link>
+        <Link to={path} {...rest}>{content}</Link>
         :
-        <span className={className}>{title}</span>
+        <span {...rest}>{content}</span>
 }
