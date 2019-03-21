@@ -90,14 +90,14 @@ class Photos extends Component {
     }
 
     wheel(e) {
-        if (e.deltaX && Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            if (!this.state.animating) {
-                const el = e.currentTarget;
-                if (e.deltaX > 0) {
-                    this.glide(el, 'next');
-                }
-                else {
-                    this.glide(el, 'prev');
+        const MIN_WHEEL_LEN = 10;
+        const absX = Math.abs(e.deltaX);
+        const absY = Math.abs(e.deltaY);
+        if (absX && absX > absY) {
+            if (absX > MIN_WHEEL_LEN || e.deltaMode > WheelEvent.DOM_DELTA_PIXEL) {
+                if (!this.state.animating) {
+                    const dir = (e.deltaX > 0) ? 'next' : 'prev';
+                    this.glide(e.currentTarget, dir);
                 }    
             }
             e.preventDefault();
@@ -220,7 +220,7 @@ class Photos extends Component {
             {type: 'curr', photo: this.props.photos[currIdx]},
             {type: 'next', photo: this.props.photos[nextIdx]},
         ];
-        let frameEvents = {
+        const frameEvents = {
             onClick: this.click.bind(this),
             onMouseDown: this.switchStart.bind(this),
             onTouchStart: this.switchStart.bind(this),
