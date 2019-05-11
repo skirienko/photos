@@ -7,8 +7,9 @@ import piexif
 # date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'
-date = '2015-06-20'
+# date = '2015-06-20'
 # date = '2016-07-01'
+date = '2018-09-10'
 
 dirname = "%s/orig" % date
 outdir = "../public/data/%s" % date
@@ -32,7 +33,7 @@ def generate_watermark(text):
     font = ImageFont.truetype(font='./fonts/PTSansBold.ttf', size=font_size_pt)
 
     fill = (255, 255, 255, 80)
-    print("watermark '%s'" % text)
+    print("generate watermark '%s'" % text)
 
     line_height = font_size_px + font_size_px // 4
     drawing.text((font_size_px // 2, s - line_height), text, fill=fill, font=font)
@@ -86,9 +87,17 @@ rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I)
 if not os.path.exists(outdir):
     os.makedirs(outdir)
 
+missed = [
+    'IMG_1330.JPG',
+    'IMG_1333.JPG',
+]
+
 dirs = os.listdir(dirname)
 for filename in dirs:
     if rxPhoto.match(filename):
+        # processing missed photos only, comment following if you need to process all
+        if filename not in missed:
+            continue
         print(filename)
         with Image.open('/'.join((dirname, filename)), 'r') as img:
             if img:
