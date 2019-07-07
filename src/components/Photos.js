@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import animate from 'dom-helpers/transition/animate';
 import LinkOrSpan from './LinkOrSpan';
 import './Photos.css';
@@ -174,6 +175,26 @@ class Photos extends Component {
         return `e${this.episode}.p${i}`;
     }
 
+    getPrevArrow(currIdx) {
+        const click = this.select.bind(this);
+        const i = currIdx - 1;
+
+        return (i < 0) ?
+            null
+            :
+            <Link to={'#'+this.getHash(i)} className="arr arr__prev" onClick={() => click(i)}>◀</Link>
+    }
+
+    getNextArrow(currIdx) {
+        const click = this.select.bind(this);
+        const i = currIdx + 1;
+        
+        return (i >= this.len) ?
+            null
+            :
+            <Link to={'#'+this.getHash(i)} className="arr arr__next" onClick={() => click(i)}>►</Link>
+    }
+
     getCounter() {
         const items = this.props.photos;
         const click = this.select.bind(this);
@@ -237,6 +258,8 @@ class Photos extends Component {
                 <div className="photos" style={photosStyle} {...frameEvents}>
                   { frames.map(frame => this.renderFrame(frame)) }
                 </div>
+                {this.getPrevArrow(currIdx)}
+                {this.getNextArrow(currIdx)}
                 <div className="counter">{this.getCounter()}</div>
               </div>
             </div>
