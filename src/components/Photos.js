@@ -179,20 +179,14 @@ class Photos extends Component {
         const click = this.select.bind(this);
         const i = currIdx - 1;
 
-        return (i < 0) ?
-            null
-            :
-            <Link to={'#'+this.getHash(i)} className="arr arr__prev" onClick={() => click(i)}>◀</Link>
+        return <Link to={'#'+this.getHash(i)} className="arr arr__prev" onClick={() => click(i)}>◀</Link>
     }
 
     getNextArrow(currIdx) {
         const click = this.select.bind(this);
         const i = currIdx + 1;
         
-        return (i >= this.len) ?
-            null
-            :
-            <Link to={'#'+this.getHash(i)} className="arr arr__next" onClick={() => click(i)}>►</Link>
+        return <Link to={'#'+this.getHash(i)} className="arr arr__next" onClick={() => click(i)}>►</Link>
     }
 
     getCounter() {
