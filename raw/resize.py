@@ -4,12 +4,12 @@ import re
 from shutil import copy2
 import piexif
 
-# date = '2009-07-01'
+date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'
 # date = '2015-06-20'
 # date = '2016-07-01'
-date = '2018-09-10'
+# date = '2018-09-10'
 
 dirname = "%s/orig" % date
 outdir = "../public/data/%s" % date
@@ -88,16 +88,18 @@ if not os.path.exists(outdir):
     os.makedirs(outdir)
 
 missed = [
-    'IMG_1330.JPG',
-    'IMG_1333.JPG',
+#     'IMG_1330.JPG',
+#     'IMG_1333.JPG',
 ]
 
-dirs = os.listdir(dirname)
-for filename in dirs:
+ls = os.listdir(dirname)
+for filename in ls:
     if rxPhoto.match(filename):
+
         # processing missed photos only, comment following if you need to process all
-        if filename not in missed:
+        if len(missed) > 0 and filename not in missed:
             continue
+
         print(filename)
         with Image.open('/'.join((dirname, filename)), 'r') as img:
             if img:
