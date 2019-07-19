@@ -114,3 +114,10 @@ body {
 .photo img {
   width: 100%;
 }
+
+.footer__navigation {
+  /* display: flex; */
+  display: none;
+  flex: 1 1 auto;
+  flex-flow: row;
+}
