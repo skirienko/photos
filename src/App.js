@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 import EventsList from './components/EventsList';
+import PlacePage from './components/PlacePage';
 import EventPage from './components/EventPage';
 import LinkOrSpan from './components/LinkOrSpan';
 
@@ -36,6 +37,7 @@ class App extends Component {
         </header>
         <div className="app__content">
           <Route exact path="/" component={EventsList}/>
+          <Route exact path="/:place" component={PlacePage}/>
           <Route path="/:place/:event" component={EventPage}/>
         </div>
       </div>

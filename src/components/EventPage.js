@@ -58,7 +58,7 @@ class EventPage extends React.Component {
                         <a href={nav.prev.url}>{nav.prev.title}</a>
                     </div>
                     <div>
-                        <a href="#">{nav.next.title}</a>
+                        <a href={nav.next.url}>{nav.next.title}</a>
                     </div>
                 </div>
             </div>)
