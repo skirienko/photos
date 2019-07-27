@@ -114,7 +114,7 @@ class Photos extends Component {
             e.preventDefault();
             x = e.clientX;
         }
-        this.setState({dragStartX: x});
+        this.setState({dragStartX: x, transition: true});
     }
 
     switchMove(e) {
@@ -130,7 +130,7 @@ class Photos extends Component {
             const el = e.currentTarget;
             const w = el.offsetWidth;
             const shift = this.state.dragX / w;
-            this.setState({draggedFrom: this.state.selected});
+            this.setState({draggedFrom: this.state.selected, transition: false});
             if (shift < -.1) {
                 this.glide(el, 'next');
             }
@@ -179,7 +179,7 @@ class Photos extends Component {
         const click = this.select.bind(this);
         const i = currIdx - 1;
 
-        return <Link to={'#'+this.getHash(i)} className="arr arr__prev" onClick={() => click(i)}>◀</Link>
+        return <Link to={'#'+this.getHash(i)} className="arr arr__prev" onClick={() => click(i)}>◄</Link>
     }
 
     getNextArrow(currIdx) {
@@ -249,7 +249,7 @@ class Photos extends Component {
         return (
             <div className="stretch">
               <div className="frame">
-                <div className="photos" style={photosStyle} {...frameEvents}>
+                <div className={'photos '+(this.state.transition ? 'grabbing':'')} style={photosStyle} {...frameEvents}>
                   { frames.map(frame => this.renderFrame(frame)) }
                 </div>
                 {this.getPrevArrow(currIdx)}

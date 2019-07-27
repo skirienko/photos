@@ -7,7 +7,11 @@
     height: 0;
     padding-bottom: 66.67%;
     position: relative;
-    cursor: grip;
+    cursor: grab;
+}
+
+.photos.grabbing {
+    cursor: grabbing;
 }
 
 .photos .photo {
@@ -31,28 +35,32 @@
 }
 
 .arr {
-    opacity: .4;
+    opacity: .6;
     position: absolute;
-    top: calc(50% - 10em);
-    padding: 10em;
+    width: 60px;
+    height: 60px;
+    top: calc(50% - 30px);
+    vertical-align: middle;
     z-index: 10;
-    font-size: 14px;
+    font-size: 18px;
+    line-height: 60px;
+    text-align: center;
     color: #FFF;
     text-shadow: 1px 1px 1px #000;
-    text-decoration: none;  
+    text-decoration: none;
 }
 .arr:hover, .arr:focus {
-    opacity: .9;
+    opacity: 1;
 }
 
 .arr__prev {
     left: 0;
-    padding-left: 5em;
+    margin-left: 1em;
 }
 
 .arr__next {
     right: 0;
-    padding-right: 5em;
+    margin-right: 1em;
 }
 
 .counter {
