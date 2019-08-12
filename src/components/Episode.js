@@ -2,6 +2,8 @@ import React from 'react';
 import Photos from './Photos';
 import Vimeo from './Vimeo';
 
+const rxTxt = /.*[^.:!? ]$/;
+
 const Episode = (props) => {
     const PREFIX = `/data/${props.event}/`;
     const episode = props.episode;
@@ -10,9 +12,15 @@ const Episode = (props) => {
     }
 
     const style = episode.aspect ? {paddingBottom: episode.aspect+"%"} : null;
+
+    let text = episode.descr;
+    if (text.match(rxTxt)) {
+        text += ":";
+    }
+
     return (
         <div className="episode" id={`episode-${episode.id}`}>
-        <p className="normal-text"><span className="cnt">{episode.id}.</span> {episode.descr}</p>
+        <p className="normal-text"><span className="cnt">{episode.id}.</span> {text}</p>
         {episode.photo ?
             <div className="stretch">
                 <div className="photo" style={style}><img alt="" src={PREFIX + episode.photo} /></div>
