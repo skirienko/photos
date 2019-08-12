@@ -97,6 +97,7 @@
     }
 
     .arr {
+        opacity: 1;
         font-size: 15px;
         width: 24px;
         height: 24px;
