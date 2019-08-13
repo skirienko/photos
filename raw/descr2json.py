@@ -22,7 +22,7 @@ rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
 rxVimeo = re.compile('^vimeo:(\d+)$', re.I)
 
 episodes = []
-title = 'Istanbul'
+title = ''
 descr = ''
 
 with open(filename, 'rb') as probe:
@@ -38,36 +38,40 @@ with open(filename, 'r', encoding=enc['encoding']) as fd:
     pairs = [line.strip().split(' ', 1) for line in lines]
     prevItem = {}
     episodeId = 1
-    for pair in pairs:
+    for line in lines[2:]:
+        pair = line.strip().split(' ', 1)
+    
         item = {}
         filepath = '../public/data/%s/%s' % (date, pair[0])
-        if rxPhoto.match(pair[0]) and os.path.isfile(filepath):
+        if rxPhoto.match(pair[0]):
             print(pair[0])
-            print(len(pair))
-            if len(pair) > 1:
-                item['descr'] = pair[1]
-                item['photo'] = pair[0]
-                item['id'] = episodeId
-                with Image.open(filepath) as img:
-                    if img:
-                        if img.size[1] > img.size[0]:
-                            item['vertical'] = True
-                    # print(img.size)
-                    aspect = round(100.0 * img.size[1] / img.size[0], 2)
-                    if abs(aspect - 66.6) > 3:
-                        item['aspect'] = aspect
-                        print("%s %f" % (pair[0], aspect))
-                episodes.append(item)
-                episodeId += 1
+            if os.path.isfile(filepath):
+                if len(pair) > 1:
+                    item['descr'] = pair[1]
+                    item['photo'] = pair[0]
+                    item['id'] = episodeId
+                    with Image.open(filepath) as img:
+                        if img:
+                            if img.size[1] > img.size[0]:
+                                item['vertical'] = True
+                        # print(img.size)
+                        aspect = round(100.0 * img.size[1] / img.size[0], 2)
+                        if abs(aspect - 66.6) > 3:
+                            item['aspect'] = aspect
+                            print("aspect %f" % aspect)
+                    episodes.append(item)
+                    episodeId += 1
+                else:
+                    item = prevItem
+                    if not 'photos' in item:
+                        item['photos'] = []
+                        item['photos'].append(item['photo'])
+                        item.pop('photo')
+                    item['photos'].append(pair[0])
+                prevItem = item
+                # print(item)
             else:
-                item = prevItem
-                if not 'photos' in item:
-                    item['photos'] = []
-                    item['photos'].append(item['photo'])
-                    item.pop('photo')
-                item['photos'].append(pair[0])
-            prevItem = item
-            # print(item)
+                print("file not found")
         elif rxVimeo.match(pair[0]):
             m = rxVimeo.match(pair[0])
             print('Vimeo!')
@@ -78,6 +82,10 @@ with open(filename, 'r', encoding=enc['encoding']) as fd:
             episodes.append(item)
             episodeId += 1
             prevItem = item
+        else:
+            if line != title and line != descr:
+                subtitle = line
+                print("=== %s" % line)
 
 data = {
     "title": title,
