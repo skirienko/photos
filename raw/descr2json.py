@@ -38,6 +38,7 @@ with open(filename, 'r', encoding=enc['encoding']) as fd:
     pairs = [line.strip().split(' ', 1) for line in lines]
     prevItem = {}
     episodeId = 1
+    subtitleId = 1
     for line in lines[2:]:
         pair = line.strip().split(' ', 1)
     
@@ -84,8 +85,11 @@ with open(filename, 'r', encoding=enc['encoding']) as fd:
             prevItem = item
         else:
             if line != title and line != descr:
-                subtitle = line
+                item['subtitle'] = line.strip()
+                item['code'] = "section-%d" % subtitleId
                 print("=== %s" % line)
+                episodes.append(item)
+                subtitleId += 1
 
 data = {
     "title": title,
