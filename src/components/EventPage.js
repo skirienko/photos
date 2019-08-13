@@ -44,7 +44,7 @@ class EventPage extends React.Component {
     }
 
     renderToc(data) {
-        return data.toc ? (<div className="event__toc">
+        return data.toc && data.toc.length ? (<div className="event__toc">
                 {data.toc
                     .map(item => (<a href={"#" + item.code} key={item.code}>{item.subtitle}</a>))
                     .reduce((prev, curr) => [prev, ' — ', curr])
