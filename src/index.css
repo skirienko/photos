@@ -77,9 +77,14 @@ body {
   color: #777;
 }
 
-.event__toc a {
+.event__toc {
   font-style: italic;
 }
+
+.event__toc:first-letter {
+  text-transform: uppercase;
+}
+
 .event__toc a {
   color: inherit;
   text-decoration: none;
@@ -100,6 +105,10 @@ body {
 .event__subtitle {
   font-size: 1.2em;
   margin-top: 48px;
+}
+
+.event__subtitle:first-letter {
+  text-transform: uppercase;
 }
 
 .episode {
