@@ -18,6 +18,7 @@ class EventPage extends React.Component {
         else {
             fetch(`/data/${eventId}.json`).then(d => d.json()).then(result => {
                 if (result) {
+                    result.toc = result.episodes.filter(item => item.subtitle);
                     this.setState({[eventId]:result});
                 }
             });
@@ -42,15 +43,27 @@ class EventPage extends React.Component {
         }    
     }
 
+    renderToc(data) {
+        return data.toc ? (<div className="event__toc">
+                {data.toc
+                    .map(item => (<a href={"#" + item.code} key={item.code}>{item.subtitle}</a>))
+                    .reduce((prev, curr) => [prev, ' — ', curr])
+                }
+            </div>)
+            :
+            null;
+    }
+
     render() {
         const eventId = this.props.match.params.event;
         const item = this.fetchItem(eventId);
         const nav = this.getNavLinks();
 
         return item ?
-            (<div className="event-page">
+            (<div className="event__page">
                 <h2>{item.title}</h2>
-                <p className="normal-text event-date">{item.date}</p>
+                <p className="normal-text event__date">{item.date}</p>
+                {this.renderToc(item)}
                 <p className="normal-text description">{item.description}</p>
                 {item.episodes.map(episode => (<Episode episode={episode} event={eventId} key={episode.id}></Episode>))}
                 <div className="footer footer__navigation">

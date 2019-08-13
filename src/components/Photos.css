@@ -8,6 +8,7 @@
     padding-bottom: 66.67%;
     position: relative;
     cursor: grab;
+    background: #ccc;
 }
 
 .photos.grabbing {

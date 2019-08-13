@@ -11,10 +11,14 @@ const Episode = (props) => {
         return null;
     }
 
+    if (episode.subtitle) {
+        return <h3 className="event__subtitle"><a name={episode.code}>{episode.subtitle}</a></h3>
+    }
+
     const style = episode.aspect ? {paddingBottom: episode.aspect+"%"} : null;
 
     let text = episode.descr;
-    if (text.match(rxTxt)) {
+    if (text && text.match(rxTxt)) {
         text += ":";
     }
 
