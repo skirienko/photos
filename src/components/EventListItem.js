@@ -15,7 +15,8 @@ class EventListItem extends React.Component {
     }
     
     render() {
-        const link = "/"+this.props.city+"/"+this.props.id;
+        const place = this.props.place || this.props.city;
+        const link = "/"+place+"/"+this.props.id;
         const src = ["/data", this.props.id, this.props.img].join('/');
 
         return (<li className="event-item">
