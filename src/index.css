@@ -7,18 +7,18 @@
   font-family: 'PT Sans';
 	font-style: normal;
 	font-weight: bold; 
-  src: local('PT Sans Bold'), url('/fonts/PTS75F_W.woff') format('woff');
+  src: local('PT Sans_Bold'), url('/fonts/PTS75F_W.woff') format('woff');
 }
 @font-face {
   font-family: 'PT Sans';
 	font-style: italic;
-  src: local('PT Sans Bold'), url('/fonts/PTS56F_W.woff') format('woff');
+  src: local('PT Sans_Italic'), url('/fonts/PTS56F_W.woff') format('woff');
 }
 @font-face {
   font-family: 'PT Sans';
 	font-style: italic;
 	font-weight: bold; 
-  src: local('PT Sans Bold'), url('/fonts/PTS76F_W.woff') format('woff');
+  src: local('PT Sans_Bold Italic'), url('/fonts/PTS76F_W.woff') format('woff');
 }
 
 body {
@@ -32,12 +32,12 @@ body {
   display: flex;
   flex-flow: row wrap;
   list-style: none;
-  margin: 0;
+  margin: 0 -20px;
   padding: 0;
 }
 
-.events-list .event-item {
-  margin: 0 40px 20px 0;
+.event-item {
+  margin: 15px 20px;
 }
 
 .progressive-img {
@@ -104,7 +104,7 @@ body {
 
 .event__subtitle {
   font-size: 1.2em;
-  margin-top: 48px;
+  padding-top: 24px;
 }
 
 .event__subtitle:first-letter {
