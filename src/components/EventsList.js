@@ -12,7 +12,7 @@ class EventsList extends React.Component {
 
     componentDidMount() {
         document.title = "Фотографии";
-        fetch('/data/all-events2.json').then(d => d.json()).then(result => {
+        fetch('/data/all-events.json').then(d => d.json()).then(result => {
             if (result) {
               this.setState({events: result});
             }
