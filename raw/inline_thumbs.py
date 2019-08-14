@@ -5,25 +5,51 @@ import io
 import base64
 
 dir = '../public/data'
-infile = '%s/all-events.json' % dir
-outfile = '%s/all-events2.json' % dir
 
-with open(infile, 'r', encoding='utf8') as fd:
-    data = json.load(fd)
+filenames = [
+    'istanbul.json',
+    'kaliningrad.json',
+    'all-events.json',
+]
 
-for event in data:
-    pic = '%s/%s/%s' % (dir, event['id'], event['img'])
-    # print(pic)
-    if os.path.isfile(pic):
-        with Image.open(pic) as img:
-            thumb = img.resize([32, 24], Image.ANTIALIAS)
-            output = io.BytesIO()
-            thumb.save(output, format='JPEG', optimize=True, quality=60)
-            b64 = base64.b64encode(output.getvalue())
-            if b64:
-                event['thumb'] = 'data:image/jpg;base64,' + b64.decode()
+def add_inline_thumbs(filename):
 
-print(data)
-fd2 = io.open(outfile, 'w', encoding='utf8')
-fd2.write(json.dumps(data, ensure_ascii=False))
+    fullname = '%s/%s' % (dir, filename)
 
+    with open(fullname, 'r', encoding='utf8') as fd:
+        data = json.load(fd)
+
+    changed = False
+
+    events = data
+    if isinstance(data, dict):
+        events = data['events']
+    
+    for event in events:
+        print(event)
+        pic = '%s/%s/%s' % (dir, event['id'], event['img'])
+        thumb = None
+        if os.path.isfile(pic):
+            with Image.open(pic) as img:
+                thumb = img.resize([32, 24], Image.ANTIALIAS)
+                output = io.BytesIO()
+                thumb.save(output, format='JPEG', optimize=True, quality=60)
+                b64 = base64.b64encode(output.getvalue())
+                if b64:
+                    thumb = 'data:image/jpg;base64,' + b64.decode()
+
+        if thumb:
+            if not 'thumb' in event or event['thumb'] != thumb:
+                event['thumb'] = thumb
+                changed = True
+
+    if changed:
+        print(data)
+        fd2 = io.open(fullname, 'w', encoding='utf8')
+        fd2.write(json.dumps(data, indent=1, ensure_ascii=False))
+        print("File rewritten")
+
+
+for filename in filenames:
+    print(filename)
+    add_inline_thumbs(filename)
