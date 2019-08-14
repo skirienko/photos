@@ -18,8 +18,8 @@ date = '2018-09-10'
 filename = '%s/descript.ion' % date
 file2 = io.open('../public/data/%s.json' % date, 'w', encoding='utf8')
 
-rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
-rxVimeo = re.compile('^vimeo:(\d+)$', re.I)
+rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
+rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
 
 episodes = []
 title = ''

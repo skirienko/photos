@@ -83,8 +83,8 @@ def repair_exif(exif):
 
 
 print("Started")
-rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
-# rxPhoto = re.compile('[a-z_]+1498[a-z_]*\.jpg', re.I)
+rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.jpg', re.I) 
+# rxPhoto = re.compile(r'[a-z_]+1498[a-z_]*\.jpg', re.I)
 
 if not os.path.exists(outdir):
     os.makedirs(outdir)

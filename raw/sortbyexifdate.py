@@ -13,7 +13,7 @@ EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S'
 filename = '%s/descript_orig.ion' % date
 file2 = io.open('%s/descript.ion' % date, 'w', encoding='cp1251')
 
-rxPhoto = re.compile('[a-z_]+\d+\.(jpg|jpeg)', re.I)
+rxPhoto = re.compile(r'[a-z_]+\d+\.(jpg|jpeg)', re.I)
 
 with open(filename, 'r', encoding='cp1251') as fd:
     lines = fd.readlines()
