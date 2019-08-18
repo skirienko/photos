@@ -94,7 +94,7 @@ with open(filename, 'r', encoding=enc['encoding']) as fd:
                     code = parts[1].strip()
 
                 item['subtitle'] = subtitle
-                item['code'] = code
+                item['id'] = code
 
                 print("=== %s" % line)
                 episodes.append(item)

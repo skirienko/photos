@@ -3,6 +3,8 @@ import json
 
 path = '../public/data'
 
+# date = '2008-05-01'
+# date = '2008-05-02'
 # date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'

@@ -27,7 +27,11 @@ def add_inline_thumbs(filename):
     
     for event in events:
         print(event)
-        pic = '%s/%s/%s' % (dir, event['id'], event['img'])
+        if "date" in event:
+            pic = '%s/%s/%s' % (dir, event['date'], event['img'])
+        else:
+            pic = '%s/%s' % (dir, event['img'])
+
         thumb = None
         if os.path.isfile(pic):
             with Image.open(pic) as img:
