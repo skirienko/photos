@@ -7,13 +7,13 @@ import os.path
 import cchardet as chardet
 
 # date = '2008-05-01'
-# date = '2008-05-02'
+date = '2008-05-02'
 # date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'
 # date = '2015-06-20'
 # date = '2016-07-01'
-date = '2018-09-10'
+# date = '2018-09-10'
 
 filename = '%s/descript.ion' % date
 file2 = io.open('../public/data/%s.json' % date, 'w', encoding='utf8')
@@ -85,8 +85,17 @@ with open(filename, 'r', encoding=enc['encoding']) as fd:
             prevItem = item
         else:
             if line != title and line != descr:
-                item['subtitle'] = line.strip()
-                item['code'] = "section-%d" % subtitleId
+                subtitle = line.strip()
+                code = "section-%d" % subtitleId
+                parts = subtitle.split('#')
+                print(parts)
+                if len(parts) > 1:
+                    subtitle = parts[0].strip()
+                    code = parts[1].strip()
+
+                item['subtitle'] = subtitle
+                item['code'] = code
+
                 print("=== %s" % line)
                 episodes.append(item)
                 subtitleId += 1
