@@ -12,7 +12,7 @@ const Episode = (props) => {
     }
 
     if (episode.subtitle) {
-        return <h3 id={episode.code} className="event__subtitle">{episode.subtitle}</h3>
+        return <h3 id={episode.id} className="event__subtitle">{episode.subtitle}</h3>
     }
 
     const style = episode.aspect ? {paddingBottom: episode.aspect+"%"} : null;

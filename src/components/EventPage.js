@@ -26,6 +26,21 @@ class EventPage extends React.Component {
         return event;
     }
 
+    fetchPlace(placeId) {
+        let place = null;
+        if (placeId in this.state) {
+            place = this.state[placeId];
+        }
+        else {
+            fetch(`/data/${placeId}.json`).then(d => d.json()).then(result => {
+                if (result) {
+                    this.setState({[placeId]: result});
+                }
+            });
+        }
+        return place;
+    }
+
     getNavLinks() {
         return {
             prev: {title: "Prev", url: "#"},
@@ -43,10 +58,16 @@ class EventPage extends React.Component {
         }    
     }
 
+    renderDate(item) {
+        // const placeId = this.props.match.params.place;
+        // const place = this.fetchPlace(placeId);
+        return (<p className="normal-text event__date">{item.date}</p>);
+    }
+
     renderToc(data) {
         return data.toc && data.toc.length ? (<div className="event__toc">
                 {data.toc
-                    .map(item => (<a href={"#" + item.code} key={item.code}>{item.subtitle}</a>))
+                    .map(item => (<a href={"#" + item.id} key={item.id}>{item.subtitle}</a>))
                     .reduce((prev, curr) => [prev, ' — ', curr])
                 }
             </div>)
@@ -62,7 +83,7 @@ class EventPage extends React.Component {
         return item ?
             (<div className="event__page">
                 <h2>{item.title}</h2>
-                <p className="normal-text event__date">{item.date}</p>
+                {this.renderDate(item)}
                 {this.renderToc(item)}
                 <p className="normal-text description">{item.description}</p>
                 {item.episodes.map(episode => (<Episode episode={episode} event={eventId} key={episode.id}></Episode>))}

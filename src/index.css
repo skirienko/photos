@@ -73,6 +73,10 @@ body {
   line-height: 1.5;
 }
 
+.events-list .event-item.album .event-title {
+  font-weight: bold;
+}
+
 .event__date {
   color: #777;
 }
