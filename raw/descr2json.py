@@ -7,8 +7,8 @@ import os.path
 import cchardet as chardet
 
 # date = '2008-05-01'
-date = '2008-05-02'
-# date = '2009-07-01'
+# date = '2008-05-02'
+date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'
 # date = '2015-06-20'
@@ -57,7 +57,7 @@ with open(filename, 'r', encoding=enc['encoding']) as fd:
                                 item['vertical'] = True
                         # print(img.size)
                         aspect = round(100.0 * img.size[1] / img.size[0], 2)
-                        if abs(aspect - 66.6) > 3:
+                        if abs(aspect - 66.6) > 0.1:
                             item['aspect'] = aspect
                             print("aspect %f" % aspect)
                     episodes.append(item)
