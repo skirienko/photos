@@ -118,12 +118,12 @@ body {
 
 .episode {
   margin-top: 32px;
-  scroll-snap-align: start;
-  scroll-margin: 8px;
 }
 .episode p {
   max-width: 1200px;
   margin: 16px 0 8px 0;
+  scroll-snap-align: start;
+  scroll-margin: 8px;
 }
 .episode p .cnt {
   color: #777;
