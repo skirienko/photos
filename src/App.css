@@ -17,3 +17,7 @@ a.app__home[href] {
 a.app__home[href]:hover {
   color: #CC3333;
 }
+
+.app__footer {
+  padding: 1em 2% 1em;
+}

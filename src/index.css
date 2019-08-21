@@ -25,9 +25,11 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'PT Sans', sans-serif;
-  scroll-snap-type: y proximity;
 }
 
+body.scroll-snap {
+  scroll-snap-type: y proximity;
+}
 
 .events-list {
   display: flex;
@@ -119,12 +121,17 @@ body {
 .episode {
   margin-top: 32px;
 }
+
 .episode p {
   max-width: 1200px;
   margin: 16px 0 8px 0;
+}
+
+.scroll-snap .episode p {
   scroll-snap-align: start;
   scroll-margin: 8px;
 }
+
 .episode p .cnt {
   color: #777;
 }

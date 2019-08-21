@@ -5,6 +5,7 @@ import EventsList from './components/EventsList';
 import PlacePage from './components/PlacePage';
 import EventPage from './components/EventPage';
 import LinkOrSpan from './components/LinkOrSpan';
+import Experimental from './components/Experimental';
 
 class App extends Component {
 
@@ -40,6 +41,9 @@ class App extends Component {
           <Route exact path="/:place" component={PlacePage}/>
           <Route path="/:place/:event" component={EventPage}/>
         </div>
+        <footer className="app__footer">
+          <Route exact path="/" component={Experimental}/>
+        </footer>
       </div>
       </Router>
     );
