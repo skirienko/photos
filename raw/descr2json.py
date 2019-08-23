@@ -11,7 +11,7 @@ import cchardet as chardet
 # date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'
-date = '2015-06-20'
+# date = '2015-06-20'
 # date = '2016-07-01'
 date = '2017-07-11'
 # date = '2018-09-10'
