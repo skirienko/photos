@@ -7,12 +7,13 @@ import os.path
 import cchardet as chardet
 
 # date = '2008-05-01'
-date = '2008-05-02'
+# date = '2008-05-02'
 # date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'
 # date = '2015-06-20'
 # date = '2016-07-01'
+date = '2017-07-11'
 # date = '2018-09-10'
 
 filename = '%s/descript.ion' % date
