@@ -127,7 +127,7 @@ body.scroll-snap {
   margin: 16px 0 8px 0;
 }
 
-.scroll-snap .episode p {
+.scroll-snap .episode p, .scroll-snap .event__subtitle {
   scroll-snap-align: start;
   scroll-margin: 8px;
 }
