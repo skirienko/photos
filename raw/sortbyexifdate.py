@@ -6,16 +6,17 @@ from PIL.ExifTags import TAGS
 import os.path
 from datetime import datetime, timedelta
 
-date = '2018-09-10'
+date = '2017-07-11'
+# date = '2018-09-10'
 
 EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S'
 
 filename = '%s/descript_orig.ion' % date
-file2 = io.open('%s/descript.ion' % date, 'w', encoding='cp1251')
+file2 = io.open('%s/descript.ion' % date, 'w', encoding='utf8')
 
 rxPhoto = re.compile(r'[a-z_]+\d+\.(jpg|jpeg)', re.I)
 
-with open(filename, 'r', encoding='cp1251') as fd:
+with open(filename, 'r') as fd:
     lines = fd.readlines()
 
     title = lines[0].strip()
@@ -24,9 +25,15 @@ with open(filename, 'r', encoding='cp1251') as fd:
 
     items = []
 
+    photodir = '%s' % date
+    if os.path.isdir('%s/orig' % date):
+        photodir += '/orig' 
+
     for pair in pairs:
         item = {}
-        filepath = '%s/orig/%s' % (date, pair[0])
+
+        filepath = '%s/%s' % (photodir, pair[0])
+
         if rxPhoto.match(pair[0]) and os.path.isfile(filepath):
             item['photo'] = pair[0]
             if len(pair) > 1:
@@ -39,7 +46,7 @@ with open(filename, 'r', encoding='cp1251') as fd:
                     if not raw_exif:
                         raise IOError('No EXIF for %s' % filepath)
                     exif = {}
-                    print('GOT EXIF!!!')
+                    print('got EXIF')
                     for tag, value in raw_exif.items():
                         exif[TAGS.get(tag)] = value
                     if 'DateTimeOriginal' in exif:

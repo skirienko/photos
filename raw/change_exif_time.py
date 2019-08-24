@@ -4,9 +4,12 @@ from datetime import datetime, timedelta
 from shutil import copy2
 import piexif
 
-date = '2018-09-10'
-wrong_hour = 8
-decreate_minutes = 60
+date = '2017-07-11'
+# date = '2018-09-10'
+
+wrong_hour = 19
+decreate_minutes = 113
+increate_minutes = 0
 
 
 EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S'
@@ -16,7 +19,10 @@ dirname = "%s/orig" % date
 print("Started")
 # rxPhoto = re.compile('[a-z_]+\d+[a-z_]*\.jpg', re.I) 
 
-filenames = ['IMG_1085.JPG', 'IMG_1086.JPG', 'IMG_1087.JPG']
+filenames = [
+    'IMG_5911.JPG',
+    'IMG_5912.JPG',
+]
 
 for filename in filenames:
     fullname = '/'.join((dirname, filename))
@@ -34,7 +40,7 @@ for filename in filenames:
                 print(exif_section[field])
                 dt = datetime.strptime(exif_section[field].decode(), EXIF_DT_FORMAT)
                 if dt.strftime('%Y-%m-%d') == date and dt.hour == wrong_hour:
-                    dt = dt - timedelta(minutes=decreate_minutes)
+                    dt = dt - timedelta(minutes=decreate_minutes) + timedelta(minutes=increate_minutes)
                     exif_section[field] = dt.strftime(EXIF_DT_FORMAT).encode()
                     print('Time changed to %s' % dt)
 
@@ -44,7 +50,7 @@ for filename in filenames:
                     print(exif_section[field])
                     dt = datetime.strptime(exif_section[field].decode(), EXIF_DT_FORMAT)
                     if dt.strftime('%Y-%m-%d') == date and dt.hour == wrong_hour:
-                        dt = dt - timedelta(minutes=decreate_minutes)
+                        dt = dt - timedelta(minutes=decreate_minutes) + timedelta(minutes=increate_minutes)
                         exif_section[field] = dt.strftime(EXIF_DT_FORMAT).encode()
                         print('Time changed to %s' % dt)
 

@@ -101,7 +101,6 @@ class Photos extends Component {
                     this.glide(e.currentTarget, dir);
                 }    
             }
-            e.preventDefault();
         }
     }
 

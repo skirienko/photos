@@ -5,12 +5,13 @@ from shutil import copy2
 import piexif
 
 # date = '2008-05-01'
-date = '2008-05-02'
+# date = '2008-05-02'
 #date = '2009-07-01'
 # date = '2014-06-11'
 # date = '2015-06-11'
 # date = '2015-06-20'
 # date = '2016-07-01'
+date = '2017-07-11'
 # date = '2018-09-10'
 
 dirname = "%s/orig" % date
