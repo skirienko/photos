@@ -1,39 +1,26 @@
 import React from 'react';
-
-const SNAP_NAME = "scrollSnap";
+import { getScrollSnap, setScrollSnap } from '../App';
 
 class Experimental extends React.Component {
 
     constructor() {
         super();
-        const snap = !!localStorage.getItem(SNAP_NAME);
         this.state = {
-            [SNAP_NAME]: snap,
+            snap: getScrollSnap(),
         }
-        this.setGlobalScrollSnap(snap);
-    }
-
-    setGlobalScrollSnap(snap) {
-        const action = snap ? 'add' : 'remove';
-        document.body.classList[action]('scroll-snap');
     }
 
     onCheckboxChange(e) {
         const checked = e.target.checked;
-        if (checked)
-            localStorage.setItem(SNAP_NAME, 1);
-        else
-            localStorage.removeItem(SNAP_NAME);
-
-        this.setGlobalScrollSnap(checked);
-        this.setState({[SNAP_NAME]: checked});
+        setScrollSnap(checked);
+        this.setState({snap: checked});
     }    
 
     render() {
         const onCheckboxChange = this.onCheckboxChange.bind(this);
 
         return (<div className="experimental">
-            <label><input type="checkbox" name={SNAP_NAME} checked={this.state[SNAP_NAME]} onChange={onCheckboxChange}/> Экспериментальная прокрутка</label>
+            <label><input type="checkbox" name="snap" checked={this.state.snap} onChange={onCheckboxChange}/> Экспериментальная прокрутка</label>
         </div>);
     }
     

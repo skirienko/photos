@@ -21,10 +21,17 @@
   src: local('PT Sans_Bold Italic'), url('/fonts/PTS76F_W.woff') format('woff');
 }
 
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: 'PT Sans', sans-serif;
+  height: 100%;
+  overflow: auto;
 }
 
 body.scroll-snap {
@@ -125,6 +132,16 @@ body.scroll-snap {
 .episode p {
   max-width: 1200px;
   margin: 16px 0 8px 0;
+}
+
+.experimental {
+  display: none;
+}
+
+@supports (scroll-snap-align: start) {
+  .experimental {
+    display: block;
+  }
 }
 
 .scroll-snap .episode p, .scroll-snap .event__subtitle {

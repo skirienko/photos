@@ -7,10 +7,31 @@ import EventPage from './components/EventPage';
 import LinkOrSpan from './components/LinkOrSpan';
 import Experimental from './components/Experimental';
 
+const SNAP_NAME = "scrollSnap";
+
+export function getScrollSnap() {
+  return !!localStorage.getItem(SNAP_NAME);
+}
+
+export function setScrollSnap(value) {
+  let oldValue = getScrollSnap();
+
+  if (value !== oldValue) {
+    if (value)
+      localStorage.setItem(SNAP_NAME, 1);
+    else
+      localStorage.removeItem(SNAP_NAME);
+  }
+
+  const action = value ? 'add' : 'remove';
+  document.body.classList[action]('scroll-snap');
+}
+
 class App extends Component {
 
   constructor() {
     super();
+    setScrollSnap(getScrollSnap());
     this.state = {
       event: null,
       events: null
