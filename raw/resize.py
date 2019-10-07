@@ -6,12 +6,12 @@ import piexif
 
 # date = '2008-05-01'
 # date = '2008-05-02'
-#date = '2009-07-01'
-# date = '2014-06-11'
+# date = '2009-07-01'
+date = '2014-06-11'
 # date = '2015-06-11'
 # date = '2015-06-20'
 # date = '2016-07-01'
-date = '2017-07-11'
+# date = '2017-07-11'
 # date = '2018-09-10'
 
 dirname = "%s/orig" % date
@@ -104,9 +104,16 @@ for filename in ls:
             continue
 
         print(filename)
-        with Image.open('/'.join((dirname, filename)), 'r') as img:
+        current_path = '/'.join((dirname, filename))
+        new_path = '/'.join((outdir, filename))
+
+        with Image.open(current_path, 'r') as img:
             if img:
-                print(img.size)
+                # print(img.size)
+                if os.path.exists(new_path):
+                    if os.path.getmtime(new_path) >= os.path.getmtime(current_path):
+                        print("already exists, origin hasn't changed")
+                        continue
                 byte_exif = b''
                 if 'exif' in img.info:
                     byte_exif = img.info['exif']
@@ -133,8 +140,8 @@ for filename in ls:
                     print(limit_size(img.size))
                     resized_img = img.resize(limit_size(img.size), Image.ANTIALIAS)
                     resized_img = add_watermark(resized_img).convert('RGB')
-                    resized_img.save('/'.join( (outdir, filename) ), 'JPEG', quality=quality, exif=byte_exif)
+                    resized_img.save(new_path, 'JPEG', quality=quality, exif=byte_exif)
                 else:
                     print("Copy intact")
-                    copy2('/'.join(dirname, filename), '/'.join( (outdir, filename)))
+                    copy2(current_path, new_path)
 
