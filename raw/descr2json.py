@@ -6,18 +6,31 @@ from PIL.ExifTags import TAGS
 import os.path
 import cchardet as chardet
 
+dates = (
+    '2008-05-01',
+    '2008-05-02',
+    '2009-07-01',
+    '2014-06-11',
+    '2015-06-11',
+    '2015-06-20',
+    '2016-07-01',
+    '2017-07-11',
+    '2018-09-10',
+)
+
 # date = '2008-05-01'
 # date = '2008-05-02'
 # date = '2009-07-01'
-date = '2014-06-11'
+# date = '2014-06-11'
 # date = '2015-06-11'
 # date = '2015-06-20'
 # date = '2016-07-01'
 # date = '2017-07-11'
-# date = '2018-09-10'
+date = '2018-09-10'
 
-filename = '%s/descript.ion' % date
-file2 = io.open('../public/data/%s.json' % date, 'w', encoding='utf8')
+infile = '%s/descript.ion' % date
+outdir = '../public/data'
+outfile = '%s/%s.json' % (outdir, date)
 
 rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
 rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
@@ -26,88 +39,137 @@ episodes = []
 title = ''
 descr = ''
 
-with open(filename, 'rb') as probe:
-    txt = probe.read()
-    enc = chardet.detect(txt)
+print("%s" % outfile)
+if os.path.exists(outfile):
+    if os.path.getmtime(outfile) >= os.path.getmtime(infile):
+        print('already exists, origin hasn\'t changed')
+        quit()
 
-with open(filename, 'r', encoding=enc['encoding']) as fd:
 
-    lines = fd.readlines()
+def detect_encoding(filename):
+    with open(filename, 'rb') as probe:
+        txt = probe.read()
+        enc = chardet.detect(txt)
+        return enc['encoding']
+    
 
+def read_descr_file(filename):
+    with open(filename, 'r', encoding=detect_encoding(filename)) as fd:
+        lines = fd.readlines()
+
+    return lines
+
+
+def lines2data(lines):
     title = lines[0].strip()
     descr = lines[1].strip()
-    pairs = [line.strip().split(' ', 1) for line in lines]
+
     prevItem = {}
-    episodeId = 1
-    subtitleId = 1
+    episode_id = 1
+    subtitle_id = 1
+
     for line in lines[2:]:
         pair = line.strip().split(' ', 1)
-    
-        item = {}
-        filepath = '../public/data/%s/%s' % (date, pair[0])
-        if rxPhoto.match(pair[0]):
-            print(pair[0])
-            if os.path.isfile(filepath):
-                if len(pair) > 1:
-                    item['descr'] = pair[1]
-                    item['photo'] = pair[0]
-                    item['id'] = episodeId
-                    with Image.open(filepath) as img:
-                        if img:
-                            if img.size[1] > img.size[0]:
-                                item['vertical'] = True
-                        # print(img.size)
-                        aspect = round(100.0 * img.size[1] / img.size[0], 2)
-                        if abs(aspect - 66.6) > 0.1:
-                            item['aspect'] = aspect
-                            print("aspect %f" % aspect)
+        filename = pair[0]
+        text = pair[1] if len(pair) > 1 else ''
+
+        if rxPhoto.match(filename):
+            if os.path.isfile(get_filepath(filename)):
+                if text != '':
+                    item = create_photo_item(filename, text, episode_id)
                     episodes.append(item)
-                    episodeId += 1
+                    episode_id += 1
+                    prevItem = item
                 else:
-                    item = prevItem
-                    if not 'photos' in item:
-                        item['photos'] = []
-                        item['photos'].append(item['photo'])
-                        item.pop('photo')
-                    item['photos'].append(pair[0])
-                prevItem = item
-                # print(item)
+                    add_photo_to_item(filename, prevItem)
+
             else:
                 print("file not found")
-        elif rxVimeo.match(pair[0]):
-            m = rxVimeo.match(pair[0])
-            print('Vimeo!')
-            item['id'] = episodeId
-            item['type'] = 'vimeo'
-            item['descr'] = pair[1] if len(pair) > 1 else ''
-            item['video'] = m.group(1)
+
+        elif rxVimeo.match(filename):
+            m = rxVimeo.match(filename)
+            code = m.group(1)
+            item = create_vimeo_item(code, text, episode_id)
             episodes.append(item)
-            episodeId += 1
+            episode_id += 1
             prevItem = item
+
         else:
             if line != title and line != descr:
-                subtitle = line.strip()
-                code = "section-%d" % subtitleId
-                parts = subtitle.split('#')
-                print(parts)
-                if len(parts) > 1:
-                    subtitle = parts[0].strip()
-                    code = parts[1].strip()
-
-                item['subtitle'] = subtitle
-                item['id'] = code
-
-                print("=== %s" % line)
+                item = create_subtitle_item(line, subtitle_id)
                 episodes.append(item)
-                subtitleId += 1
+                subtitle_id += 1
 
-data = {
-    "title": title,
-    "description": descr,
-    "date": date
-}
-data['episodes'] = episodes
-#file2.write(' '.join(pair).encode('utf-8')+'\n')
-jsondump = json.dumps(data, ensure_ascii=False)
-file2.write(jsondump)
+    data = {
+        "title": title,
+        "description": descr,
+        "date": date
+    }
+    data['episodes'] = episodes
+
+    return data
+
+
+def get_filepath(filename):
+    return '%s/%s/%s' % (outdir, date, filename)
+
+
+def create_photo_item(filename, text, episode_id):
+    print(filename)
+    item = {}
+    item['descr'] = text
+    item['photo'] = filename
+    item['id'] = episode_id
+    with Image.open(get_filepath(filename)) as img:
+        if img:
+            if img.size[1] > img.size[0]:
+                item['vertical'] = True
+            # print(img.size)
+            aspect = round(100.0 * img.size[1] / img.size[0], 2)
+            if abs(aspect - 66.6) > 0.1:
+                item['aspect'] = aspect
+                print("aspect %f" % aspect)
+
+    return item
+
+
+def add_photo_to_item(filename, item):
+    if not 'photos' in item:
+        item['photos'] = []
+        item['photos'].append(item['photo'])
+        item.pop('photo')
+    item['photos'].append(filename)
+
+
+def create_vimeo_item(code, text, episode_id):
+    print('Vimeo!')
+    item = {}
+    item['id'] = episode_id
+    item['type'] = 'vimeo'
+    item['video'] = code
+    item['descr'] = text
+    return item
+
+
+def create_subtitle_item(line, subtitle_id):
+    print("=== %s ===" % line)
+    item = {}
+    subtitle = line.strip()
+    hash = "section-%d" % subtitle_id
+    parts = subtitle.split('#')
+    if len(parts) > 1:
+        subtitle = parts[0].strip()
+        hash = parts[1].strip()
+
+        item['subtitle'] = subtitle
+        item['id'] = hash
+    return item
+
+
+lines = read_descr_file(infile)
+data = lines2data(lines)
 # print(data)
+jsondump = json.dumps(data, ensure_ascii=False)
+
+with open(outfile, 'w', encoding='utf8') as ofd:
+    ofd.write(jsondump)
