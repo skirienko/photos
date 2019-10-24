@@ -18,19 +18,9 @@ dates = (
     '2018-09-10',
 )
 
-# date = '2008-05-01'
-# date = '2008-05-02'
-# date = '2009-07-01'
-# date = '2014-06-11'
-# date = '2015-06-11'
-# date = '2015-06-20'
-# date = '2016-07-01'
-# date = '2017-07-11'
-date = '2018-09-10'
+date = ''
 
-infile = '%s/descript.ion' % date
 outdir = '../public/data'
-outfile = '%s/%s.json' % (outdir, date)
 
 rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
 rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
@@ -39,11 +29,9 @@ episodes = []
 title = ''
 descr = ''
 
-print("%s" % outfile)
-if os.path.exists(outfile):
-    if os.path.getmtime(outfile) >= os.path.getmtime(infile):
-        print('already exists, origin hasn\'t changed')
-        quit()
+
+def need_to_rebuild(infile, outfile):
+    return not os.path.exists(outfile) or os.path.getmtime(infile) > os.path.getmtime(outfile)
 
 
 def detect_encoding(filename):
@@ -152,7 +140,7 @@ def create_vimeo_item(code, text, episode_id):
 
 
 def create_subtitle_item(line, subtitle_id):
-    print("=== %s ===" % line)
+    print("=== %s" % line)
     item = {}
     subtitle = line.strip()
     hash = "section-%d" % subtitle_id
@@ -166,10 +154,19 @@ def create_subtitle_item(line, subtitle_id):
     return item
 
 
-lines = read_descr_file(infile)
-data = lines2data(lines)
-# print(data)
-jsondump = json.dumps(data, ensure_ascii=False)
+for date in dates:
 
-with open(outfile, 'w', encoding='utf8') as ofd:
-    ofd.write(jsondump)
+    infile = '%s/descript.ion' % date
+    outfile = '%s/%s.json' % (outdir, date)
+
+    print("%s" % outfile)
+    if not need_to_rebuild(infile, outfile):
+        print('already exists, origin hasn\'t changed')
+    else:
+        lines = read_descr_file(infile)
+        data = lines2data(lines)
+        # print(data)
+        jsondump = json.dumps(data, ensure_ascii=False)
+
+        with open(outfile, 'w', encoding='utf8') as ofd:
+            ofd.write(jsondump)
