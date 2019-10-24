@@ -16,6 +16,7 @@ dates = (
     '2016-07-01',
     '2017-07-11',
     '2018-09-10',
+    '2018-09-11',
 )
 
 date = ''
@@ -149,8 +150,8 @@ def create_subtitle_item(line, subtitle_id):
         subtitle = parts[0].strip()
         hash = parts[1].strip()
 
-        item['subtitle'] = subtitle
-        item['id'] = hash
+    item['subtitle'] = subtitle
+    item['id'] = hash
     return item
 
 
