@@ -24,7 +24,7 @@ class EventsList extends React.Component {
             return null;
         }
     
-        return (<ul className="events-list">
+        return (<ul className="events__list">
                 {this.state.events.map(item => <EventListItem key={item.date||item.album} {...item}></EventListItem>)}
             </ul>);
     
