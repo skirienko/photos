@@ -13,7 +13,8 @@ import piexif
 # date = '2016-07-01'
 # date = '2017-07-11'
 # date = '2018-09-10'
-date = '2018-09-11'
+# date = '2018-09-11'
+date = '2018-09-12'
 
 dirname = "%s/orig" % date
 outdir = "../public/data/%s" % date

@@ -6,8 +6,9 @@ from PIL.ExifTags import TAGS
 import os.path
 from datetime import datetime, timedelta
 
-date = '2017-07-11'
-# date = '2018-09-10'
+# date = '2017-07-11'
+# date = '2018-09-11'
+date = '2018-09-12'
 
 EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S'
 
