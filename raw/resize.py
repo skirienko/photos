@@ -13,8 +13,8 @@ import piexif
 # date = '2016-07-01'
 # date = '2017-07-11'
 # date = '2018-09-10'
-# date = '2018-09-11'
-date = '2018-09-12'
+date = '2018-09-11'
+# date = '2018-09-12'
 
 dirname = "%s/orig" % date
 outdir = "../public/data/%s" % date
@@ -114,7 +114,7 @@ for filename in ls:
                 # print(img.size)
                 if os.path.exists(new_path):
                     if os.path.getmtime(new_path) >= os.path.getmtime(current_path):
-                        print("already exists, origin hasn't changed")
+                        # print("already exists, origin hasn't changed")
                         continue
                 byte_exif = b''
                 if 'exif' in img.info:
