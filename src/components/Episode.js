@@ -23,7 +23,7 @@ const Episode = (props) => {
     }
 
     return (
-        <div className="episode" id={`episode-${episode.id}`}>
+        <div className="episode" id={`e${episode.id}`}>
         <p className="normal-text"><span className="cnt">{episode.id}.</span> {text}</p>
         {episode.photo ?
             <div className="stretch">

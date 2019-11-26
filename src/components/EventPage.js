@@ -19,7 +19,11 @@ class EventPage extends React.Component {
             fetch(`/data/${eventId}.json`).then(d => d.json()).then(result => {
                 if (result) {
                     result.toc = result.episodes.filter(item => item.subtitle);
-                    this.setState({[eventId]:result});
+                    const title = 'title' in result ? result.title : '';
+                    this.setState({
+                        [eventId]: result,
+                        title: title,
+                    });
                 }
             });
         }
@@ -41,6 +45,14 @@ class EventPage extends React.Component {
         return place;
     }
 
+    setTitle(subtitle) {
+        const parts = [this.state.title];
+        if (subtitle) {
+            parts.push(subtitle);
+        }
+        document.title = parts.join(' – ');
+    }
+
     getNavLinks() {
         return {
             prev: {title: "Prev", url: "#"},
@@ -54,6 +66,8 @@ class EventPage extends React.Component {
             let node = document.getElementById(hash);
             if (node) {
                 node.scrollIntoView();
+                if (node.tagName==='H3')
+                    this.setTitle(node.innerText);
             }
         }    
     }
@@ -79,6 +93,8 @@ class EventPage extends React.Component {
         const eventId = this.props.match.params.event;
         const item = this.fetchItem(eventId);
         const nav = this.getNavLinks();
+
+        this.setTitle();
 
         return item ?
             (<div className="event__page">
