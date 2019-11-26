@@ -28,14 +28,14 @@ class PlacePage extends React.Component {
 
     render() {
         const placeId = this.props.match.params.place;
-        const item = this.fetchItem(placeId);
+        const place = this.fetchItem(placeId);
 
-        return item ?
-            (<div className="place-page">
-                <h2>{item.title}</h2>
-                <p className="normal-text description">{item.description}</p>
-                <ul className="events-list">
-                    {item.events.map(item => <EventListItem key={item.date} {...item} place={placeId}></EventListItem>)}
+        return place ?
+            (<div className="place__page">
+                <h2>{place.title}</h2>
+                <p className="normal-text description">{place.description}</p>
+                <ul className="events__list">
+                    {place.events.map(item => <EventListItem key={item.date} {...item} place={placeId}></EventListItem>)}
                 </ul>
             </div>)
             :
