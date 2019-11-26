@@ -91,6 +91,11 @@ body.scroll-snap {
   font-weight: bold;
 }
 
+.events__item.album .event-title::before {
+  content: "❖";
+  padding-right: .25em;
+}
+
 .event__date {
   color: #777;
 }
