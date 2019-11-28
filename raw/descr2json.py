@@ -157,6 +157,7 @@ def create_subtitle_item(line, subtitle_id):
 
 
 for date in dates:
+    print('Date %s' % date)
 
     infile = '%s/descript.ion' % date
     outfile = '%s/%s.json' % (outdir, date)
