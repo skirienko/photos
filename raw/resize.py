@@ -8,6 +8,7 @@ dates = (
     '2008-05-01',
     '2008-05-02',
     '2009-07-01',
+    '2013-06-07',
     '2014-06-11',
     '2015-06-11',
     '2015-06-20',
@@ -131,11 +132,14 @@ rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.jpg', re.I)
 
 for date in dates:
     indir = "%s/orig" % date
+    indir2 = date
     outdir = "../public/data/%s" % date
 
     if not os.path.exists(indir):
-        print("Nothing to resize")
-        continue
+        indir = indir2
+        if not os.path.exists(indir):
+            print("Nothing to resize (%s)" % indir)
+            continue
 
     if not os.path.exists(outdir):
         os.makedirs(outdir)
