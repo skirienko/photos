@@ -4,19 +4,7 @@ import json
 path = '../public/data'
 MIN_NEEDED_FILES_TO_COMPARE = 3
 
-dates = (
- '2008-05-01',
- '2008-05-02',
- '2009-07-01',
- '2014-06-11',
- '2015-06-11',
- '2015-06-20',
- '2016-07-01',
- '2017-07-11',
- '2018-09-10',
- '2018-09-11',
- '2018-09-12',
-)
+from presets import dates
 
 
 def get_useful_files(jsonfile):
