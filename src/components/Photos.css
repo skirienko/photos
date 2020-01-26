@@ -99,8 +99,15 @@
 
     .arr {
         opacity: 1;
-        font-size: 15px;
-        width: 24px;
-        height: 24px;
+        font-size: 24px;
+        width: 45px;
+    }
+
+    .arr__prev {
+        margin-left: 0;
+    }
+
+    .arr__next {
+        margin-right: 0;
     }
 }
