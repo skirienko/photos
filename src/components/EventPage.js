@@ -7,6 +7,7 @@ class EventPage extends React.Component {
         super(props);
         this.state = {
         }
+        this.io = new IntersectionObserver(this.changeTitle.bind(this));
     }
 
     fetchItem(eventId) {
@@ -53,6 +54,15 @@ class EventPage extends React.Component {
         document.title = parts.join(' – ');
     }
 
+    changeTitle(entries) {
+        let subtitle;
+        const visibles = entries.filter(en => en.isIntersecting);
+        if (visibles.length) {
+            subtitle = visibles[0].target.innerText;
+        }
+        this.setTitle(subtitle)
+    }
+
     getNavLinks() {
         return {
             prev: {title: "Prev", url: "#"},
@@ -69,7 +79,9 @@ class EventPage extends React.Component {
                 if (node.tagName==='H3')
                     this.setTitle(node.innerText);
             }
-        }    
+        }
+        const targets = document.querySelectorAll(".event__subtitle");
+        targets.forEach(t => this.io.observe(t))
     }
 
     renderDate(item) {
