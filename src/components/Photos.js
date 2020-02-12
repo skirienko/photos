@@ -195,9 +195,9 @@ class Photos extends Component {
         const CounterDot = ({i}) => {
             const hash = this.getHash(i);
             return (i===this.state.selected) ?
-                <LinkOrSpan content="●"/>
+                <LinkOrSpan>●</LinkOrSpan>
                 :
-                <LinkOrSpan path={'#'+hash} content="○" onClick={() => click(i)}/>
+                <LinkOrSpan path={'#'+hash} onClick={() => click(i)}>○</LinkOrSpan>
         }
 
         if (items.length <= 7) {
