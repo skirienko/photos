@@ -188,3 +188,32 @@ body.scroll-snap {
   flex: 1 1 auto;
   flex-flow: row;
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #000;
+    color: #CCC;
+  }
+
+  .events__item a img {
+    border-color: #333;
+  }
+
+  .event__toc {
+    color: #777;
+    border-bottom-color: rgba(256, 255, 255, .2)
+  }
+
+  .event__toc a {
+    border-bottom-color: #222;
+  }
+  
+  .event__toc a:hover {
+    color: #CCC;
+    border-bottom-color: #CCC;
+  }
+    
+  .photo {
+    background: #333;
+  }
+}
