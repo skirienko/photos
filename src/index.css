@@ -30,6 +30,9 @@ body {
   padding: 0;
   font-family: 'PT Sans', sans-serif;
 }
+html.scroll-snap body {
+  scroll-snap-type: y proximity;
+}
 
 .events__list {
   display: grid;
@@ -149,6 +152,7 @@ body {
 .scroll-snap .episode p, .scroll-snap .event__subtitle {
   scroll-snap-align: start;
   scroll-margin: 8px;
+  scroll-snap-margin: 8px; /* Safari */
 }
 
 .episode p .cnt {
