@@ -24,7 +24,7 @@ export function setScrollSnap(value) {
   }
 
   const action = value ? 'add' : 'remove';
-  document.body.classList[action]('scroll-snap');
+  document.querySelector('html').classList[action]('scroll-snap');
 }
 
 class App extends Component {
