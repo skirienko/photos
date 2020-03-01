@@ -105,22 +105,28 @@ class Photos extends Component {
     }
 
     switchStart(e) {
-        let x;
-        if (e.type==='touchstart') {
-            x = e.touches[0].clientX;
-        }
-        else {
+        const src = (e.type==='touchstart') ? e.touches[0] : e;
+        if (e.cancelable) {
             e.preventDefault();
-            x = e.clientX;
         }
-        this.setState({dragStartX: x, transition: true});
+        this.setState({dragStartX: src.clientX, dragStartY: src.clientY, transition: true});
     }
 
     switchMove(e) {
-        if (e.buttons&1 || e.type==='touchmove') {
-            let x = e.type==='touchmove' ? e.touches[0].clientX : e.clientX;
-            let diffX = x - this.state.dragStartX;
-            this.setState({dragX: diffX});
+        let src;
+        if (e.buttons&1) {
+            src = e;
+        }
+        if (e.type==='touchmove') {
+            src = e.touches[0];           
+        }
+
+        if (src) {
+            let diffX = src.clientX - this.state.dragStartX;
+            let diffY = src.clientY - this.state.dragStartY;
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                this.setState({dragX: diffX});
+            }
         }
     }
 
@@ -139,7 +145,9 @@ class Photos extends Component {
             else {
                 this.glide(el, 'restore');
             }
-            e.preventDefault();
+            if (e.cancelable) {
+                e.preventDefault();
+            }
         }
     }
 
