@@ -40,7 +40,8 @@
     position: absolute;
     width: 60px;
     height: 60px;
-    top: calc(50% - 30px);
+    padding: 20px;
+    top: calc(50% - 50px);
     vertical-align: middle;
     z-index: 10;
     font-size: 30px;
@@ -56,12 +57,10 @@
 
 .arr__prev {
     left: 0;
-    margin-left: .5em;
 }
 
 .arr__next {
     right: 0;
-    margin-right: .5em;
 }
 
 .counter {
@@ -104,10 +103,10 @@
     }
 
     .arr__prev {
-        margin-left: 0;
+        padding-left: 0;
     }
 
     .arr__next {
-        margin-right: 0;
+        padding-right: 0;
     }
 }
