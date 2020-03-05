@@ -15,10 +15,6 @@ outdir = '../public/data'
 rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
 rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
 
-episodes = []
-title = ''
-descr = ''
-
 
 def need_to_rebuild(infile, outfile):
     return not os.path.exists(outfile) or os.path.getmtime(infile) > os.path.getmtime(outfile)
@@ -42,6 +38,10 @@ def lines2data(lines):
     title = lines[0].strip()
     descr = lines[1].strip()
 
+    episodes = []
+    title = ''
+    descr = ''
+    
     prevItem = {}
     episode_id = 1
     subtitle_id = 1
@@ -106,7 +106,7 @@ def create_photo_item(filename, text, episode_id):
             aspect = round(100.0 * img.size[1] / img.size[0], 2)
             if abs(aspect - 66.6) > 0.1:
                 item['aspect'] = aspect
-                print("aspect %f" % aspect)
+                # print("aspect %f" % aspect)
 
     return item
 
@@ -148,7 +148,7 @@ for date in dates:
     print('Date %s' % date)
 
     infile = '%s/descript.ion' % date
-    outfile = '%s/%s.json' % (outdir, date)
+    outfile = '%s/%s/descr.json' % (outdir, date)
 
     print("%s" % outfile)
     if not need_to_rebuild(infile, outfile):

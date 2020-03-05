@@ -17,7 +17,7 @@ class EventPage extends React.Component {
             document.title = event.title;
         }
         else {
-            fetch(`/data/${eventId}.json`).then(d => d.json()).then(result => {
+            fetch(`/data/${eventId}/descr.json`).then(d => d.json()).then(result => {
                 if (result) {
                     result.toc = result.episodes.filter(item => item.subtitle);
                     const title = 'title' in result ? result.title : '';
