@@ -16,7 +16,7 @@ class PlacePage extends React.Component {
             document.title = place.title;
         }
         else {
-            fetch(`/data/${placeId}.json`).then(d => d.json()).then(result => {
+            fetch(`/data/${placeId}/descr.json`).then(d => d.json()).then(result => {
                 if (result) {
                     this.setState({[placeId]:result});
                 }
