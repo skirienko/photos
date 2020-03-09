@@ -35,12 +35,10 @@ def read_descr_file(filename):
 
 
 def lines2data(lines):
-    title = lines[0].strip()
-    descr = lines[1].strip()
 
     episodes = []
-    title = ''
-    descr = ''
+    title = lines[0].strip()
+    descr = lines[1].strip()
     
     prevItem = {}
     episode_id = 1
