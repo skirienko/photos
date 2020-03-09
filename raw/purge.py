@@ -9,7 +9,7 @@ from presets import dates
 
 def get_useful_files(jsonfile):
 
-    useful = []
+    useful = ['descr.json',]
     with open(jsonfile, 'r', encoding='utf8') as content:
         data = json.load(content)
 
@@ -46,7 +46,7 @@ for date in dates:
         print('Directory "%s" not found, ignoring this date' % dirname)
         continue
 
-    jsonfile = '%s/%s.json' % (path, date)
+    jsonfile = '%s/%s/descr.json' % (path, date)
 
     if not os.path.isfile(jsonfile):
         print('JSON file "%s" not found, ignoring this date' % jsonfile)
