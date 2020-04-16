@@ -5,7 +5,7 @@ import Vimeo from './Vimeo';
 const rxTxt = /.*[^.:!? ]$/;
 
 const Episode = (props) => {
-    const PREFIX = `/data/${props.event}/`;
+    const path = props.path;
     const episode = props.episode;
     if (episode.hide) {
         return null;
@@ -27,7 +27,7 @@ const Episode = (props) => {
         <p className="normal-text"><span className="cnt">{episode.id}.</span> {text}</p>
         {episode.photo ?
             <div className="stretch">
-                <div className="photo" style={style}><img alt="" src={PREFIX + episode.photo} /></div>
+                <div className="photo" style={style}><img alt="" src={`${path}/${episode.photo}`} /></div>
             </div>
             :
             null
@@ -37,7 +37,7 @@ const Episode = (props) => {
             :
             null
         }
-        {episode.photos ? <Photos aspect={episode.aspect} photos={episode.photos} episode={episode.id} event={props.event}/> : null}
+        {episode.photos ? <Photos aspect={episode.aspect} photos={episode.photos} episode={episode.id} event={props.event} path={path} /> : null}
         </div>
     );
 }

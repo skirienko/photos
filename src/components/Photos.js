@@ -11,7 +11,7 @@ class Photos extends Component {
     constructor(props) {
         super(props);
         this.len = props.photos.length;
-        this.PREFIX = `/data/${props.event}/`;
+        this.path = props.path;
         this.episode = props.episode;
         this.jsxFrames = {
             'prev': null,
@@ -218,9 +218,10 @@ class Photos extends Component {
     }
 
     renderFrame(frame) {
+        const src = `${this.path}/${frame.photo}`;
         const jsxFrame = (
             <div key={frame.type+frame.photo} className={'photo '+frame.type} {...frame.events}>
-                <img src={this.PREFIX + frame.photo} alt=""/>
+                <img src={src} alt=""/>
             </div>
         );
         this.jsxFrames[frame.type] = jsxFrame;

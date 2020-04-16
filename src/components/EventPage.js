@@ -10,23 +10,50 @@ class EventPage extends React.Component {
         this.io = new IntersectionObserver(this.changeTitle.bind(this));
     }
 
-    fetchItem(eventId) {
+    componentDidMount() {
+        const placeId = this.props.match.params.place;
+        const eventId = this.props.match.params.event;
+        this.fetchItem(placeId, eventId);
+    }
+
+    async fetchJsonFile(filename) {
+        try {
+            const res = await fetch(filename);
+            return await res.json();
+        }
+        catch(error) {
+            return null;
+        }
+    }
+
+    getItem(eventId) {
+        return eventId in this.state ? this.state[eventId] : null;
+    }
+
+    async fetchItem(placeId, eventId) {
         let event = null;
         if (eventId in this.state) {
             event = this.state[eventId];
             document.title = event.title;
         }
         else {
-            fetch(`/data/${eventId}/descr.json`).then(d => d.json()).then(result => {
-                if (result) {
-                    result.toc = result.episodes.filter(item => item.subtitle);
-                    const title = 'title' in result ? result.title : '';
-                    this.setState({
-                        [eventId]: result,
-                        title: title,
-                    });
-                }
-            });
+            let path = `/data/${eventId}`;
+            let result = await this.fetchJsonFile(`${path}/descr.json`);
+            // second try
+            if (!result) {
+                let path = `/data/${placeId}/${eventId}`;
+                result = await this.fetchJsonFile(`${path}/descr.json`);
+            }
+
+            if (result) {
+                result.path = path;
+                result.toc = result.episodes.filter(item => item.subtitle);
+                const title = 'title' in result ? result.title : '';
+                this.setState({
+                    [eventId]: result,
+                    title: title,
+                });
+            }
         }
         return event;
     }
@@ -103,7 +130,7 @@ class EventPage extends React.Component {
 
     render() {
         const eventId = this.props.match.params.event;
-        const item = this.fetchItem(eventId);
+        const item = this.getItem(eventId);
         const nav = this.getNavLinks();
 
         this.setTitle();
@@ -114,7 +141,7 @@ class EventPage extends React.Component {
                 {this.renderDate(item)}
                 {this.renderToc(item)}
                 <p className="normal-text description">{item.description}</p>
-                {item.episodes.map(episode => (<Episode episode={episode} event={eventId} key={episode.id}></Episode>))}
+                {item.episodes.map(episode => (<Episode episode={episode} event={eventId} key={episode.id} path={item.path} />))}
                 <div className="footer footer__navigation">
                     <div>
                         <a href={nav.prev.url}>{nav.prev.title}</a>
