@@ -6,11 +6,9 @@ from PIL.ExifTags import TAGS
 import os.path
 import cchardet as chardet
 
-from presets import dates
+from presets import albums
 
 date = ''
-
-outdir = '../public/data'
 
 rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
 rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
@@ -34,13 +32,14 @@ def read_descr_file(filename):
     return lines
 
 
-def lines2data(lines):
+def lines2data(lines, outdir):
 
     episodes = []
     title = lines[0].strip()
     descr = lines[1].strip()
     
-    prevItem = {}
+    prevItem = None
+    prevText = ''
     episode_id = 1
     subtitle_id = 1
 
@@ -50,9 +49,15 @@ def lines2data(lines):
         text = pair[1] if len(pair) > 1 else ''
 
         if rxPhoto.match(filename):
-            if os.path.isfile(get_filepath(filename)):
-                if text != '':
-                    item = create_photo_item(filename, text, episode_id)
+            fullpath = '%s/%s' % (outdir, filename)
+            if os.path.isfile(fullpath):
+                print("%s -> %s" % (fullpath, text))
+
+                aspect = get_aspect(fullpath)
+                if text != '' or prevItem == None:
+                    if text == '':
+                        text = prevText
+                    item = create_photo_item(filename, text, episode_id, aspect)
                     episodes.append(item)
                     episode_id += 1
                     prevItem = item
@@ -60,7 +65,10 @@ def lines2data(lines):
                     add_photo_to_item(filename, prevItem)
 
             else:
-                print("file not found")
+                print("file not found (%s)" % fullpath)
+
+            if text != '':
+                prevText = text
 
         elif rxVimeo.match(filename):
             m = rxVimeo.match(filename)
@@ -86,25 +94,27 @@ def lines2data(lines):
     return data
 
 
-def get_filepath(filename):
-    return '%s/%s/%s' % (outdir, date, filename)
+def get_aspect(fullpath):
+    aspect = 0
+    with Image.open(fullpath) as img:
+        if img:
+            aspect = round(100.0 * img.size[1] / img.size[0], 2)
+
+    return aspect
 
 
-def create_photo_item(filename, text, episode_id):
+def create_photo_item(filename, text, episode_id, aspect):
     print(filename)
     item = {}
     item['descr'] = text
     item['photo'] = filename
     item['id'] = episode_id
-    with Image.open(get_filepath(filename)) as img:
-        if img:
-            if img.size[1] > img.size[0]:
-                item['vertical'] = True
-            # print(img.size)
-            aspect = round(100.0 * img.size[1] / img.size[0], 2)
-            if abs(aspect - 66.6) > 0.1:
-                item['aspect'] = aspect
-                # print("aspect %f" % aspect)
+    if aspect > 100:
+        item['vertical'] = True
+
+    # if unusual image aspect
+    if abs(aspect - 66.6) > 0.1:
+        item['aspect'] = aspect
 
     return item
 
@@ -142,20 +152,22 @@ def create_subtitle_item(line, subtitle_id):
     return item
 
 
-for date in dates:
-    print('Date %s' % date)
+for album, dates in albums.items():
 
-    infile = '%s/descript.ion' % date
-    outfile = '%s/%s/descr.json' % (outdir, date)
+    for date in dates:
 
-    print("%s" % outfile)
-    if not need_to_rebuild(infile, outfile):
-        print('already exists, origin hasn\'t changed')
-    else:
-        lines = read_descr_file(infile)
-        data = lines2data(lines)
-        # print(data)
-        jsondump = json.dumps(data, ensure_ascii=False)
+        infile = '%s/%s/descript.ion' % (album, date)
+        outdir = '../public/data/%s/%s' % (album, date)
+        outfile = '%s/descr.json' % outdir
 
-        with open(outfile, 'w', encoding='utf8') as ofd:
-            ofd.write(jsondump)
+        print("=== %s ===" % outdir)
+        if not need_to_rebuild(infile, outfile):
+            print('already exists, origin hasn\'t changed')
+        else:
+            lines = read_descr_file(infile)
+            data = lines2data(lines, outdir)
+            # print(data)
+            jsondump = json.dumps(data, ensure_ascii=False)
+
+            with open(outfile, 'w', encoding='utf8') as ofd:
+                ofd.write(jsondump)

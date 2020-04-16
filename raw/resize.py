@@ -4,7 +4,7 @@ import re
 from shutil import copy2
 import piexif
 
-from presets import dates
+from presets import albums
 
 MAX_SIDE = 1200
 PANO_MIN_SIZE = 600
@@ -117,25 +117,28 @@ def resize(orig_path, new_path):
 
 rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.jpg', re.I) 
 
-for date in dates:
-    indir = "%s/orig" % date
-    indir2 = date
-    outdir = "../public/data/%s" % date
+for album, dates in albums.items():
 
-    if not os.path.exists(indir):
-        indir = indir2
+    for date in dates:
+        
+        outdir = "../public/data/%s/%s" % (album, date)
+        indir = "%s/%s/orig" % (album, date)
+        indir2 = "%s/%s" % (album, date)
+
         if not os.path.exists(indir):
-            print("Nothing to resize (%s)" % indir)
-            continue
+            indir = indir2
+            if not os.path.exists(indir):
+                print("Nothing to resize (%s)" % indir)
+                continue
 
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
+        if not os.path.exists(outdir):
+            os.makedirs(outdir)
 
-    ls = os.listdir(indir)
-    for filename in ls:
-        if rxPhoto.match(filename):
-            print(filename)
-            orig_path = '/'.join((indir, filename))
-            new_path = '/'.join((outdir, filename))
+        ls = os.listdir(indir)
+        for filename in ls:
+            if rxPhoto.match(filename):
+                print(filename)
+                orig_path = '/'.join((indir, filename))
+                new_path = '/'.join((outdir, filename))
 
-            resize(orig_path, new_path)
+                resize(orig_path, new_path)
