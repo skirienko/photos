@@ -7,9 +7,11 @@ import os.path
 import cchardet as chardet
 
 from presets import albums
+from utils import generate_thumb
 
 date = ''
 
+rxDate = re.compile(r'\d{4}-\d\d-\d\d', re.I)
 rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
 rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
 
@@ -30,6 +32,45 @@ def read_descr_file(filename):
         lines = fd.readlines()
 
     return lines
+
+
+def lines2album_data(lines, outdir):
+
+    events = []
+    title = lines[0].strip()
+    descr = lines[1].strip()
+
+    for line in lines[2:]:
+        pair = line.strip().split(' ', 1)
+        dirname = pair[0]
+        text = pair[1] if len(pair) > 1 else ''
+
+        if rxDate.match(dirname):
+            fullpath = '%s/%s' % (outdir, dirname)
+            if os.path.isdir(fullpath):
+                print("%s -> %s" % (fullpath, text))
+
+                photo = ''
+                parts = text.split('#')
+                if len(parts) > 1:
+                    text = parts[0].strip()
+                    photo = parts[1].strip()
+
+                if text == '':
+                    text = dirname
+                item = create_event_item(outdir, dirname, text, photo)
+                events.append(item)
+
+            else:
+                print("Directory not found (%s)" % fullpath)
+
+    data = {
+        "title": title,
+        "description": descr,
+    }
+    data['events'] = events
+
+    return data
 
 
 def lines2data(lines, outdir):
@@ -103,6 +144,21 @@ def get_aspect(fullpath):
     return aspect
 
 
+def create_event_item(outdir, dirname, text, photo):
+    print(dirname)
+    item = {}
+    item['date'] = dirname
+    item['title'] = text
+    item['photo'] = photo
+    if photo:
+        fullname = '%s/%s/%s' % (outdir, dirname, photo)
+        thumb = generate_thumb(fullname)
+        if thumb:
+            item['thumb'] = thumb
+
+    return item
+
+
 def create_photo_item(filename, text, episode_id, aspect):
     print(filename)
     item = {}
@@ -151,23 +207,56 @@ def create_subtitle_item(line, subtitle_id):
     item['id'] = hash
     return item
 
+def generate_album_descr(album):
+    infile = '%s/descript.ion' % album
+    outdir = '../public/data/%s' % album
+    outfile = '%s/descr.json' % outdir
+
+    print("== %s ==" % outdir)
+    if not os.path.isfile(infile):
+        print("No descript.ion file, skipping")
+        return
+
+    if not need_to_rebuild(infile, outfile):
+        print('Already exists, origin hasn\'t changed')
+        return
+
+    lines = read_descr_file(infile)
+    data = lines2album_data(lines, outdir)
+    # print(data)
+    jsondump = json.dumps(data, ensure_ascii=False)
+
+    with open(outfile, 'w', encoding='utf8') as ofd:
+        ofd.write(jsondump)
+
+
+def generate_date_descr(album, date):
+    infile = '%s/%s/descript.ion' % (album, date)
+    outdir = '../public/data/%s/%s' % (album, date)
+    outfile = '%s/descr.json' % outdir
+
+    print("=== %s ===" % outdir)
+    if not os.path.isfile(infile):
+        print("No descript.ion file, skipping")
+        return
+
+    if not need_to_rebuild(infile, outfile):
+        print('Already exists, origin hasn\'t changed')
+        return
+
+    lines = read_descr_file(infile)
+    data = lines2data(lines, outdir)
+    # print(data)
+    jsondump = json.dumps(data, ensure_ascii=False)
+
+    with open(outfile, 'w', encoding='utf8') as ofd:
+        ofd.write(jsondump)
+
 
 for album, dates in albums.items():
 
+    generate_album_descr(album)
+
     for date in dates:
 
-        infile = '%s/%s/descript.ion' % (album, date)
-        outdir = '../public/data/%s/%s' % (album, date)
-        outfile = '%s/descr.json' % outdir
-
-        print("=== %s ===" % outdir)
-        if not need_to_rebuild(infile, outfile):
-            print('already exists, origin hasn\'t changed')
-        else:
-            lines = read_descr_file(infile)
-            data = lines2data(lines, outdir)
-            # print(data)
-            jsondump = json.dumps(data, ensure_ascii=False)
-
-            with open(outfile, 'w', encoding='utf8') as ofd:
-                ofd.write(jsondump)
+        generate_date_descr(album, date)
