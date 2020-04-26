@@ -15,10 +15,10 @@ class EventListItem extends React.Component {
     }
     
     render() {
-        const date = this.props.date;
+        const {date, title, photo, thumb} = this.props;
         const place = this.props.place || this.props.city;
         const link = date ? "/"+place+"/"+date : "/"+place;
-        const src = ["/data", date, this.props.img].join('/');
+        const src = ["/data", place, date, photo].join('/');
         const classNames = ["events__item"];
         if (!date && this.props.album) {
             classNames.push("album");
@@ -26,11 +26,11 @@ class EventListItem extends React.Component {
 
         return (<li className={classNames.join(' ')}>
             <NavLink to={link}>
-                <div className="progressive-img" style={{backgroundImage: `url(${this.props.thumb})`}}>
+                <div className="progressive-img" style={{backgroundImage: `url(${thumb})`}}>
                     <img src={src} alt="" width="240" height="160"
                         style={{opacity:this.state.opacity}}
                         onLoad={this.handleOnLoad.bind(this)}/></div>
-                <div className="event-title">{this.props.title}</div>
+                <div className="event-title">{title}</div>
             </NavLink>
             </li>);
     }

@@ -51,6 +51,7 @@ html.scroll-snap body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
+  background-color: rgb(80, 80, 80, .2);
 }
 
 .progressive-img img {
