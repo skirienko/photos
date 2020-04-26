@@ -7,7 +7,7 @@ import os.path
 import cchardet as chardet
 
 from presets import albums
-from utils import generate_thumb
+from utils import get_aspect, select_cover, generate_thumb
 
 date = ''
 
@@ -38,9 +38,9 @@ def lines2album_data(lines, outdir):
 
     events = []
     title = lines[0].strip()
-    descr = lines[1].strip()
+    descr = ''
 
-    for line in lines[2:]:
+    for i, line in enumerate(lines[1:]):
         pair = line.strip().split(' ', 1)
         dirname = pair[0]
         text = pair[1] if len(pair) > 1 else ''
@@ -58,11 +58,20 @@ def lines2album_data(lines, outdir):
 
                 if text == '':
                     text = dirname
+
+                if not photo:
+                    photo = select_cover(fullpath)
+
                 item = create_event_item(outdir, dirname, text, photo)
                 events.append(item)
 
             else:
                 print("Directory not found (%s)" % fullpath)
+
+        elif i == 1:
+            descr = line.strip()
+
+
 
     data = {
         "title": title,
@@ -77,14 +86,14 @@ def lines2data(lines, outdir):
 
     episodes = []
     title = lines[0].strip()
-    descr = lines[1].strip()
+    descr = ''
     
     prevItem = None
     prevText = ''
     episode_id = 1
     subtitle_id = 1
 
-    for line in lines[2:]:
+    for i, line in enumerate(lines[1:]):
         pair = line.strip().split(' ', 1)
         filename = pair[0]
         text = pair[1] if len(pair) > 1 else ''
@@ -120,6 +129,9 @@ def lines2data(lines, outdir):
             prevItem = item
 
         else:
+            if i == 0:
+                descr = line
+
             if line != title and line != descr:
                 item = create_subtitle_item(line, subtitle_id)
                 episodes.append(item)
@@ -133,15 +145,6 @@ def lines2data(lines, outdir):
     data['episodes'] = episodes
 
     return data
-
-
-def get_aspect(fullpath):
-    aspect = 0
-    with Image.open(fullpath) as img:
-        if img:
-            aspect = round(100.0 * img.size[1] / img.size[0], 2)
-
-    return aspect
 
 
 def create_event_item(outdir, dirname, text, photo):
@@ -217,7 +220,7 @@ def generate_album_descr(album):
         print("No descript.ion file, skipping")
         return
 
-    if not need_to_rebuild(infile, outfile):
+    if not need_to_rebuild(infile, outfile) and False:
         print('Already exists, origin hasn\'t changed')
         return
 
