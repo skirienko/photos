@@ -18,7 +18,7 @@ class EventListItem extends React.Component {
         const {date, title, photo, thumb} = this.props;
         const place = this.props.place || this.props.city;
         const link = date ? "/"+place+"/"+date : "/"+place;
-        const src = ["/data", place, date, photo].join('/');
+        const src = ["/data", photo].join('/');
         const classNames = ["events__item"];
         if (!date && this.props.album) {
             classNames.push("album");

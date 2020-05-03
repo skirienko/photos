@@ -35,7 +35,7 @@ class PlacePage extends React.Component {
                 <h2>{place.title}</h2>
                 <p className="normal-text description">{place.description}</p>
                 <ul className="events__list">
-                    {place.events.map(item => <EventListItem key={item.date} {...item} place={placeId}></EventListItem>)}
+                    {place.events.map(item => <EventListItem key={item.date} {...item} photo={placeId+'/'+item.photo} place={placeId}></EventListItem>)}
                 </ul>
             </div>)
             :
