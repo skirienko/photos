@@ -17,6 +17,8 @@
 # video
 /raw/**/*.mp4
 /raw/**/*.MOV
+/public/data/**/*.mov
+/public/data/**/*.MOV
 
 #python
 *.pyc
