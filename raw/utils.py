@@ -4,7 +4,7 @@ import io
 import base64
 import re
 
-rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
+rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.jpe?g', re.I)
 
 def select_cover(dirname):
     candidate = None

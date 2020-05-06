@@ -12,7 +12,8 @@ from utils import get_aspect, select_cover, generate_thumb
 date = ''
 
 rxDate = re.compile(r'\d{4}-\d\d-\d\d', re.I)
-rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.[a-z0-9]{3,5}', re.I)
+rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.(jpe?g|png|gif|webp)', re.I)
+rxVideo = re.compile(r'[a-z_]+\d+[a-z_]*\.mov', re.I)
 rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
 
 
@@ -34,7 +35,7 @@ def read_descr_file(filename):
     return lines
 
 
-def lines2album_data(lines, outdir):
+def lines2album_data(lines, album, outdir):
 
     events = []
     title = lines[0].strip()
@@ -120,6 +121,16 @@ def lines2data(lines, outdir):
             if text != '':
                 prevText = text
 
+        elif rxVideo.match(filename):
+            fullpath = '%s/%s' % (outdir, filename)
+            if os.path.isfile(fullpath):
+                print("%s -> %s" % (fullpath, text))
+                item = create_video_item(filename, text, episode_id)
+                episodes.append(item)
+                episode_id += 1
+                prevItem = item
+
+
         elif rxVimeo.match(filename):
             m = rxVimeo.match(filename)
             code = m.group(1)
@@ -152,7 +163,7 @@ def create_event_item(outdir, dirname, text, photo):
     item = {}
     item['date'] = dirname
     item['title'] = text
-    item['photo'] = photo
+    item['photo'] = '%s/%s' % (dirname, photo)
     if photo:
         fullname = '%s/%s/%s' % (outdir, dirname, photo)
         thumb = generate_thumb(fullname)
@@ -185,6 +196,14 @@ def add_photo_to_item(filename, item):
         item.pop('photo')
     item['photos'].append(filename)
 
+
+def create_video_item(filename, text, episode_id):
+    item = {}
+    item['id'] = episode_id
+    item['type'] = 'video'
+    item['video'] = filename
+    item['descr'] = text
+    return item
 
 def create_vimeo_item(code, text, episode_id):
     print('Vimeo!')
@@ -225,7 +244,7 @@ def generate_album_descr(album):
         return
 
     lines = read_descr_file(infile)
-    data = lines2album_data(lines, outdir)
+    data = lines2album_data(lines, album, outdir)
     # print(data)
     jsondump = json.dumps(data, ensure_ascii=False)
 
