@@ -4,7 +4,7 @@ import json
 path = '../public/data'
 MIN_NEEDED_FILES_TO_COMPARE = 3
 
-from presets import dates
+from presets import albums
 
 
 def get_useful_files(jsonfile):
@@ -19,6 +19,8 @@ def get_useful_files(jsonfile):
                 useful.append(p)
         elif 'photo' in episode:
             useful.append(episode['photo'])
+        elif 'video' in episode:
+            useful.append(episode['video'])
 
     return useful
 
@@ -38,24 +40,27 @@ def purge_dir(dirname, useful):
 
 
 
-for date in dates:
-    dirname = '%s/%s' % (path, date)
-    print('Directory %s' % date)
+for album, dates in albums.items():
 
-    if not os.path.isdir(dirname):
-        print('Directory "%s" not found, ignoring this date' % dirname)
-        continue
+    for date in dates:
 
-    jsonfile = '%s/%s/descr.json' % (path, date)
+        dirname = '%s/%s/%s' % (path, album, date)
+        print('Directory %s' % date)
 
-    if not os.path.isfile(jsonfile):
-        print('JSON file "%s" not found, ignoring this date' % jsonfile)
-        continue
+        if not os.path.isdir(dirname):
+            print('Directory "%s" not found, ignoring this date' % dirname)
+            continue
 
-    useful = get_useful_files(jsonfile)
+        jsonfile = '%s/descr.json' % (dirname)
 
-    if len(useful) < MIN_NEEDED_FILES_TO_COMPARE:
-        print('Not enough useful file to judge, ignoring this date')
-        continue
+        if not os.path.isfile(jsonfile):
+            print('JSON file "%s" not found, ignoring this date' % jsonfile)
+            continue
 
-    purge_dir(dirname, useful)
+        useful = get_useful_files(jsonfile)
+
+        if len(useful) < MIN_NEEDED_FILES_TO_COMPARE:
+            print('Not enough useful file to judge, ignoring this date')
+            continue
+
+        purge_dir(dirname, useful)
