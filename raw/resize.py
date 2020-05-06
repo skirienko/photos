@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 import os
+from subprocess import call
 import re
 from shutil import copy2
 import piexif
@@ -12,6 +13,7 @@ quality = 90
 
 watermarks = {}
 
+cmd_video_resize = './HandBrakeCLI.exe -i %s -o %s'
 
 def generate_watermark(text):
 
@@ -116,6 +118,7 @@ def resize(orig_path, new_path):
 
 
 rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.jpg', re.I) 
+rxVideo = re.compile(r'[a-z_]+\d+[a-z_]*\.mov', re.I) 
 
 for album, dates in albums.items():
 
@@ -142,3 +145,12 @@ for album, dates in albums.items():
                 new_path = '/'.join((outdir, filename))
 
                 resize(orig_path, new_path)
+
+            if rxVideo.match(filename):
+                print(filename)
+                orig_path = '/'.join((indir, filename))
+                new_path = '/'.join((outdir, filename))
+
+                print(cmd_video_resize % (orig_path, new_path))
+                call(cmd_video_resize % (orig_path, new_path))
+
