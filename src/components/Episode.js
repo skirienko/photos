@@ -32,7 +32,12 @@ const Episode = (props) => {
             :
             null
         }
-        {episode.video ?
+        {episode.type==='video' ?
+            <video controls src={`${path}/${episode.video}`} width="640" height="480" />
+            :
+            null
+        }
+        {episode.type==='vimeo' ?
             <Vimeo {...episode}></Vimeo>
             :
             null
