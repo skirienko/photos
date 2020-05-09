@@ -1,5 +1,6 @@
 import React from 'react';
 import Photos from './Photos';
+import Video from './Video';
 import Vimeo from './Vimeo';
 
 const rxTxt = /.*[^.:!? ]$/;
@@ -32,16 +33,8 @@ const Episode = (props) => {
             :
             null
         }
-        {episode.type==='video' ?
-            <video controls src={`${path}/${episode.video}`} width="640" height="480" />
-            :
-            null
-        }
-        {episode.type==='vimeo' ?
-            <Vimeo {...episode}></Vimeo>
-            :
-            null
-        }
+        {episode.type==='video' ? <Video path={path} {...episode} /> : null}
+        {episode.type==='vimeo' ? <Vimeo {...episode} /> : null}
         {episode.photos ? <Photos aspect={episode.aspect} photos={episode.photos} episode={episode.id} event={props.event} path={path} /> : null}
         </div>
     );
