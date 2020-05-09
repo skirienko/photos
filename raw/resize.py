@@ -117,6 +117,18 @@ def resize(orig_path, new_path):
                 copy2(orig_path, new_path)
 
 
+def resize_video(orig_path, new_path):
+
+    if os.path.exists(new_path):
+        if os.path.getmtime(new_path) >= os.path.getmtime(orig_path):
+            # print("already exists, origin hasn't changed")
+            return
+
+    print(cmd_video_resize % (orig_path, new_path))
+    call(cmd_video_resize % (orig_path, new_path))
+
+
+
 rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.jpg', re.I) 
 rxVideo = re.compile(r'[a-z_]+\d+[a-z_]*\.mov', re.I) 
 
@@ -151,6 +163,5 @@ for album, dates in albums.items():
                 orig_path = '/'.join((indir, filename))
                 new_path = '/'.join((outdir, filename))
 
-                print(cmd_video_resize % (orig_path, new_path))
-                call(cmd_video_resize % (orig_path, new_path))
+                resize_video(orig_path, new_path)
 
