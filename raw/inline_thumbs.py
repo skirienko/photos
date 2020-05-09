@@ -7,9 +7,7 @@ import utils
 outdir = '../public/data'
 
 filenames = [
-    'istanbul.json',
-    'kaliningrad.json',
-    'all-events.json',
+    'descr.json',
 ]
 
 
