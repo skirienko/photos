@@ -26,10 +26,8 @@ def add_inline_thumbs(filename):
     
     for event in events:
         print(event)
-        if "date" in event:
-            pic = '%s/%s/%s' % (outdir, event['date'], event['img'])
-        else:
-            pic = '%s/%s' % (outdir, event['img'])
+
+        pic = '%s/%s' % (outdir, event['photo'])
 
         thumb = utils.generate_thumb(pic)
 
