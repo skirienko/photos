@@ -38,24 +38,57 @@ class EventPage extends React.Component {
         }
         else {
             let path = `/data/${eventId}`;
+            let parentPath = "/data";
             let result = await this.fetchJsonFile(`${path}/descr.json`);
             // second try
             if (!result) {
                 let path = `/data/${placeId}/${eventId}`;
+                parentPath = `/data/${placeId}`;
                 result = await this.fetchJsonFile(`${path}/descr.json`);
             }
 
             if (result) {
                 result.path = path;
+                result.parentPath = parentPath;
                 result.toc = result.episodes.filter(item => item.subtitle);
                 const title = 'title' in result ? result.title : '';
                 this.setState({
                     [eventId]: result,
                     title: title,
+                    parent: null,
                 });
+
+                if (!(parentPath in this.state)) {
+                    this.fetchParent(parentPath, eventId).then(parent => {
+                        if (parent) {
+                            this.setState({
+                                [parentPath]: parent,
+                                [eventId]: {...this.state[eventId], parent: parent},
+                            })
+                        }
+                    });
+                }
             }
         }
         return event;
+    }
+
+    async fetchParent(path, eventId) {
+        let parent = null;
+        const res = await this.fetchJsonFile(`${path}/descr.json`);
+
+        if (res) {
+            parent = {title: res.title};
+            if (res.events) {
+                const idx = res.events.findIndex(item => item.date===eventId);
+                if (idx > -1) {
+                    parent.prev = idx > 0 ? res.events[idx - 1] : null;
+                    parent.next = idx + 1 < res.events.length ? res.events[idx + 1] : null;
+                }
+            }
+        }
+
+        return parent;
     }
 
     fetchPlace(placeId) {
@@ -90,13 +123,6 @@ class EventPage extends React.Component {
         this.setTitle(subtitle)
     }
 
-    getNavLinks() {
-        return {
-            prev: {title: "Prev", url: "#"},
-            next: {title: "Next", url: "#"},
-        }
-    }
-
     componentDidUpdate() {
         let hash = document.location.hash.replace('#', '');
         if (hash) {
@@ -112,14 +138,13 @@ class EventPage extends React.Component {
     }
 
     renderDate(item) {
-        // const placeId = this.props.match.params.place;
-        // const place = this.fetchPlace(placeId);
         return (<p className="normal-text event__date">{item.date}</p>);
     }
 
-    renderToc(data) {
-        return data.toc && data.toc.length ? (<div className="event__toc">
-                {data.toc
+    renderToc(props) {
+        const toc = props.toc;
+        return toc && toc.length ? (<div className="event__toc">
+                {toc
                     .map(item => (<a href={"#" + item.id} key={item.id}>{item.subtitle}</a>))
                     .reduce((prev, curr) => [prev, ' — ', curr])
                 }
@@ -128,28 +153,34 @@ class EventPage extends React.Component {
             null;
     }
 
+    renderNavigation(props) {
+        const nav = props.nav;
+        return (nav && (nav.prev || nav.next)) ?
+            <div className="footer footer__navigation">
+                {nav.prev ? <div className="footer-nav__prev"><a href={nav.prev.date}>&lt; {nav.prev.title}</a></div> : null}
+                {nav.next ? <div className="footer-nav__next"><a href={nav.next.date}>{nav.next.title} &gt;</a></div> : null}
+            </div>
+            :
+            null;
+    }
+
     render() {
         const eventId = this.props.match.params.event;
         const item = this.getItem(eventId);
-        const nav = this.getNavLinks();
+
+        const Toc = this.renderToc;
+        const Navigation = this.renderNavigation;
 
         this.setTitle();
 
         return item ?
             (<div className="event__page">
                 <h2>{item.title}</h2>
-                {this.renderDate(item)}
-                {this.renderToc(item)}
+                <p className="normal-text event__date">{item.date}</p>
+                <Toc toc={item.toc} />
                 <p className="normal-text description">{item.description}</p>
                 {item.episodes.map(episode => (<Episode episode={episode} event={eventId} key={episode.id} path={item.path} />))}
-                <div className="footer footer__navigation">
-                    <div>
-                        <a href={nav.prev.url}>{nav.prev.title}</a>
-                    </div>
-                    <div>
-                        <a href={nav.next.url}>{nav.next.title}</a>
-                    </div>
-                </div>
+                <Navigation nav={item.parent}/>
             </div>)
             :
             null;

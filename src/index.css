@@ -182,9 +182,15 @@ html.scroll-snap body {
 }
 
 .footer__navigation {
-  display: none;
-  flex: 1 1 auto;
-  flex-flow: row;
+  display: grid;
+}
+
+.footer-nav__prev {
+  grid-column: 1;
+}
+
+.footer-nav__next {
+  grid-column: 2;
 }
 
 @media (prefers-color-scheme: dark) {
