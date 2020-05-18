@@ -182,15 +182,42 @@ html.scroll-snap body {
 }
 
 .footer__navigation {
+  height: 2em;
+  width: 100%;
+  max-width: 1200px;
+  align-items: center;
+}
+
+.footer__navigation {
   display: grid;
+}
+
+.footer__navigation a {
+  color: #336699;
+  text-decoration: none;
+  transition: all .5s ease-out;
+}
+
+.footer__navigation a:hover {
+  color: #CC3333;
 }
 
 .footer-nav__prev {
   grid-column: 1;
+  justify-self: start;
+}
+
+.footer-nav__prev a::before {
+  content: "< ";
 }
 
 .footer-nav__next {
   grid-column: 2;
+  justify-self: end;
+}
+
+.footer-nav__next a::after {
+  content: " >";
 }
 
 @media (prefers-color-scheme: dark) {

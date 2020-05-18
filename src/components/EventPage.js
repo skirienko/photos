@@ -156,9 +156,9 @@ class EventPage extends React.Component {
     renderNavigation(props) {
         const nav = props.nav;
         return (nav && (nav.prev || nav.next)) ?
-            <div className="footer footer__navigation">
-                {nav.prev ? <div className="footer-nav__prev"><a href={nav.prev.date}>&lt; {nav.prev.title}</a></div> : null}
-                {nav.next ? <div className="footer-nav__next"><a href={nav.next.date}>{nav.next.title} &gt;</a></div> : null}
+            <div className="footer__navigation">
+                {nav.prev ? <div className="footer-nav__prev"><a href={nav.prev.date}>{nav.prev.title}</a></div> : null}
+                {nav.next ? <div className="footer-nav__next"><a href={nav.next.date}>{nav.next.title}</a></div> : null}
             </div>
             :
             null;
