@@ -5,8 +5,7 @@ class EventPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.state = {};
         this.io = new IntersectionObserver(this.changeTitle.bind(this));
     }
 
@@ -78,32 +77,22 @@ class EventPage extends React.Component {
         const res = await this.fetchJsonFile(`${path}/descr.json`);
 
         if (res) {
-            parent = {title: res.title};
-            if (res.events) {
-                const idx = res.events.findIndex(item => item.date===eventId);
+            const link = path.replace(/^\/data/, '');
+            parent = {
+                title: res.title,
+                path: link
+            };
+            const events = res.events || res;
+            if (events && events.length) {
+                const idx = events.findIndex(item => item.date===eventId);
                 if (idx > -1) {
-                    parent.prev = idx > 0 ? res.events[idx - 1] : null;
-                    parent.next = idx + 1 < res.events.length ? res.events[idx + 1] : null;
+                    parent.prev = idx > 0 ? events[idx - 1] : null;
+                    parent.next = idx + 1 < events.length ? events[idx + 1] : null;
                 }
             }
         }
 
         return parent;
-    }
-
-    fetchPlace(placeId) {
-        let place = null;
-        if (placeId in this.state) {
-            place = this.state[placeId];
-        }
-        else {
-            fetch(`/data/${placeId}.json`).then(d => d.json()).then(result => {
-                if (result) {
-                    this.setState({[placeId]: result});
-                }
-            });
-        }
-        return place;
     }
 
     setTitle(subtitle) {
@@ -121,6 +110,12 @@ class EventPage extends React.Component {
             subtitle = visibles[0].target.innerText;
         }
         this.setTitle(subtitle)
+    }
+
+    setParentLink(parent) {
+        if (parent && this.props.setSecondLink) {
+            this.props.setSecondLink({path: parent.path, children: parent.title});
+        }
     }
 
     componentDidUpdate() {
@@ -172,6 +167,10 @@ class EventPage extends React.Component {
         const Navigation = this.renderNavigation;
 
         this.setTitle();
+
+        if (item && item.parent) {
+            this.setParentLink(item.parent);
+        }
 
         return item ?
             (<div className="event__page">

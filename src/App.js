@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import EventsList from './components/EventsList';
 import PlacePage from './components/PlacePage';
 import EventPage from './components/EventPage';
-import LinkOrSpan from './components/LinkOrSpan';
+import AppHeader from './components/AppHeader';
 import Experimental from './components/Experimental';
 
 const SNAP_NAME = "scrollSnap";
@@ -27,6 +27,7 @@ export function setScrollSnap(value) {
   document.querySelector('html').classList[action]('scroll-snap');
 }
 
+
 class App extends Component {
 
   constructor() {
@@ -34,7 +35,8 @@ class App extends Component {
     setScrollSnap(getScrollSnap());
     this.state = {
       event: null,
-      events: null
+      events: null,
+      links: [{path: '/', children: "Фотографии"}]
     };
   }
 
@@ -45,20 +47,33 @@ class App extends Component {
     return null;
   }
 
-  render() {
-    const ProperLink = withRouter((props) =>
-          <LinkOrSpan path={props.path!==props.location.pathname ? props.path : null} className={props.className}>{props.children}</LinkOrSpan>);
+  async setSecondLink(link) {
+    const links = [...this.state.links];
+    if (link) {
+      if (!links[1] || links[1].path !== link.path || links[1].children !== link.children) {
+        links[1] = link;
+        this.setState({links:links});
+      }
+    }
+    else if (links[1]) {
+      console.log(link);
+      console.log(links);
+      delete links[1];
+      this.setState({links:links});
+    }
+  }
 
+  render() {
+    // not working not done
+    const setSecondLink = this.setSecondLink.bind(this);
     return (
       <Router>
       <div className="app">
-        <header className="app__header">
-          <h1 className="app__title"><ProperLink path="/" className="app__home">Фотографии</ProperLink></h1>
-        </header>
+        <AppHeader/>
         <div className="app__content">
           <Route exact path="/" component={EventsList}/>
           <Route exact path="/:place" component={PlacePage}/>
-          <Route path="/:place/:event" component={EventPage}/>
+          <Route path="/:place/:event" render={(props) => <EventPage setSecondLink={setSecondLink} {...props}/>}/>
         </div>
         <footer className="app__footer">
           <Route exact path="/" component={Experimental}/>
