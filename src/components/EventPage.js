@@ -112,12 +112,6 @@ class EventPage extends React.Component {
         this.setTitle(subtitle)
     }
 
-    setParentLink(parent) {
-        if (parent && this.props.setSecondLink) {
-            this.props.setSecondLink({path: parent.path, children: parent.title});
-        }
-    }
-
     componentDidUpdate() {
         let hash = document.location.hash.replace('#', '');
         if (hash) {
@@ -167,10 +161,6 @@ class EventPage extends React.Component {
         const Navigation = this.renderNavigation;
 
         this.setTitle();
-
-        if (item && item.parent) {
-            this.setParentLink(item.parent);
-        }
 
         return item ?
             (<div className="event__page">

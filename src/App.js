@@ -34,10 +34,23 @@ class App extends Component {
     super();
     setScrollSnap(getScrollSnap());
     this.state = {
-      event: null,
       events: null,
-      links: [{path: '/', children: "Фотографии"}]
+      albums: null,
     };
+  }
+
+  async componentDidMount() {
+    fetch('/data/descr.json').then(d => d.json()).then(result => {
+        if (result) {
+          const events = result;
+          const albums = {};
+          events.filter(ev => 'album' in ev).forEach(ev => {
+            albums[ev.album] = ev.title;
+          });
+          
+          this.setState({events: events, albums: albums});
+        }
+    });      
   }
 
   getEventIdFromMatchParams(params) {
@@ -47,33 +60,17 @@ class App extends Component {
     return null;
   }
 
-  async setSecondLink(link) {
-    const links = [...this.state.links];
-    if (link) {
-      if (!links[1] || links[1].path !== link.path || links[1].children !== link.children) {
-        links[1] = link;
-        this.setState({links:links});
-      }
-    }
-    else if (links[1]) {
-      console.log(link);
-      console.log(links);
-      delete links[1];
-      this.setState({links:links});
-    }
-  }
-
   render() {
-    // not working not done
-    const setSecondLink = this.setSecondLink.bind(this);
+    const {albums, events} = this.state;
+
     return (
       <Router>
       <div className="app">
-        <AppHeader/>
+        <AppHeader albums={albums}/>
         <div className="app__content">
-          <Route exact path="/" component={EventsList}/>
+          <Route exact path="/" render={props => <EventsList events={events} {...props}/>} />
           <Route exact path="/:place" component={PlacePage}/>
-          <Route path="/:place/:event" render={(props) => <EventPage setSecondLink={setSecondLink} {...props}/>}/>
+          <Route path="/:place/:event" render={props => <EventPage {...props}/>}/>
         </div>
         <footer className="app__footer">
           <Route exact path="/" component={Experimental}/>

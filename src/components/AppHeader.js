@@ -3,26 +3,31 @@ import { withRouter } from 'react-router-dom';
 import LinkOrSpan from './LinkOrSpan';
 
 
-export default class AppHeader extends Component {
+class AppHeader extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      links: [{path: '/', children: "Фотографии"}]
-    };
-  }
+  render () {
+    const { albums, location } = this.props;
+    const links = [
+      {path: '/', children: "Фотографии"}
+    ];
+    const parts = location.pathname.split('/');
 
-  render() {
-    const links = this.state.links;
-    const ProperLink = withRouter((props) =>
-          <LinkOrSpan path={props.path!==props.location.pathname ? props.path : null} className={props.className}>{props.children}</LinkOrSpan>);
+    if (parts && parts.length > 2 && parts[0]==='') {
+      const a = parts[1];
+      if (albums && a in albums) {        
+        const link = { path: `/${a}`, children: albums[a] };
+        links.push(link);
+      }
+    }
 
     return (
       <header className="app__header">
         <h1 className="app__title">
-          {links.map(link => <ProperLink key={link.path} path={link.path} className="app__home">{link.children}</ProperLink>).reduce((prev, curr) => [prev, ' › ', curr])}
+          {links.map(link => <LinkOrSpan key={link.path} path={link.path !== location.pathname ? link.path : null} className="app__home">{link.children}</LinkOrSpan>).reduce((a, b) => [a, ' › ', b])}
         </h1>
       </header>
     );
   }
 }
+
+export default withRouter(AppHeader);

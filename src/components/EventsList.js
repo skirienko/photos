@@ -3,20 +3,22 @@ import EventListItem from './EventListItem';
 
 class EventsList extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            events: null
+            events: props.events
         };
     }
 
     componentDidMount() {
         document.title = "Фотографии";
-        fetch('/data/descr.json').then(d => d.json()).then(result => {
-            if (result) {
-              this.setState({events: result});
-            }
-          });      
+        if (!this.state.events) {
+            fetch('/data/descr.json').then(d => d.json()).then(result => {
+                if (result) {
+                  this.setState({events: result});
+                }
+              });      
+        }
     }
 
     render() {
