@@ -8,14 +8,17 @@ from datetime import datetime, timedelta
 
 # date = '2017-07-11'
 # date = '2018-09-11'
-date = '2018-09-12'
+# date = '2015-04-17'
+
+dirname = 'portugal/2015-04-17'
+
 
 EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S'
 
-filename = '%s/descript_orig.ion' % date
-file2 = io.open('%s/descript.ion' % date, 'w', encoding='utf8')
+filename = '%s/descript_orig.ion' % dirname
+file2 = io.open('%s/descript.ion' % dirname, 'w')
 
-rxPhoto = re.compile(r'[a-z_]+\d+\.(jpg|jpeg)', re.I)
+rxPhoto = re.compile(r'[a-z_\-]+\d+\.(jpg|jpeg)', re.I)
 
 with open(filename, 'r') as fd:
     lines = fd.readlines()
@@ -26,8 +29,8 @@ with open(filename, 'r') as fd:
 
     items = []
 
-    photodir = '%s' % date
-    if os.path.isdir('%s/orig' % date):
+    photodir = '%s' % dirname
+    if os.path.isdir('%s/orig' % dirname):
         photodir += '/orig' 
 
     for pair in pairs:
