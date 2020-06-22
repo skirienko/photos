@@ -12,7 +12,9 @@
 # photos
 /public/data/**/*.JPG
 /public/data/**/*.jpg
+/public/data/**/*.jpeg
 /raw/**/*.JPG
+/raw/**/*.jpeg
 
 # video
 /raw/**/*.mp4
