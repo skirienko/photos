@@ -14,7 +14,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "^3.4.1",
     "react-transition-group": "^2.9.0",
-    "serve": "^11.3.0"
+    "serve": "^11.3.2"
   },
   "devDependencies": {
     "@types/react": "^16.9.35",
