@@ -14,12 +14,12 @@
 
 a.app__home[href] {
   color: #336699;
-  text-decoration-color: #33669966;
-  text-decoration-thickness: 2px;
+  text-decoration: none;
+  border-bottom: 1px solid #33669944;
 }
 a.app__home[href]:hover {
   color: #CC3333;
-  text-decoration-color: #CC333366;
+  border-color: #CC333344;
 }
 
 .app__footer {
