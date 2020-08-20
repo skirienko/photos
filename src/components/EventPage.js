@@ -41,7 +41,7 @@ class EventPage extends React.Component {
             let result = await this.fetchJsonFile(`${path}/descr.json`);
             // second try
             if (!result) {
-                let path = `/data/${placeId}/${eventId}`;
+                path = `/data/${placeId}/${eventId}`;
                 parentPath = `/data/${placeId}`;
                 result = await this.fetchJsonFile(`${path}/descr.json`);
             }
