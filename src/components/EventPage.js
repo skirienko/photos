@@ -1,6 +1,8 @@
 import React from 'react';
 import Episode from './Episode';
 
+const JOINER = ' — ';
+
 class EventPage extends React.Component {
 
     constructor(props) {
@@ -33,7 +35,6 @@ class EventPage extends React.Component {
         let event = null;
         if (eventId in this.state) {
             event = this.state[eventId];
-            document.title = event.title;
         }
         else {
             let path = `/data/${eventId}`;
@@ -50,22 +51,23 @@ class EventPage extends React.Component {
                 result.path = path;
                 result.parentPath = parentPath;
                 result.toc = result.episodes.filter(item => item.subtitle);
-                const title = 'title' in result ? result.title : '';
+                const parent = this.state[parentPath] || null;
                 this.setState({
                     [eventId]: result,
-                    title: title,
-                    parent: null,
+                    parent: parent,
+                    title: this.baseTitle(parent, result),
                 });
+                
+            }
 
-                if (!(parentPath in this.state)) {
-                    this.fetchParent(parentPath, eventId).then(parent => {
-                        if (parent) {
-                            this.setState({
-                                [parentPath]: parent,
-                                [eventId]: {...this.state[eventId], parent: parent},
-                            })
-                        }
-                    });
+            if (!(parentPath in this.state)) {
+                const parent = await this.fetchParent(parentPath, eventId);
+                if (parent) {
+                    this.setState({
+                        [parentPath]: parent,
+                        [eventId]: {...this.state[eventId], parent: parent},
+                        title: this.baseTitle(parent, result),
+                    })
                 }
             }
         }
@@ -95,12 +97,23 @@ class EventPage extends React.Component {
         return parent;
     }
 
+    baseTitle(parent, event) {
+        const arrTitle = [];
+        if (parent && parent.title) {
+            arrTitle.push(parent.title);
+        }
+        if (event && event.title) {
+            arrTitle.push(event.title);
+        }
+        return arrTitle.join(JOINER);
+    }
+
     setTitle(subtitle) {
         const parts = [this.state.title];
         if (subtitle) {
             parts.push(subtitle);
         }
-        document.title = parts.join(' – ');
+        document.title = parts.join(JOINER);
     }
 
     changeTitle(entries) {
