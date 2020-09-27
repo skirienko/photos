@@ -183,6 +183,7 @@ html.scroll-snap body {
 
 .footer__navigation {
   height: 2em;
+  margin-top: 1em;
   width: 100%;
   max-width: 1200px;
   align-items: center;
@@ -226,6 +227,10 @@ html.scroll-snap body {
     color: #CCC;
   }
 
+  .events__item a {
+     color: #3590EB;
+  }
+
   .events__item a img {
     border-color: #333;
   }
@@ -246,5 +251,9 @@ html.scroll-snap body {
     
   .photo {
     background: #333;
+  }
+	
+  .footer__navigation a {
+    color: #3590EB;
   }
 }
