@@ -30,5 +30,8 @@ a.app__home[href]:hover {
   .app__header {
     padding: 1em 2%;
     color: #EEE;
-  }  
+  }
+  a.app__home[href] {
+    color: #3590EB;
+  }
 }
