@@ -33,5 +33,9 @@ a.app__home[href]:hover {
   }
   a.app__home[href] {
     color: #3590EB;
+    border-color: #3590EB66;
+  }
+  a.app__home[href]:hover {
+    border-color: #CC333366;
   }
 }
