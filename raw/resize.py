@@ -15,6 +15,11 @@ watermarks = {}
 
 cmd_video_resize = './HandBrakeCLI.exe -i %s -o %s'
 
+# albums = {
+#     'portugal': ('2015-04-19',)
+# }
+
+
 def generate_watermark(text):
 
     font_size_px = 20
@@ -129,8 +134,8 @@ def resize_video(orig_path, new_path):
 
 
 
-rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.jpg', re.I) 
-rxVideo = re.compile(r'[a-z_]+\d+[a-z_]*\.mov', re.I) 
+rxPhoto = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.jpe?g', re.I) 
+rxVideo = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.mov', re.I) 
 
 for album, dates in albums.items():
 
