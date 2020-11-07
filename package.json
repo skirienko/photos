@@ -1,10 +1,9 @@
 {
   "name": "photos-app",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "private": true,
   "homepage": "https://photos.skirienko.info/",
   "dependencies": {
-    "css-loader": "^3.6.0",
     "dom-helpers": "^3.4.0",
     "minisearch": "^2.6.2",
     "react": "^16.13.1",
