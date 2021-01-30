@@ -1,6 +1,6 @@
 {
   "name": "photos-app",
-  "version": "0.2.5",
+  "version": "0.2.7",
   "private": true,
   "homepage": "https://photos.skirienko.info/",
   "dependencies": {
