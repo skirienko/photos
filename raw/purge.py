@@ -21,6 +21,8 @@ def get_useful_files(jsonfile):
             useful.append(episode['photo'])
         elif 'video' in episode:
             useful.append(episode['video'])
+            if 'poster' in episode:
+                useful.append(episode['poster'])
 
     return useful
 
