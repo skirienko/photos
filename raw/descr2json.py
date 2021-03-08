@@ -125,7 +125,10 @@ def lines2data(lines, outdir):
             fullpath = '%s/%s' % (outdir, filename)
             if os.path.isfile(fullpath):
                 print("%s -> %s" % (fullpath, text))
-                item = create_video_item(filename, text, episode_id)
+                poster = filename+'.jpg'
+                if not os.path.exists('%s/%s' % (outdir, poster)):
+                    poster = None
+                item = create_video_item(filename, text, episode_id, poster)
                 episodes.append(item)
                 episode_id += 1
                 prevItem = item
@@ -197,12 +200,14 @@ def add_photo_to_item(filename, item):
     item['photos'].append(filename)
 
 
-def create_video_item(filename, text, episode_id):
+def create_video_item(filename, text, episode_id, poster=None):
     item = {}
     item['id'] = episode_id
     item['type'] = 'video'
     item['video'] = filename
     item['descr'] = text
+    if poster:
+        item['poster'] = poster
     return item
 
 def create_vimeo_item(code, text, episode_id):
