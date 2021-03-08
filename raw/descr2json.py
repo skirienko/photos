@@ -274,7 +274,13 @@ def generate_date_descr(album, date):
     with open(outfile, 'w', encoding='utf8') as ofd:
         ofd.write(jsondump)
 
-
+# albums = {
+#     'portugal': (
+#         '2015-04-17',
+#         '2015-04-18',
+#         '2015-04-19',
+#     ),
+# }
 for album, dates in albums.items():
 
     generate_album_descr(album)
