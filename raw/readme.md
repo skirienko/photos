@@ -2,7 +2,7 @@ Typical workflow
 ================
 
 1. Put a folder with photos named like '2019-10-25'
-2. Create a file descript.ion in it. For Windows use `dir /B > descript.ion`
+2. Create a file descript.ion in it. For Windows use `dir /B > descript.ion`. For POSIX use `ls -1 > descript.ion`
 3. If you have images from different sources you may want to order them by time of creation not by name. Use `python3 sortbyexifdate.py` to order by the date from EXIF.
 4. Sometimes photos from different sources may have wrong time settings, so you may need to synchronize their EXIF datetime first. Use `change_exif_time.py` script or
 `jhead` utility to do that.
@@ -141,3 +141,9 @@ jhead.exe -ta-02:55:15 IMG_*.JPG
 jhead.exe -ta-00:00:39 IMG_*.JPG
 jhead.exe -ta-00:00:26 IMG-*.JPG
 
+2015-04-20
+==========
+
+Done:
+./jhead -ta-02:55:54 IMG_*.JPG
+./jhead -ta-00:00:26 IMG-*.JPG
