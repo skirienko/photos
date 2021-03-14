@@ -13,19 +13,26 @@ def get_useful_files(jsonfile):
     with open(jsonfile, 'r', encoding='utf8') as content:
         data = json.load(content)
 
-    for episode in data['episodes']:
-        if 'photos' in episode:
-            for p in episode['photos']:
-                useful.append(p)
-        elif 'photo' in episode:
-            useful.append(episode['photo'])
-        elif 'video' in episode:
-            useful.append(episode['video'])
-            if 'poster' in episode:
-                useful.append(episode['poster'])
+    sections = []
+    if 'episodes' in data:
+        sections.append({'episodes': data['episodes']})
+    elif 'sections' in data:
+        sections = data['sections']
+
+
+    for section in sections:
+        for episode in section['episodes']:
+            if 'photos' in episode:
+                for p in episode['photos']:
+                    useful.append(p)
+            elif 'photo' in episode:
+                useful.append(episode['photo'])
+            elif 'video' in episode:
+                useful.append(episode['video'])
+                if 'poster' in episode:
+                    useful.append(episode['poster'])
 
     return useful
-
 
 def purge_dir(dirname, useful):
 
