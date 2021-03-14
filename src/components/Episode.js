@@ -36,7 +36,7 @@ const Episode = (props) => {
         }
         {episode.type==='video' ? <Video path={path} {...episode} /> : null}
         {episode.type==='vimeo' ? <Vimeo {...episode} /> : null}
-        {episode.photos ? <Photos aspect={episode.aspect} photos={episode.photos} episode={episode.id} event={props.event} path={path} /> : null}
+        {episode.photos ? <Photos aspect={episode.aspect} photos={episode.photos} episode={episode.id} path={path} /> : null}
         </div>
     );
 }

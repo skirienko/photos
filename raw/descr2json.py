@@ -9,6 +9,10 @@ import cchardet as chardet
 from presets import albums
 from utils import get_aspect, select_cover, generate_thumb
 
+# albums = {
+#     'portugal': ('2015-04-17','2015-04-18','2015-04-19','2015-04-20')
+# }
+
 date = ''
 
 rxDate = re.compile(r'\d{4}-\d\d-\d\d', re.I)
@@ -85,15 +89,17 @@ def lines2album_data(lines, album, outdir):
 
 def lines2data(lines, outdir):
 
-    episodes = []
+    sections = []
     title = lines[0].strip()
     descr = ''
     
     prevItem = None
     prevText = ''
     episode_id = 1
-    subtitle_id = 1
+    section_id = 1
 
+    episodes = []
+    section = {'episodes':[], 'id':'section-0'}
     for i, line in enumerate(lines[1:]):
         pair = line.strip().split(' ', 1)
         filename = pair[0]
@@ -109,7 +115,7 @@ def lines2data(lines, outdir):
                     if text == '':
                         text = prevText
                     item = create_photo_item(filename, text, episode_id, aspect)
-                    episodes.append(item)
+                    section['episodes'].append(item)
                     episode_id += 1
                     prevItem = item
                 else:
@@ -129,7 +135,7 @@ def lines2data(lines, outdir):
                 if not os.path.exists('%s/%s' % (outdir, poster)):
                     poster = None
                 item = create_video_item(filename, text, episode_id, poster)
-                episodes.append(item)
+                section['episodes'].append(item)
                 episode_id += 1
                 prevItem = item
 
@@ -138,7 +144,7 @@ def lines2data(lines, outdir):
             m = rxVimeo.match(filename)
             code = m.group(1)
             item = create_vimeo_item(code, text, episode_id)
-            episodes.append(item)
+            section['episodes'].append(item)
             episode_id += 1
             prevItem = item
 
@@ -147,16 +153,23 @@ def lines2data(lines, outdir):
                 descr = line
 
             if line != title and line != descr:
-                item = create_subtitle_item(line, subtitle_id)
-                episodes.append(item)
-                subtitle_id += 1
+                sections.append(section)
+                section = {'episodes': []}
+                item = create_subtitle_item(line, section_id)
+                if item['id']:
+                    section['id'] = item['id']
+                if item['subtitle']:
+                    section['title'] = item['subtitle']
+                
+                section_id += 1
 
+    sections.append(section)
     data = {
         "title": title,
         "description": descr,
-        "date": date
+        "date": date,
+        "sections": sections
     }
-    data['episodes'] = episodes
 
     return data
 

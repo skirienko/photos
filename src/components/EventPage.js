@@ -1,5 +1,5 @@
 import React from 'react';
-import Episode from './Episode';
+import Section from './Section';
 
 const JOINER = ' — ';
 
@@ -50,7 +50,12 @@ class EventPage extends React.Component {
             if (result) {
                 result.path = path;
                 result.parentPath = parentPath;
-                result.toc = result.episodes.filter(item => item.subtitle);
+                if ('sections' in result) {
+                    result.toc = result.sections.filter(s => s.title).map(s => ({id:s.id, subtitle:s.title}));
+                }
+                else if ('episodes' in result) {
+                    result.toc = result.episodes.filter(item => item.subtitle);
+                }
                 const parent = this.state[parentPath] || null;
                 this.setState({
                     [eventId]: result,
@@ -117,12 +122,12 @@ class EventPage extends React.Component {
     }
 
     changeTitle(entries) {
-        let subtitle;
         const visibles = entries.filter(en => en.isIntersecting);
         if (visibles.length) {
-            subtitle = visibles[0].target.innerText;
+            const header = visibles[0].target.querySelectorAll("h3")[0];
+            const subtitle = header ? header.innerText : null;
+            this.setTitle(subtitle);
         }
-        this.setTitle(subtitle)
     }
 
     componentDidUpdate() {
@@ -135,7 +140,7 @@ class EventPage extends React.Component {
                     this.setTitle(node.innerText);
             }
         }
-        const targets = document.querySelectorAll(".event__subtitle");
+        const targets = document.querySelectorAll("main section");
         targets.forEach(t => this.io.observe(t))
     }
 
@@ -145,12 +150,12 @@ class EventPage extends React.Component {
 
     renderToc(props) {
         const toc = props.toc;
-        return toc && toc.length ? (<div className="event__toc">
+        return toc && toc.length ? (<nav className="event__toc">
                 {toc
                     .map(item => (<a href={"#" + item.id} key={item.id}>{item.subtitle}</a>))
                     .reduce((prev, curr) => [prev, ' — ', curr])
                 }
-            </div>)
+            </nav>)
             :
             null;
     }
@@ -158,10 +163,10 @@ class EventPage extends React.Component {
     renderNavigation(props) {
         const nav = props.nav;
         return (nav && (nav.prev || nav.next)) ?
-            <div className="footer__navigation">
+            <footer className="footer__navigation">
                 {nav.prev ? <div className="footer-nav__prev"><a href={nav.prev.date}>{nav.prev.title}</a></div> : null}
                 {nav.next ? <div className="footer-nav__next"><a href={nav.next.date}>{nav.next.title}</a></div> : null}
-            </div>
+            </footer>
             :
             null;
     }
@@ -175,15 +180,24 @@ class EventPage extends React.Component {
 
         this.setTitle();
 
+        var sections = null;
+        if (item) {
+            sections = 'sections' in item ? item.sections : [{id:'section-0', episodes: item.episodes}];
+        }
+
         return item ?
-            (<div className="event__page">
+            (<article className="event__page">
+                <header>
                 <h2>{item.title}</h2>
-                <p className="normal-text event__date">{item.date}</p>
-                <Toc toc={item.toc} />
-                <p className="normal-text description">{item.description}</p>
-                {item.episodes.map(episode => (<Episode episode={episode} event={eventId} key={episode.id} path={item.path} />))}
+                    <p className="normal-text event__date">{item.date}</p>
+                    <Toc toc={item.toc} />
+                    <p className="normal-text description">{item.description}</p>
+                </header>
+                <main>
+                    {sections.map(sec => (<Section key={sec.id} path={item.path} {...sec} />))}
+                </main>
                 <Navigation nav={item.parent}/>
-            </div>)
+            </article>)
             :
             null;
     }
