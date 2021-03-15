@@ -13,10 +13,11 @@ quality = 90
 
 watermarks = {}
 
-cmd_video_resize = './HandBrakeCLI.exe -i %s -o %s'
+# cmd_video_resize = './HandBrakeCLI.exe -i %s -o %s' # Windows
+cmd_video_resize = './HandBrakeCLI -i %s -o %s' # macOS
 
 # albums = {
-#     'portugal': ('2015-04-19',)
+#     'portugal': ('2015-04-17','2015-04-18','2015-04-19','2015-04-20')
 # }
 
 
@@ -126,11 +127,11 @@ def resize_video(orig_path, new_path):
 
     if os.path.exists(new_path):
         if os.path.getmtime(new_path) >= os.path.getmtime(orig_path):
-            # print("already exists, origin hasn't changed")
+            print("already exists, origin hasn't changed")
             return
 
-    print(cmd_video_resize % (orig_path, new_path))
-    call(cmd_video_resize % (orig_path, new_path))
+    print(['./HandBrakeCLI', '-i', orig_path, '-o', new_path])
+    call(['./HandBrakeCLI', '-i', orig_path, '-o', new_path])
 
 
 
@@ -158,15 +159,15 @@ for album, dates in albums.items():
         for filename in ls:
             if rxPhoto.match(filename):
                 print(filename)
-                orig_path = '/'.join((indir, filename))
+                orig_path = '/'.join(('.', indir, filename))
                 new_path = '/'.join((outdir, filename))
 
                 resize(orig_path, new_path)
 
             if rxVideo.match(filename):
                 print(filename)
-                orig_path = '/'.join((indir, filename))
-                new_path = '/'.join((outdir, filename))
+                orig_path = '/'.join(('.', indir, filename))
+                new_path = '/'.join(('.', outdir, filename))
 
                 resize_video(orig_path, new_path)
 
