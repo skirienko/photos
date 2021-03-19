@@ -2,5 +2,5 @@ cchardet==2.1.7
 colorama==0.4.4
 lazy-object-proxy==1.5.2
 piexif==1.1.3
-Pillow==8.1.0
+Pillow==8.1.1
 six==1.15.0
