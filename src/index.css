@@ -140,6 +140,14 @@ html.scroll-snap body {
   margin: 16px 0 8px 0;
 }
 
+.normal-text a {
+  color: #336699;
+}
+
+.normal-text a:hover {
+  color: #CC3333;
+}
+
 .experimental {
   display: none;
 }
@@ -248,11 +256,19 @@ html.scroll-snap body {
     color: #CCC;
     border-bottom-color: #CCC;
   }
+
+  .normal-text a {
+    color: #3590EB;
+  }
+
+  .normal-text a:hover {
+    color: #CC3333;
+  }
     
   .photo {
     background: #333;
   }
-	
+		
   .footer__navigation a {
     color: #3590EB;
   }

@@ -5,6 +5,16 @@ import Vimeo from './Vimeo';
 
 const rxTxt = /.*[^.:!? ]$/;
 
+const mdify = (text) => {
+    const splitter = /(\[[^\]]+\]\([^)]+\))/;
+    const matcher = /^\[([^\]]+)\]\(([^)]+)\)$/;
+    const lnk = (s) => {
+        const m = s.match(matcher);
+        return (<a href={m[2]} key={m[2]}>{m[1]}</a>);
+    }
+    return <>{text.split(splitter).map(s => matcher.test(s) ? lnk(s) : s)}</>;
+}; 
+
 const Episode = (props) => {
     const path = props.path;
     const episode = props.episode;
@@ -23,6 +33,7 @@ const Episode = (props) => {
     if (text && text.match(rxTxt)) {
         text += ":";
     }
+    text = mdify(text);
 
     return (
         <div className="episode" id={`e${episode.id}`}>
