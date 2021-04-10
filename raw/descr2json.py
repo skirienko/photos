@@ -4,10 +4,9 @@ import io
 from PIL import Image
 from PIL.ExifTags import TAGS
 import os.path
-import cchardet as chardet
 
 from presets import albums
-from utils import get_aspect, select_cover, generate_thumb
+from utils import get_aspect, select_cover, generate_thumb, read_descr_file
 
 # albums = {
 #     'portugal': ('2015-04-17','2015-04-18','2015-04-19','2015-04-20')
@@ -23,20 +22,6 @@ rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
 
 def need_to_rebuild(infile, outfile):
     return not os.path.exists(outfile) or os.path.getmtime(infile) > os.path.getmtime(outfile)
-
-
-def detect_encoding(filename):
-    with open(filename, 'rb') as probe:
-        txt = probe.read()
-        enc = chardet.detect(txt)
-        return enc['encoding']
-    
-
-def read_descr_file(filename):
-    with open(filename, 'r', encoding=detect_encoding(filename)) as fd:
-        lines = fd.readlines()
-
-    return lines
 
 
 def lines2album_data(lines, album, outdir):
@@ -158,6 +143,7 @@ def lines2data(lines, outdir):
                 item = create_subtitle_item(line, section_id)
                 if item['id']:
                     section['id'] = item['id']
+                    section['tags'] = [item['id'],]
                 if item['subtitle']:
                     section['title'] = item['subtitle']
                 
@@ -246,6 +232,7 @@ def create_subtitle_item(line, subtitle_id):
     item['subtitle'] = subtitle
     item['id'] = hash
     return item
+
 
 def generate_album_descr(album):
     infile = '%s/descript.ion' % album

@@ -3,6 +3,7 @@ from os import path, listdir
 import io
 import base64
 import re
+import cchardet as chardet
 
 rxPhoto = re.compile(r'[a-z_]+\d+[a-z_]*\.jpe?g', re.I)
 
@@ -47,3 +48,19 @@ def generate_thumb(fullname):
         print("No such file: %s" % fullname)
 
     return thumb
+
+
+
+
+def detect_encoding(filename):
+    with open(filename, 'rb') as probe:
+        txt = probe.read()
+        enc = chardet.detect(txt)
+        return enc['encoding']
+    
+
+def read_descr_file(filename):
+    with open(filename, 'r', encoding=detect_encoding(filename)) as fd:
+        lines = fd.readlines()
+
+    return lines
