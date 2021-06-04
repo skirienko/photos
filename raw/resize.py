@@ -16,10 +16,15 @@ watermarks = {}
 # cmd_video_resize = './HandBrakeCLI.exe -i %s -o %s' # Windows
 cmd_video_resize = './HandBrakeCLI -i %s -o %s' # macOS
 
-# albums = {
-#     'portugal': ('2015-04-17','2015-04-18','2015-04-19','2015-04-20')
-# }
+#albums = {
+#    'portugal': ('2015-04-17','2015-04-18','2015-04-19','2015-04-20')
+#}
+albums = {
+   'kaliningrad': ('2008-05-01','2008-05-02'),
+   'austro-hungary': ('2018-09-11',),
+}
 
+SKIP_VIDEO = 1
 
 def generate_watermark(text):
 
@@ -164,7 +169,7 @@ for album, dates in albums.items():
 
                 resize(orig_path, new_path)
 
-            if rxVideo.match(filename):
+            if rxVideo.match(filename) and not SKIP_VIDEO:
                 print(filename)
                 orig_path = '/'.join(('.', indir, filename))
                 new_path = '/'.join(('.', outdir, filename))
