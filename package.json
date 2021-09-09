@@ -6,10 +6,9 @@
   "dependencies": {
     "dom-helpers": "^3.4.0",
     "minisearch": "^2.6.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
+    "next": "^11.0.1",
+    "react": "latest",
+    "react-dom": "latest",
     "serve": "^11.3.2"
   },
   "devDependencies": {
@@ -18,12 +17,12 @@
     "source-map-explorer": "^2.5.2"
   },
   "scripts": {
+    "dev": "next dev",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "next start",
+    "build": "next build",
     "test": "react-scripts test --env=jsdom",
-    "deploy": "rclone sync build/ hosting:photos/",
-    "eject": "react-scripts eject"
+    "deploy": "rclone sync build/ hosting:photos/"
   },
   "browserslist": [
     ">0.2%",
