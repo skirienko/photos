@@ -17,8 +17,12 @@ watermarks = {}
 cmd_video_resize = './HandBrakeCLI -i %s -o %s' # macOS
 
 # albums = {
-#     'portugal': ('2015-04-17','2015-04-18','2015-04-19','2015-04-20')
+#     'portugal': ('2015-04-20',)
 # }
+
+albums = {
+    '.': ('2015-06-11',)
+}
 
 
 def generate_watermark(text):
