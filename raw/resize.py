@@ -168,7 +168,7 @@ for album, dates in albums.items():
 
                 resize(orig_path, new_path)
 
-            if rxVideo.match(filename):
+            if rxVideo.match(filename) and not SKIP_VIDEO:
                 print(filename)
                 orig_path = '/'.join(('.', indir, filename))
                 new_path = '/'.join(('.', outdir, filename))
