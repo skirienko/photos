@@ -220,7 +220,8 @@ class Photos extends Component {
     renderFrame(frame) {
         const src = `${this.path}/${frame.photo}`;
         const jsxFrame = (
-            <div key={frame.type+frame.photo} className={'photo '+frame.type} {...frame.events}>
+            <div key={frame.type+frame.photo} className={'photo '+frame.type}
+                style={frame.style} {...frame.events}>
                 <img src={src} alt=""/>
             </div>
         );
@@ -243,6 +244,9 @@ class Photos extends Component {
             {type: 'curr', photo: this.props.photos[currIdx]},
             {type: 'next', photo: this.props.photos[nextIdx]},
         ];
+        if (this.props.aspect) {
+            frames.forEach(f => f['style'] = {paddingBottom: this.props.aspect+"%"});    
+        }
         const frameEvents = {
             onClick: this.click.bind(this),
             onMouseDown: this.switchStart.bind(this),
