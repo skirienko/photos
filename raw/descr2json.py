@@ -6,7 +6,8 @@ from PIL.ExifTags import TAGS
 import os.path
 
 from presets import albums
-from utils import get_aspect, select_cover, generate_thumb, read_descr_file
+from utils import get_aspect, select_cover, generate_thumb, read_descr_file, rxDate, rxPhoto
+from collect_tags import strip_end_tags
 
 # albums = {
 #     'portugal': ('2015-04-17','2015-04-18','2015-04-19','2015-04-20')
@@ -14,8 +15,6 @@ from utils import get_aspect, select_cover, generate_thumb, read_descr_file
 
 date = ''
 
-rxDate = re.compile(r'\d{4}-\d\d-\d\d', re.I)
-rxPhoto = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.(jpe?g|png|gif|webp)', re.I)
 rxVideo = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.mov', re.I)
 rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
 
@@ -89,6 +88,13 @@ def lines2data(lines, outdir):
         pair = line.strip().split(' ', 1)
         filename = pair[0]
         text = pair[1] if len(pair) > 1 else ''
+        # searching for tags in the text
+        res = strip_end_tags(text)
+        if len(res['tags']) > 0:
+            text = res['text']
+            tags = res['tags']
+        else:
+            tags = []
 
         if rxPhoto.match(filename):
             fullpath = '%s/%s' % (outdir, filename)
@@ -100,6 +106,8 @@ def lines2data(lines, outdir):
                     if text == '':
                         text = prevText
                     item = create_photo_item(filename, text, episode_id, aspect)
+                    if len(tags):
+                        item['tags'] = tags
                     section['episodes'].append(item)
                     episode_id += 1
                     prevItem = item
@@ -245,7 +253,7 @@ def generate_album_descr(album):
         return
 
     if not need_to_rebuild(infile, outfile) and False:
-        print('Already exists, origin hasn\'t changed')
+        print("Already exists, origin hasn't changed")
         return
 
     lines = read_descr_file(infile)
@@ -268,7 +276,7 @@ def generate_date_descr(album, date):
         return
 
     if not need_to_rebuild(infile, outfile):
-        print('Already exists, origin hasn\'t changed')
+        print("Already exists, origin hasn't changed")
         return
 
     lines = read_descr_file(infile)
