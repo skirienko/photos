@@ -118,7 +118,11 @@ html.scroll-snap body {
 
 @media screen and  (max-width:919px) {
   .normal-text {
-    font-size: 14px;
+    font-size: 15px;
+  }
+
+  .event__toc {
+    font-size: 15px;
   }
 }
 
