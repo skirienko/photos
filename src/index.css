@@ -123,10 +123,13 @@ html.scroll-snap body {
 
 .normal-text a {
   color: #336699;
+  text-underline-offset: 2pt;
+  text-decoration-color: #33669966;
 }
 
 .normal-text a:hover {
-  color: #CC3333;
+  color: hsl(0, 60%, 50%);
+  text-decoration-color: #CC333366;
 }
 
 .experimental {
@@ -220,6 +223,10 @@ html.scroll-snap body {
      color: #3590EB;
   }
 
+  .events__item a:hover {
+    color: #EB3333;
+ }
+
   .events__item a img {
     border-color: #333;
   }
@@ -240,14 +247,18 @@ html.scroll-snap body {
 
   .normal-text a {
     color: #3590EB;
+    text-decoration-color: #3590EB66;
   }
 
   .normal-text a:hover {
-    color: #CC3333;
+    color: #EB3333;
+    text-decoration-color: #EB333366;
   }
     
   .photo {
     background: #333;
+    background: linear-gradient(135deg, #333 0%, #222 100%) #333;
+
   }
 		
   .footer__navigation a {
