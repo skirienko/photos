@@ -6,6 +6,17 @@ import './Photos.css';
 
 const TRANSITION_TIME = 500;
 
+function Frame(props) {
+    const {type, photo, style, path} = props;
+    const src = `${path}/${photo}`;
+    const jsxFrame = (
+        <div key={type+photo} className={'photo '+type} style={style}>
+            <img src={src} alt=""/>
+        </div>
+    );
+    return jsxFrame;
+}
+
 class Photos extends Component {
 
     constructor(props) {
@@ -13,11 +24,6 @@ class Photos extends Component {
         this.len = props.photos.length;
         this.path = props.path;
         this.episode = props.episode;
-        this.jsxFrames = {
-            'prev': null,
-            'curr': null,
-            'next': null,
-        };
         this.state = {
             transition: false,
             selected: 0,
@@ -217,18 +223,6 @@ class Photos extends Component {
         }
     }
 
-    renderFrame(frame) {
-        const src = `${this.path}/${frame.photo}`;
-        const jsxFrame = (
-            <div key={frame.type+frame.photo} className={'photo '+frame.type}
-                style={frame.style} {...frame.events}>
-                <img src={src} alt=""/>
-            </div>
-        );
-        this.jsxFrames[frame.type] = jsxFrame;
-        return jsxFrame;
-    }
-
     render() {
         const photosStyle = {
             paddingBottom: this.props.aspect ? this.props.aspect+"%" : null,
@@ -262,7 +256,7 @@ class Photos extends Component {
             <div className="stretch">
               <div className="frame">
                 <div className={'photos '+(this.state.transition ? 'grabbing':'')} style={photosStyle} {...frameEvents}>
-                  { frames.map(frame => this.renderFrame(frame)) }
+                  { frames.map(frame => <Frame key={frame.type} path={this.path} {...frame}/>) }
                 </div>
                 {this.getPrevArrow(currIdx)}
                 {this.getNextArrow(currIdx)}
