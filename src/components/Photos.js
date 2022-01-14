@@ -17,6 +17,10 @@ function Frame(props) {
     return jsxFrame;
 }
 
+function Arrow({type, hash, click, children}) {
+    return <Link to={'#'+hash} className={"arr arr__"+type} onClick={click}>{children}</Link>
+}
+
 class Photos extends Component {
 
     constructor(props) {
@@ -48,10 +52,7 @@ class Photos extends Component {
             if (!occupied) {
                 occupied = true;
                 f.apply(context, arguments);
-
-                setTimeout(() => {
-                    occupied = false;
-                }, ms);
+                setTimeout(() => {occupied = false;}, ms);
             }
         }
     }
@@ -188,30 +189,15 @@ class Photos extends Component {
         return `e${this.episode}.p${i}`;
     }
 
-    getPrevArrow(currIdx) {
-        const click = this.select.bind(this);
-        const i = currIdx - 1;
-
-        return <Link to={'#'+this.getHash(i)} className="arr arr__prev" onClick={() => click(i)}>&lt;</Link>
-    }
-
-    getNextArrow(currIdx) {
-        const click = this.select.bind(this);
-        const i = currIdx + 1;
-        
-        return <Link to={'#'+this.getHash(i)} className="arr arr__next" onClick={() => click(i)}>&gt;</Link>
-    }
-
-    getCounter() {
-        const items = this.props.photos;
-        const click = this.select.bind(this);
+    getCounter(items, selected) {
+        const select = this.select.bind(this);
 
         const CounterDot = ({i}) => {
             const hash = this.getHash(i);
-            return (i===this.state.selected) ?
+            return (i===selected) ?
                 <LinkOrSpan>●</LinkOrSpan>
                 :
-                <LinkOrSpan path={'#'+hash} onClick={() => click(i)}>○</LinkOrSpan>
+                <LinkOrSpan path={'#'+hash} onClick={() => select(i)}>○</LinkOrSpan>
         }
 
         if (items.length <= 7) {
@@ -219,7 +205,7 @@ class Photos extends Component {
                 { items.map((_, i) => <CounterDot key={i} i={i}/>) }
             </span>;
         } else {
-            return [this.state.selected+1, items.length].join(' / ');
+            return [selected+1, items.length].join(' / ');
         }
     }
 
@@ -252,15 +238,17 @@ class Photos extends Component {
             onTouchEnd: this.switchEnd.bind(this),
             onWheel: this.wheel.bind(this),
         };
+        const select = this.select.bind(this);
+
         return (
             <div className="stretch">
               <div className="frame">
                 <div className={'photos '+(this.state.transition ? 'grabbing':'')} style={photosStyle} {...frameEvents}>
                   { frames.map(frame => <Frame key={frame.type} path={this.path} {...frame}/>) }
                 </div>
-                {this.getPrevArrow(currIdx)}
-                {this.getNextArrow(currIdx)}
-                <div className="counter">{this.getCounter()}</div>
+                <Arrow type="prev" hash={this.getHash(prevIdx)} click={() => select(prevIdx)}>&lt;</Arrow>
+                <Arrow type="next" hash={this.getHash(nextIdx)} click={() => select(nextIdx)}>&gt;</Arrow>
+                <div className="counter">{this.getCounter(this.props.photos, currIdx)}</div>
               </div>
             </div>
           );
