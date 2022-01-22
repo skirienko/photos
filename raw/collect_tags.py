@@ -7,7 +7,9 @@ from presets import albums
 from utils import read_descr_file, rxDate, rxPhoto
 
 date = ''
+outdir = "../public/data"
 
+tags = {}
 
 def lines2tags(lines, album, date):
     # print("lines2tags in %s / %s" % (album, date))
@@ -81,21 +83,66 @@ def strip_end_tags(text):
     return result
 
 
+def find_tags_in_json(path):
+    with open(path, "r") as f:
+        res = json.load(f)
+
+    if res and 'sections' in res:
+        title = res['title']
+        for section in res['sections']:
+            if 'tags' in section:
+                # print(section['tags'])
+                for tag in section['tags']:
+                    print(tag)
+                    obj = {
+                        "type": "subsection",
+                        "title": title
+                    }
+                    add_to_tags(tag, obj)
+
+            if 'episodes' in section:
+                for episode in section['episodes']:
+                    if 'tags' in episode:
+                        for tag in episode['tags']:
+                            print(tag)
+                            obj = {
+                                "type": "episode",
+                                "title": title,
+                            }
+                            add_to_tags(tag, obj)
+
+    return tags
+
+
 def get_tags_from_date(album, date):
     infile = '%s/%s/descript.ion' % (album, date)
-    outdir = '../public/data/tags'
+    injson = '../public/data/%s/%s/descr.json' % (album, date)
 
-    print("  %s" % date)
+    # outdir = '../public/data/tags'
 
-    if not os.path.isfile(infile):
-        print("No descript.ion file, skipping")
+    print("  %s" % (date))
+
+    if not os.path.isfile(injson):
+        print("No descr.json file, skipping")
         return
 
-    lines = read_descr_file(infile)
-    tags = lines2tags(lines, album, date)
-    if tags:
-        print(tags)
-    # jsondump = json.dumps(data, ensure_ascii=False)
+    tags = find_tags_in_json(injson)
+
+
+def add_to_tags(tag, obj):
+    if not tag in tags:
+        tags[tag] = []
+    
+    tags[tag].append(obj)
+
+
+def write_tags(tags):
+    keys = sorted(tags.keys())
+    index = [{"tag": k, "len": len(tags[k])} for k in keys]
+    print(index)
+    fullname = "%s/tags.json" % outdir
+    with open(fullname, 'w', encoding='utf8') as ofd:
+        ofd.write(json.dumps(index, ensure_ascii=False))
 
 
 for album, dates in albums.items():
@@ -105,3 +152,7 @@ for album, dates in albums.items():
     for date in dates:
         get_tags_from_date(album, date)
         # generate_xdate_descr(album, date)
+
+    if tags:
+        print(tags)
+        write_tags(tags)
