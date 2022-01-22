@@ -9,6 +9,9 @@ from presets import albums
 from utils import get_aspect, select_cover, generate_thumb, read_descr_file, rxDate, rxPhoto
 from collect_tags import strip_end_tags
 
+# should all files be rebuilt
+REBUILD_ALL = False
+
 # albums = {
 #     'portugal': ('2015-04-17','2015-04-18','2015-04-19','2015-04-20')
 # }
@@ -20,7 +23,9 @@ rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
 
 
 def need_to_rebuild(infile, outfile):
-    return not os.path.exists(outfile) or os.path.getmtime(infile) > os.path.getmtime(outfile)
+    return not os.path.exists(outfile) \
+            or os.path.getmtime(infile) > os.path.getmtime(outfile) \
+            or REBUILD_ALL
 
 
 def lines2album_data(lines, album, outdir):
@@ -85,12 +90,13 @@ def lines2data(lines, outdir):
     episodes = []
     section = {'episodes':[], 'id':'section-0'}
     for i, line in enumerate(lines[1:]):
-        pair = line.strip().split(' ', 1)
+        line = line.strip()
+        pair = line.split(' ', 1)
         filename = pair[0]
         text = pair[1] if len(pair) > 1 else ''
         # searching for tags in the text
         res = strip_end_tags(text)
-        if len(res['tags']) > 0:
+        if res['tags']:
             text = res['text']
             tags = res['tags']
         else:
@@ -106,7 +112,7 @@ def lines2data(lines, outdir):
                     if text == '':
                         text = prevText
                     item = create_photo_item(filename, text, episode_id, aspect)
-                    if len(tags):
+                    if tags:
                         item['tags'] = tags
                     section['episodes'].append(item)
                     episode_id += 1
@@ -132,7 +138,6 @@ def lines2data(lines, outdir):
                 episode_id += 1
                 prevItem = item
 
-
         elif rxVimeo.match(filename):
             m = rxVimeo.match(filename)
             code = m.group(1)
@@ -151,7 +156,8 @@ def lines2data(lines, outdir):
                 item = create_subtitle_item(line, section_id)
                 if item['id']:
                     section['id'] = item['id']
-                    section['tags'] = [item['id'],]
+                    if 'tags' in item:
+                        section['tags'] = item['tags']
                 if item['subtitle']:
                     section['title'] = item['subtitle']
                 
@@ -236,6 +242,7 @@ def create_subtitle_item(line, subtitle_id):
     if len(parts) > 1:
         subtitle = parts[0].strip()
         hash = parts[1].strip()
+        item['tags'] = [hash,]
 
     item['subtitle'] = subtitle
     item['id'] = hash

@@ -10,7 +10,7 @@ date = ''
 
 
 def lines2tags(lines, album, date):
-    print("lines2tags in %s / %s" % (album, date))
+    # print("lines2tags in %s / %s" % (album, date))
     tags = {}
 
     title = lines[0].strip()
@@ -63,14 +63,16 @@ def lines2tags(lines, album, date):
 
     return tags
 
+
 def strip_end_tags(text):
     result = {'text': text, 'tags': []}
-    rxTag = re.compile('^#[a-z0-9\-_]+')
+    rxTag = re.compile('^#([a-z0-9\-_]+)')
     words = text.split(' ')
     for i, word in enumerate(reversed(words)):
-        if rxTag.match(word):
-            print("MATCH %d %s" % (i, word))
-            result['tags'].append(word)
+        m = rxTag.match(word) 
+        if m:
+            tag = m.group(1)
+            result['tags'].append(tag)
         else:
             if i > 0:
                 result['text'] = ' '.join(words[:-i])
@@ -91,7 +93,8 @@ def get_tags_from_date(album, date):
 
     lines = read_descr_file(infile)
     tags = lines2tags(lines, album, date)
-    print(tags)
+    if tags:
+        print(tags)
     # jsondump = json.dumps(data, ensure_ascii=False)
 
 
