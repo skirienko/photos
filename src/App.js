@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import EventsList from './components/EventsList';
 import PlacePage from './components/PlacePage';
 import EventPage from './components/EventPage';
+import TagsPage from './components/TagsPage';
+import TagPage from './components/TagPage';
 import AppHeader from './components/AppHeader';
 import Experimental from './components/Experimental';
 
@@ -71,6 +73,8 @@ class App extends Component {
           <Route exact path="/" render={props => <EventsList events={events} {...props}/>} />
           <Route exact path="/:place" component={PlacePage}/>
           <Route path="/:place/:event" render={props => <EventPage {...props}/>}/>
+          <Route path="/tags" component={TagsPage}/>
+          <Route path="/tags/:tag" component={props => <TagPage {...props}/>}/>
         </div>
         <footer className="app__footer">
           <Route exact path="/" component={Experimental}/>

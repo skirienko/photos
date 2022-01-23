@@ -152,6 +152,26 @@ html.scroll-snap body {
   color: #777;
 }
 
+.episode__tags {
+  text-align: end;
+}
+
+.episode__tags .tag {
+  color: inherit;
+  text-underline-offset: 2pt;
+  text-decoration-color: #00000011;
+  list-style-type: "#";
+}
+
+.episode__tags .tag:before {
+  content: "#";
+}
+
+.episode__tags .tag:hover {
+  color: #333;
+  text-decoration-color: #333;
+}
+
 .stretch {
   width: 100%;
   max-width: 1200px;
@@ -200,7 +220,7 @@ html.scroll-snap body {
   justify-self: start;
 }
 
-.footer-nav__prev a::before {
+.footer-nav__prev a:before {
   content: "< ";
 }
 
@@ -209,7 +229,7 @@ html.scroll-snap body {
   justify-self: end;
 }
 
-.footer-nav__next a::after {
+.footer-nav__next a:after {
   content: " >";
 }
 
@@ -245,6 +265,15 @@ html.scroll-snap body {
     border-bottom-color: #CCC;
   }
 
+  .episode__tags .tag {
+    text-decoration-color: #222;
+  }
+
+  .episode__tags .tag:hover {
+    color: #CCC;
+    text-decoration-color: #CCC;
+  }
+
   .normal-text a {
     color: #3590EB;
     text-decoration-color: #3590EB66;
@@ -258,7 +287,6 @@ html.scroll-snap body {
   .photo {
     background: #333;
     background: linear-gradient(135deg, #333 0%, #222 100%) #333;
-
   }
 		
   .footer__navigation a {

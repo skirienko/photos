@@ -15,9 +15,11 @@ const mdify = (text) => {
     return <>{text.split(splitter).map(s => matcher.test(s) ? lnk(s) : s)}</>;
 }; 
 
-const Episode = (props) => {
-    const path = props.path;
-    const episode = props.episode;
+function Tag({hash}) {
+    return <a href={`/tags/${hash}`} className="tag">{hash}</a>;
+}
+
+function Episode ({path, episode}) {
     if (episode.hide) {
         return null;
     }
@@ -48,6 +50,7 @@ const Episode = (props) => {
         {episode.type==='video' ? <Video path={path} {...episode} /> : null}
         {episode.type==='vimeo' ? <Vimeo {...episode} /> : null}
         {episode.photos ? <Photos aspect={episode.aspect} photos={episode.photos} episode={episode.id} path={path} /> : null}
+        {episode.tags ? <p className="episode__tags">{episode.tags.map(t => <Tag hash={t}/>)}</p> : null}
         </div>
     );
 }
