@@ -1,5 +1,4 @@
 import React from 'react';
-import EventListItem from './EventListItem';
 
 class TagsPage extends React.Component {
 
@@ -24,16 +23,19 @@ class TagsPage extends React.Component {
         return tags;
     }
 
+    async componentDidMount() {
+        await this.fetchTags();
+    }
 
     render() {
-        const tags = this.fetchTags();
+        const tags = this.state.tags;
         return (
             <div className="place__page">
                 <h2>Теги</h2>
                 <p className="normal-text description">Все теги</p>
-                <ul className="events__list">
+                <ul className="tags__list">
                     {tags ?
-                        tags.map(item => <EventListItem key={item.date} {...item} photo={placeId+'/'+item.photo} place={placeId}></EventListItem>)
+                        tags.map(t => <li><a href={`/tags/${t.tag}`}>{t.tag}</a>: {t.len}</li>)
                         :
                         null
                     }
