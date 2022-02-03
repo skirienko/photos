@@ -7,20 +7,18 @@ class TagsPage extends React.Component {
         this.state = {};
     }
 
-    fetchTags() {
+    async fetchTags() {
         let tags = null;
         document.title = "Теги";
         if (tags in this.state) {
             tags = this.state.tags;
         }
         else {
-            fetch(`/data/tags.json`).then(d => d.json()).then(result => {
-                if (result) {
-                    this.setState({tags:result});
-                }
-            });
+            const result = await fetch(`/data/tags.json`).then(d => d.json());
+            if (result) {
+                this.setState({tags: result});
+            }
         }
-        return tags;
     }
 
     async componentDidMount() {
@@ -35,7 +33,7 @@ class TagsPage extends React.Component {
                 <p className="normal-text description">Все теги</p>
                 <ul className="tags__list">
                     {tags ?
-                        tags.map(t => <li><a href={`/tags/${t.tag}`}>{t.tag}</a>: {t.len}</li>)
+                        tags.map(t => <li key={t.tag}><a href={`/tags/${t.tag}`}>{t.tag}</a>: {t.len}</li>)
                         :
                         null
                     }

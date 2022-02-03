@@ -1,4 +1,5 @@
 import React from 'react';
+import EventListItem from './EventListItem';
 
 class TagPage extends React.Component {
 
@@ -6,35 +7,39 @@ class TagPage extends React.Component {
         super(props);
         this.state = {
         }
+        this.tagName = this.props.match.params.tag;
     }
 
-    fetchItem(tag) {
-        let place = null;
-        if (placeId in this.state) {
-            place = this.state[placeId];
-            document.title = place.title;
+    async fetchItem(tagName) {
+        let data = null;
+        if (tagName in this.state) {
+            data = this.state[tagName];
+            document.title = data.title;
         }
         else {
-            fetch(`/data/${placeId}/descr.json`).then(d => d.json()).then(result => {
-                if (result) {
-                    this.setState({[placeId]:result});
-                }
-            });
+            const result = await fetch(`/data/tags/${tagName}.json`).then(d => d.json());
+            if (result) {
+                this.setState({[tagName]: result});
+            }
         }
-        return place;
     }
 
 
-    render() {
-        const tag = this.props.match.params.tag;
-        const place = this.fetchItem(tag);
+    async componentDidMount() {
+        await this.fetchItem(this.tagName);
+    }
 
-        return place ?
+    render() {
+        const data = this.state[this.tagName] || null;
+        console.log(data)
+
+        const placeId = '';
+        return data ?
             (<div className="place__page">
-                <h2>{place.title}</h2>
-                <p className="normal-text description">{place.description}</p>
+                <h2>{data.title}</h2>
+                <p className="normal-text description">{data.description}</p>
                 <ul className="events__list">
-                    {place.events.map(item => <EventListItem key={item.date} {...item} photo={placeId+'/'+item.photo} place={placeId}></EventListItem>)}
+                    {data.map(item => <EventListItem key={item.date} {...item} photo={placeId+'/'+item.photo} place={placeId}></EventListItem>)}
                 </ul>
             </div>)
             :
