@@ -83,11 +83,27 @@ def strip_end_tags(text):
     return result
 
 
+def get_section_photo(section):
+    episode = section["episodes"][0]
+    return get_episode_photo(episode)
+
+
+def get_episode_photo(episode):
+    if "photo" in episode:
+        return episode["photo"]
+    elif "photos" in episode:
+        return episode["photos"][0]
+    else:
+        return ''
+
+
 def find_tags_in_json(path):
     with open(path, "r") as f:
         res = json.load(f)
 
     if res and 'sections' in res:
+        print(res['date'])
+
         title = res['title']
         for section in res['sections']:
             if 'tags' in section:
@@ -96,7 +112,10 @@ def find_tags_in_json(path):
                     print(tag)
                     obj = {
                         "type": "subsection",
-                        "title": title
+                        "title": title,
+                        "descr": section["title"],
+                        "date": res["date"],
+                        "photo": get_section_photo(section),
                     }
                     add_to_tags(tag, obj)
 
@@ -108,6 +127,10 @@ def find_tags_in_json(path):
                             obj = {
                                 "type": "episode",
                                 "title": title,
+                                "descr": episode["descr"],
+                                "date": res["date"],
+                                "episode": episode["id"],
+                                "photo": get_episode_photo(episode),
                             }
                             add_to_tags(tag, obj)
 
@@ -136,13 +159,31 @@ def add_to_tags(tag, obj):
     tags[tag].append(obj)
 
 
-def write_tags(tags):
+def write_tag(tag, data):
+    fullname = "%s/tags/%s.json" % (outdir, tag)
+    print(fullname)
+    with open(fullname, 'w', encoding='utf8') as ofd:
+        ofd.write(json.dumps(data, ensure_ascii=False))
+
+
+def write_index(tags):
     keys = sorted(tags.keys())
     index = [{"tag": k, "len": len(tags[k])} for k in keys]
     print(index)
     fullname = "%s/tags.json" % outdir
     with open(fullname, 'w', encoding='utf8') as ofd:
         ofd.write(json.dumps(index, ensure_ascii=False))
+
+
+def write_tags(tags):
+    write_index(tags)
+ 
+    tagsdir = "%s/tags" % outdir
+    if not os.path.exists(tagsdir):
+        os.makedirs(tagsdir)
+
+    for tag, data in tags.items():
+        write_tag(tag, data)
 
 
 for album, dates in albums.items():
