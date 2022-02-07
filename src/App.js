@@ -73,7 +73,7 @@ class App extends Component {
           <Route exact path="/" render={props => <EventsList events={events} {...props}/>} />
           <Route exact path="/:place" component={PlacePage}/>
           <Route path="/:place/:event" render={props => <EventPage {...props}/>}/>
-          <Route path="/tags" component={TagsPage}/>
+          <Route exact path="/tags" component={TagsPage}/>
           <Route path="/tags/:tag" component={props => <TagPage {...props}/>}/>
         </div>
         <footer className="app__footer">

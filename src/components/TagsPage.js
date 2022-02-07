@@ -33,7 +33,7 @@ class TagsPage extends React.Component {
                 <p className="normal-text description">Все теги</p>
                 <ul className="tags__list">
                     {tags ?
-                        tags.map(t => <li key={t.tag}><a href={`/tags/${t.tag}`}>{t.tag}</a>: {t.len}</li>)
+                        tags.map(t => <li key={t.tag} title={t.len}><a href={`/tags/${t.tag}`}>{t.tag}</a></li>)
                         :
                         null
                     }

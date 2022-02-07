@@ -189,8 +189,20 @@ html.scroll-snap body {
 .photo.vertical {
   padding-bottom:150%;
 }
+
 .photo img {
   width: 100%;
+}
+
+.tags__list {
+  list-style-type: none;
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+}
+
+.tags__list li {
+  margin-right: .5rem
 }
 
 .footer__navigation {
