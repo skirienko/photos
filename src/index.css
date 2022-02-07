@@ -95,7 +95,11 @@ html.scroll-snap body {
 
 @media screen and  (max-width:919px) {
   .normal-text {
-    font-size: 15px;
+    font-size: .95rem;
+  }
+
+  .episode__tags {
+    font-size: .8rem;
   }
 
   .event__toc {
@@ -152,8 +156,10 @@ html.scroll-snap body {
   color: #777;
 }
 
-.episode__tags {
+.episode .episode__tags {
   text-align: end;
+  margin: 8px 0;
+  font-size: .9rem;
 }
 
 .episode__tags .tag {
