@@ -3,10 +3,8 @@ import { withRouter } from 'react-router-dom';
 import LinkOrSpan from './LinkOrSpan';
 
 
-class AppHeader extends Component {
+function AppHeader({albums, location}) {
 
-  render () {
-    const { albums, location } = this.props;
     const links = [
       {path: '/', children: "Фотографии"}
     ];
@@ -19,15 +17,15 @@ class AppHeader extends Component {
         links.push(link);
       }
     }
+    links.forEach(l => {if (l.path===location.pathname) l.path = null; });
 
     return (
       <header className="app__header">
         <h1 className="app__title">
-          {links.map(link => <LinkOrSpan key={link.path} path={link.path !== location.pathname ? link.path : null} className="app__home">{link.children}</LinkOrSpan>).reduce((a, b) => [a, ' › ', b])}
+          {links.map(l => <LinkOrSpan key={l.path} className="app__home" {...l}/>).reduce((a, b) => [a, ' › ', b])}
         </h1>
       </header>
     );
-  }
 }
 
 export default withRouter(AppHeader);
