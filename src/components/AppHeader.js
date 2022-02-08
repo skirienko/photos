@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import LinkOrSpan from './LinkOrSpan';
 
@@ -13,8 +13,10 @@ function AppHeader({albums, location}) {
     if (parts && parts.length > 2 && parts[0]==='') {
       const a = parts[1];
       if (albums && a in albums) {        
-        const link = { path: `/${a}`, children: albums[a] };
-        links.push(link);
+        links.push({ path: `/${a}`, children: albums[a] });
+      }
+      else if (parts[1]==='tags') {
+        links.push({ path: '/tags', children: "Теги" });
       }
     }
     links.forEach(l => {if (l.path===location.pathname) l.path = null; });

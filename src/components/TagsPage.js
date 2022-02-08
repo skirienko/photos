@@ -8,12 +8,8 @@ class TagsPage extends React.Component {
     }
 
     async fetchTags() {
-        let tags = null;
         document.title = "Теги";
-        if (tags in this.state) {
-            tags = this.state.tags;
-        }
-        else {
+        if (!('tags' in this.state)) {
             const result = await fetch(`/data/tags.json`).then(d => d.json());
             if (result) {
                 this.setState({tags: result});

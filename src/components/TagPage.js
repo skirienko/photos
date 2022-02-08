@@ -5,8 +5,7 @@ class TagPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.state = {}
         this.tagName = this.props.match.params.tag;
     }
 
@@ -19,7 +18,11 @@ class TagPage extends React.Component {
         else {
             const result = await fetch(`/data/tags/${tagName}.json`).then(d => d.json());
             if (result) {
-                this.setState({[tagName]: result});
+                const data = {
+                    items: result,
+                    title: tagName,
+                };
+                this.setState({[tagName]: data});
             }
         }
     }
@@ -39,7 +42,7 @@ class TagPage extends React.Component {
                 <h2>{data.title}</h2>
                 <p className="normal-text description">{data.description}</p>
                 <ul className="events__list">
-                    {data.map(item => <EventListItem key={item.date} {...item} photo={placeId+'/'+item.photo} place={placeId}></EventListItem>)}
+                    {data.items.map(item => <EventListItem key={item.date} {...item} photo={item.path+'/'+item.photo} place={placeId}></EventListItem>)}
                 </ul>
             </div>)
             :

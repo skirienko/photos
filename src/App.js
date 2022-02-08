@@ -32,8 +32,8 @@ export function setScrollSnap(value) {
 
 class App extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     setScrollSnap(getScrollSnap());
     this.state = {
       events: null,
