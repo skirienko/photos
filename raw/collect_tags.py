@@ -97,7 +97,7 @@ def get_episode_photo(episode):
         return ''
 
 
-def find_tags_in_json(path):
+def find_tags_in_json(path, album, date):
     with open(path, "r") as f:
         res = json.load(f)
 
@@ -115,6 +115,7 @@ def find_tags_in_json(path):
                         "title": title,
                         "descr": section["title"],
                         "date": res["date"],
+                        "path": get_client_path(album, date),
                         "photo": get_section_photo(section),
                     }
                     add_to_tags(tag, obj)
@@ -130,11 +131,19 @@ def find_tags_in_json(path):
                                 "descr": episode["descr"],
                                 "date": res["date"],
                                 "episode": episode["id"],
+                                "path": get_client_path(album, date),
                                 "photo": get_episode_photo(episode),
                             }
                             add_to_tags(tag, obj)
 
     return tags
+
+
+def get_client_path(album, date):
+    if album == '.':
+        return '/data/%s' % date
+    else:
+        return '/data/%s/%s' % (album, date)
 
 
 def get_tags_from_date(album, date):
@@ -149,7 +158,7 @@ def get_tags_from_date(album, date):
         print("No descr.json file, skipping")
         return
 
-    tags = find_tags_in_json(injson)
+    tags = find_tags_in_json(injson, album, date)
 
 
 def add_to_tags(tag, obj):
