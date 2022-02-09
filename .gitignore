@@ -13,8 +13,10 @@
 /public/data/**/*.JPG
 /public/data/**/*.jpg
 /public/data/**/*.jpeg
+/public/data/**/*.webp
 /raw/**/*.JPG
 /raw/**/*.jpeg
+/raw/**/*.PNG
 
 # video
 /raw/**/*.mp4
