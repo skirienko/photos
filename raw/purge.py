@@ -40,21 +40,19 @@ def purge_dir(dirname, useful):
         # silently eximus
         return
 
-    for filename in os.listdir(dirname):
-        if filename in useful:
-            pass
-        else:
-            print('  delete %s' % filename)
+    for filename in sorted(os.listdir(dirname)):
+        trimmed = filename.removesuffix('.webp')
+        if not (filename in useful) and not (trimmed in useful):
+            print(f'  delete {filename}')
             os.remove('%s/%s' % (dirname, filename))
-
 
 
 for album, dates in albums.items():
 
     for date in dates:
 
-        dirname = '%s/%s/%s' % (path, album, date)
-        print('Directory %s' % date)
+        dirname = f'{path}/{album}/{date}'
+        print(f'Directory {date}')
 
         if not os.path.isdir(dirname):
             print('Directory "%s" not found, ignoring this date' % dirname)

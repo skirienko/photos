@@ -88,13 +88,25 @@ def repair_exif(exif):
 
 def resize(orig_path, new_path):
 
+    new_path_webp = new_path+'.webp'
+
     with Image.open(orig_path, 'r') as img:
         if img:
             # print(img.size)
-            if os.path.exists(new_path):
-                if os.path.getmtime(new_path) >= os.path.getmtime(orig_path):
-                    # print("already exists, origin hasn't changed")
-                    return
+            tasks = {
+                new_path: 'JPEG',
+                new_path_webp: 'WEBP'
+            }
+
+            paths = list(tasks.keys())
+            for path in paths:
+                if os.path.exists(path):
+                    if os.path.getmtime(path) >= os.path.getmtime(orig_path):
+                        # print("already exists, origin hasn't changed")
+                        del tasks[path]
+
+            if not tasks:
+                return
             byte_exif = b''
             if 'exif' in img.info:
                 byte_exif = img.info['exif']
@@ -121,10 +133,13 @@ def resize(orig_path, new_path):
                 print(limit_size(img.size))
                 resized_img = img.resize(limit_size(img.size), Image.ANTIALIAS)
                 resized_img = add_watermark(resized_img).convert('RGB')
-                resized_img.save(new_path, 'JPEG', quality=quality, exif=byte_exif)
+                for path, fmt in tasks.items():
+                    resized_img.save(path, fmt, quality=quality, exif=byte_exif)
+
             else:
                 print("Copy intact")
                 copy2(orig_path, new_path)
+                # TODO: other tasks
 
 
 def resize_video(orig_path, new_path):
@@ -146,14 +161,14 @@ for album, dates in albums.items():
 
     for date in dates:
         
-        outdir = "../public/data/%s/%s" % (album, date)
-        indir = "%s/%s/orig" % (album, date)
-        indir2 = "%s/%s" % (album, date)
+        outdir = f"../public/data/{album}/{date}"
+        indir = f"{album}/{date}/orig"
+        indir2 = f"{album}/{date}"
 
         if not os.path.exists(indir):
             indir = indir2
             if not os.path.exists(indir):
-                print("Nothing to resize (%s)" % indir)
+                print(f"Nothing to resize ({indir})")
                 continue
 
         if not os.path.exists(outdir):
