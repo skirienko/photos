@@ -40,9 +40,9 @@ def lines2album_data(lines, album, outdir):
         text = pair[1] if len(pair) > 1 else ''
 
         if rxDate.match(dirname):
-            fullpath = '%s/%s' % (outdir, dirname)
+            fullpath = f'{outdir}/{dirname}'
             if os.path.isdir(fullpath):
-                print("%s -> %s" % (fullpath, text))
+                print(f"{fullpath} -> {text}")
 
                 photo = ''
                 parts = text.split('#')
@@ -60,7 +60,7 @@ def lines2album_data(lines, album, outdir):
                 events.append(item)
 
             else:
-                print("Directory not found (%s)" % fullpath)
+                print(f"Directory not found ({fullpath})")
 
         elif i == 1:
             descr = line.strip()
@@ -112,6 +112,9 @@ def lines2data(lines, outdir):
                     if text == '':
                         text = prevText
                     item = create_photo_item(filename, text, episode_id, aspect)
+                    if aspect > 200:
+                        tags.append("panorama")
+                        print(item)
                     if tags:
                         item['tags'] = tags
                     section['episodes'].append(item)
@@ -179,7 +182,7 @@ def create_event_item(outdir, dirname, text, photo):
     item = {}
     item['date'] = dirname
     item['title'] = text
-    item['photo'] = '%s/%s' % (dirname, photo)
+    item['photo'] = f'{dirname}/{photo}'
     if photo:
         fullname = '%s/%s/%s' % (outdir, dirname, photo)
         thumb = generate_thumb(fullname)
