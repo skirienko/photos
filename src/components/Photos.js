@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom'
 import animate from 'dom-helpers/transition/animate';
 import LinkOrSpan from './LinkOrSpan';
 import './Photos.css';
@@ -9,12 +9,14 @@ const TRANSITION_TIME = 500;
 function Frame(props) {
     const {type, photo, style, path} = props;
     const src = `${path}/${photo}`;
-    const jsxFrame = (
-        <div key={type+photo} className={'photo '+type} style={style}>
-            <img src={src} alt=""/>
+    return (
+        <div key={type + photo} className={'photo ' + type} style={style}>
+            <picture>
+                <source srcSet={src + ".webp"} type="image/webp"/>
+                <img src={src} alt=""/>
+            </picture>
         </div>
     );
-    return jsxFrame;
 }
 
 function Arrow({type, hash, click, children}) {

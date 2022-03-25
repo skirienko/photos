@@ -30,6 +30,7 @@ function Episode ({path, episode}) {
     }
 
     const style = episode.aspect ? {paddingBottom: episode.aspect+"%"} : null;
+    const src = `${path}/${episode.photo}`;
 
     let text = episode.descr;
     if (text && text.match(rxTxt)) {
@@ -42,7 +43,12 @@ function Episode ({path, episode}) {
         <p className="normal-text"><span className="cnt">{episode.id}.</span> {text}</p>
         {episode.photo ?
             <div className="stretch">
-                <div className="photo" style={style}><img alt="" src={`${path}/${episode.photo}`} /></div>
+                <div className="photo" style={style}>
+                    <picture>
+                        <source srcSet={src+".webp"} type="image/webp"/>
+                        <img alt="" src={src} />
+                    </picture>
+                </div>
             </div>
             :
             null
@@ -50,7 +56,7 @@ function Episode ({path, episode}) {
         {episode.type==='video' ? <Video path={path} {...episode} /> : null}
         {episode.type==='vimeo' ? <Vimeo {...episode} /> : null}
         {episode.photos ? <Photos aspect={episode.aspect} photos={episode.photos} episode={episode.id} path={path} /> : null}
-        {episode.tags ? <p className="episode__tags">{episode.tags.map(t => <Tag hash={t}/>)}</p> : null}
+        {episode.tags ? <p className="episode__tags">{episode.tags.map(t => <Tag key={t} hash={t}/>)}</p> : null}
         </div>
     );
 }
