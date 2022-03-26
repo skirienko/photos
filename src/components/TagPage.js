@@ -36,13 +36,12 @@ class TagPage extends React.Component {
         const data = this.state[this.tagName] || null;
         console.log(data)
 
-        const placeId = '';
         return data ?
             (<div className="place__page">
                 <h2>{data.title}</h2>
                 <p className="normal-text description">{data.description}</p>
                 <ul className="events__list">
-                    {data.items.map(item => <EventListItem key={item.date} {...item} photo={item.path+'/'+item.photo} place={placeId}></EventListItem>)}
+                    {data.items.map(item => <EventListItem key={item.date} {...item} photo={item.path+'/'+item.photo}></EventListItem>)}
                 </ul>
             </div>)
             :

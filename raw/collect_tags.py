@@ -111,11 +111,12 @@ def find_tags_in_json(path, album, date):
                 for tag in section['tags']:
                     print(tag)
                     obj = {
+                        "path": get_client_path(album, date),
+                        "place": album,
+                        "date": res["date"],
                         "type": "subsection",
                         "title": title,
                         "descr": section["title"],
-                        "date": res["date"],
-                        "path": get_client_path(album, date),
                         "photo": get_section_photo(section),
                     }
                     add_to_tags(tag, obj)
@@ -126,12 +127,13 @@ def find_tags_in_json(path, album, date):
                         for tag in episode['tags']:
                             print(tag)
                             obj = {
+                                "path": get_client_path(album, date),
+                                "place": album,
+                                "date": res["date"],
                                 "type": "episode",
                                 "title": title,
                                 "descr": episode["descr"],
-                                "date": res["date"],
                                 "episode": episode["id"],
-                                "path": get_client_path(album, date),
                                 "photo": get_episode_photo(episode),
                             }
                             add_to_tags(tag, obj)
@@ -141,9 +143,9 @@ def find_tags_in_json(path, album, date):
 
 def get_client_path(album, date):
     if album == '.':
-        return '/data/%s' % date
+        return '/%s' % date
     else:
-        return '/data/%s/%s' % (album, date)
+        return '/%s/%s' % (album, date)
 
 
 def get_tags_from_date(album, date):
@@ -169,7 +171,7 @@ def add_to_tags(tag, obj):
 
 
 def write_tag(tag, data):
-    fullname = "%s/tags/%s.json" % (outdir, tag)
+    fullname = f"{outdir}/tags/{tag}.json"
     print(fullname)
     with open(fullname, 'w', encoding='utf8') as ofd:
         ofd.write(json.dumps(data, ensure_ascii=False))
@@ -187,7 +189,7 @@ def write_index(tags):
 def write_tags(tags):
     write_index(tags)
  
-    tagsdir = "%s/tags" % outdir
+    tagsdir = f"{outdir}/tags"
     if not os.path.exists(tagsdir):
         os.makedirs(tagsdir)
 
