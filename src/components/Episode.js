@@ -1,5 +1,5 @@
 import React from 'react';
-import Photos from './Photos';
+import {Photo, Photos} from './Photos';
 import Video from './Video';
 import Vimeo from './Vimeo';
 
@@ -41,18 +41,7 @@ function Episode ({path, episode}) {
     return (
         <div className="episode" id={`e${episode.id}`}>
         <p className="normal-text"><span className="cnt">{episode.id}.</span> {text}</p>
-        {episode.photo ?
-            <div className="stretch">
-                <div className="photo" style={style}>
-                    <picture>
-                        <source srcSet={src+".webp"} type="image/webp"/>
-                        <img alt="" src={src} />
-                    </picture>
-                </div>
-            </div>
-            :
-            null
-        }
+        {episode.photo ? <Photo photo={episode.photo} style={style} path={path}/> : null}
         {episode.type==='video' ? <Video path={path} {...episode} /> : null}
         {episode.type==='vimeo' ? <Vimeo {...episode} /> : null}
         {episode.photos ? <Photos aspect={episode.aspect} photos={episode.photos} episode={episode.id} path={path} /> : null}

@@ -6,13 +6,26 @@ import './Photos.css';
 
 const TRANSITION_TIME = 500;
 
+export function Photo(props) {
+    return (
+        <div className="stretch">
+            <Frame {...props} type=""/>
+        </div>
+    );
+}
+
 function Frame(props) {
     const {type, photo, style, path} = props;
-    const src = `${path}/${photo}`;
+    let src = `${path}/${photo}`;
+    let webp = null;
+    if (photo.match(/\.(jpe?g|png|gif)\.webp$/i)) {
+        webp = `${path}/${photo}`;
+        src = `${path}/${photo.replace(/\.webp$/i, "")}`;
+    }
     return (
-        <div key={type + photo} className={'photo ' + type} style={style}>
+        <div key={type + photo} className={'photo' + type} style={style}>
             <picture>
-                <source srcSet={src + ".webp"} type="image/webp"/>
+                {webp ? <source srcSet={webp} type="image/webp"/> : null}
                 <img src={src} alt=""/>
             </picture>
         </div>
@@ -23,7 +36,7 @@ function Arrow({type, hash, click, children}) {
     return <Link to={'#'+hash} className={"arr arr__"+type} onClick={click}>{children}</Link>
 }
 
-class Photos extends Component {
+export class Photos extends Component {
 
     constructor(props) {
         super(props);
