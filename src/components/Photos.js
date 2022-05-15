@@ -23,7 +23,7 @@ function Frame(props) {
         src = `${path}/${photo.replace(/\.webp$/i, "")}`;
     }
     return (
-        <div key={type + photo} className={'photo' + type} style={style}>
+        <div key={type + photo} className={'photo ' + type} style={style}>
             <picture>
                 {webp ? <source srcSet={webp} type="image/webp"/> : null}
                 <img src={src} alt=""/>
