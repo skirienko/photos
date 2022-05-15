@@ -108,6 +108,11 @@ def lines2data(lines, outdir):
                 print("%s -> %s" % (fullpath, text))
 
                 aspect = get_aspect(fullpath)
+
+                # special case for webp duplicates
+                if os.path.isfile(fullpath+".webp"):
+                    filename = filename+".webp"
+
                 if text != '' or prevItem == None:
                     if text == '':
                         text = prevText
