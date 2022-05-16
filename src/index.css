@@ -165,8 +165,9 @@ html.scroll-snap body {
 
 .episode__tags .tag {
   color: inherit;
+  opacity: .5;
   text-underline-offset: 2pt;
-  text-decoration-color: #00000011;
+  text-decoration-color: #00000033;
   list-style-type: "#";
 }
 
@@ -176,6 +177,7 @@ html.scroll-snap body {
 
 .episode__tags .tag:hover {
   color: #333;
+  opacity: 1;
   text-decoration-color: #333;
 }
 
