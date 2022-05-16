@@ -50,6 +50,7 @@ html.scroll-snap body {
 
 .events__item img {
   display: block;
+  object-fit: cover;
   border: 1px solid silver;
   transition: all .5s ease-out;
 }
