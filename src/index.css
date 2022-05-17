@@ -76,6 +76,8 @@ html.scroll-snap body {
 
 .event__toc {
   font-style: italic;
+  max-width: 600pt;
+  line-height: 1.5;
 }
 
 .event__toc:first-letter {
