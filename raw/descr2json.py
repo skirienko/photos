@@ -1,3 +1,4 @@
+import sys
 import re
 import json
 import io
@@ -9,8 +10,14 @@ from presets import albums
 from utils import get_aspect, select_cover, generate_thumb, read_descr_file, rxDate, rxPhoto
 from collect_tags import strip_end_tags
 
+args = sys.argv[1:]
+
 # should all files be rebuilt
 REBUILD_ALL = False
+
+if '-f' in args or '--force' in args:
+    REBUILD_ALL = True
+
 
 # albums = {
 #     'portugal': ('2015-04-17','2015-04-18','2015-04-19','2015-04-20')
@@ -103,11 +110,10 @@ def lines2data(lines, outdir):
             tags = []
 
         if rxPhoto.match(filename):
-            fullpath = '%s/%s' % (outdir, filename)
+            fullpath = f"{outdir}/{filename}"
             if os.path.isfile(fullpath):
-                print("%s -> %s" % (fullpath, text))
-
                 aspect = get_aspect(fullpath)
+                print(f"{fullpath} -> {text}")
 
                 # special case for webp duplicates
                 if os.path.isfile(fullpath+".webp"):
@@ -117,9 +123,9 @@ def lines2data(lines, outdir):
                     if text == '':
                         text = prevText
                     item = create_photo_item(filename, text, episode_id, aspect)
-                    if aspect > 200:
+                    if aspect < 50 or aspect > 200:
                         tags.append("panorama")
-                        print(item)
+                        print(f"PANORAMA")
                     if tags:
                         item['tags'] = tags
                     section['episodes'].append(item)

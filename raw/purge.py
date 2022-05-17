@@ -42,7 +42,8 @@ def purge_dir(dirname, useful):
 
     for filename in sorted(os.listdir(dirname)):
         trimmed = filename.removesuffix('.webp')
-        if not (filename in useful) and not (trimmed in useful):
+        extended = filename+'.webp'
+        if not (filename in useful) and not (trimmed in useful) and not (extended in useful):
             print(f'  delete {filename}')
             os.remove('%s/%s' % (dirname, filename))
 
