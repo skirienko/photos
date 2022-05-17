@@ -171,6 +171,7 @@ html.scroll-snap body {
   text-underline-offset: 2pt;
   text-decoration-color: #00000033;
   list-style-type: "#";
+  margin-left: .5em;
 }
 
 .episode__tags .tag:before {
