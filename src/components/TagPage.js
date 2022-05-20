@@ -17,16 +17,34 @@ class TagPage extends React.Component {
         }
         else {
             const result = await fetch(`/data/tags/${tagName}.json`).then(d => d.json());
+
             if (result) {
-                const data = {
-                    items: result,
-                    title: tagName,
-                };
-                this.setState({[tagName]: data});
+                const data = this.prepareData(result);
+                this.setState({[tagName]: {title: tagName, data: data}});
             }
         }
     }
 
+    prepareData(rawData) {
+        let sections = {};
+        let data = [];
+        rawData.forEach(d => {
+            const key = d.path;
+            if (!(key in sections)) {
+                const section = {
+                    path: d.path,
+                    date: d.date,
+                    title: d.title,
+                    items: [],
+                }
+                sections[key] = section;
+            }
+            sections[key].items.push(d);
+        });
+        data = Object.values(sections);
+        data.sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0)
+        return data;
+    }
 
     async componentDidMount() {
         await this.fetchItem(this.tagName);
@@ -34,15 +52,18 @@ class TagPage extends React.Component {
 
     render() {
         const data = this.state[this.tagName] || null;
-        console.log(data)
 
         return data ?
             (<div className="place__page">
                 <h2>{data.title}</h2>
                 <p className="normal-text description">{data.description}</p>
-                <ul className="events__list">
-                    {data.items.map(item => <EventListItem key={item.date} {...item} photo={item.path+'/'+item.photo}></EventListItem>)}
-                </ul>
+                {data.data.map(section => (
+                <div key={section.path}>
+                    <h3 className="event__subtitle">{section.title}</h3>
+                    <ul className="events__list">
+                        {section.items.map(item => <EventListItem key={item.date+item.episode} {...item} photo={item.path+'/'+item.photo}></EventListItem>)}
+                    </ul>
+                </div>))}
             </div>)
             :
             null;
