@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import EventsList from './components/EventsList';
 import PlacePage from './components/PlacePage';
 import EventPage from './components/EventPage';
@@ -70,14 +70,16 @@ class App extends Component {
       <div className="app">
         <AppHeader albums={albums}/>
         <div className="app__content">
-          <Route exact path="/" render={props => <EventsList events={events} {...props}/>} />
-          <Route exact path="/:place" component={PlacePage}/>
-          <Route path="/:place/:event" render={props => <EventPage {...props}/>}/>
-          <Route exact path="/tags" component={TagsPage}/>
-          <Route path="/tags/:tag" component={props => <TagPage {...props}/>}/>
+          <Switch>
+            <Route exact path="/" render={props => <EventsList events={events} {...props}/>} />
+            <Route exact path="/tags"><TagsPage/></Route>
+            <Route path="/tags/:tag" render={props => <TagPage {...props}/>}/>
+            <Route exact path="/:place" component={PlacePage}/>
+            <Route path="/:place/:event" render={props => <EventPage {...props}/>}/>
+          </Switch>
         </div>
         <footer className="app__footer">
-          <Route exact path="/" component={Experimental}/>
+          <Route exact path="/"><Experimental/></Route>
         </footer>
       </div>
       </Router>
