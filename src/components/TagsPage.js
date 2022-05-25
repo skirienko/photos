@@ -2,13 +2,12 @@ import React from 'react';
 
 class TagsPage extends React.Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {};
     }
 
     async fetchTags() {
-        document.title = "Теги";
         if (!('tags' in this.state)) {
             const result = await fetch(`/data/tags.json`).then(d => d.json());
             if (result) {
@@ -18,6 +17,7 @@ class TagsPage extends React.Component {
     }
 
     async componentDidMount() {
+        document.title = "Теги";
         await this.fetchTags();
     }
 

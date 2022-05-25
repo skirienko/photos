@@ -188,7 +188,7 @@ class EventPage extends React.Component {
         return item ?
             (<article className="event__page">
                 <header>
-                <h2>{item.title}</h2>
+                <h2 className="event__title">{item.title}</h2>
                     <p className="normal-text event__date">{item.date}</p>
                     <Toc toc={item.toc} />
                     <p className="normal-text description">{item.description}</p>

@@ -19,8 +19,8 @@ class TagPage extends React.Component {
             const result = await fetch(`/data/tags/${tagName}.json`).then(d => d.json());
 
             if (result) {
-                const data = this.prepareData(result);
-                this.setState({[tagName]: {title: tagName, data: data}});
+                const data = this.prepareData(result['items']);
+                this.setState({[tagName]: {title: result['title'], data: data}});
             }
         }
     }
@@ -47,6 +47,7 @@ class TagPage extends React.Component {
     }
 
     async componentDidMount() {
+        document.title = "Всё с тегом "+this.tagName;
         await this.fetchItem(this.tagName);
     }
 
@@ -55,7 +56,7 @@ class TagPage extends React.Component {
 
         return data ?
             (<div className="place__page">
-                <h2>{data.title}</h2>
+                <h2 className="event__title">{data.title}</h2>
                 <p className="normal-text description">{data.description}</p>
                 {data.data.map(section => (
                 <div key={section.path}>

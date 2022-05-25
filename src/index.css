@@ -110,6 +110,10 @@ html.scroll-snap body {
   }
 }
 
+.event__title:first-letter {
+  text-transform: uppercase;
+}
+
 .event__subtitle {
   font-size: 1.2em;
   padding-top: 24px;
