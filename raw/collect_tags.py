@@ -10,6 +10,24 @@ date = ''
 outdir = "../public/data"
 
 tags = {}
+secondary_tags = {}
+
+def read_preset_tags():
+    infile = './tags.txt'
+    if not os.path.isfile(infile):
+        print("No tags.txt file, skipping")
+        return
+
+    lines = read_descr_file(infile)
+    for i, line in enumerate(lines):
+        result = strip_end_tags(line)
+        print(result)
+        if result['tags']:
+            mainTag = result['tags'][0]
+            tags[mainTag] = create_tag(result['text'], result['tags'])
+
+    print(tags)
+
 
 def lines2tags(lines, album, date):
     # print("lines2tags in %s / %s" % (album, date))
@@ -26,18 +44,18 @@ def lines2tags(lines, album, date):
 
         if rxDate.match(pair[0]):
             dirname = pair[0]
-            fullpath = '%s/%s' % (outdir, dirname)        
-            print("fullpath %s" % (fullpath,))
+            fullpath = f'{outdir}/{dirname}'        
+            print(f"fullpath {fullpath}")
 
             if os.path.isdir(fullpath):
-                print("%s -> %s" % (fullpath, text))
+                print(f"{fullpath} -> {text}")
 
                 photo = ''
                 parts = text.split('#')
                 if len(parts) > 1:
                     text = parts[0].strip()
                     photo = parts[1].strip()
-                    print("photo: %s" % photo)
+                    print(f"photo: {photo}")
 
                 if text == '':
                     text = dirname
@@ -79,6 +97,9 @@ def strip_end_tags(text):
             if i > 0:
                 result['text'] = ' '.join(words[:-i])
             break
+ 
+    if len(result['tags']) == len(words):
+        result['text'] = result['tags'][0]
 
     return result
 
@@ -163,11 +184,18 @@ def get_tags_from_date(album, date):
     tags = find_tags_in_json(injson, album, date)
 
 
+def create_tag(title, tags):
+    return {
+        "title": title,
+        "tags": tags,
+        "items": []
+    }
+
 def add_to_tags(tag, obj):
     if not tag in tags:
-        tags[tag] = []
+        tags[tag] = create_tag(tag, [tag])
     
-    tags[tag].append(obj)
+    tags[tag]["items"].append(obj)
 
 
 def write_tag(tag, data):
@@ -196,7 +224,7 @@ def write_tags(tags):
     for tag, data in tags.items():
         write_tag(tag, data)
 
-
+read_preset_tags()
 for album, dates in albums.items():
 
     print(album)
@@ -206,5 +234,5 @@ for album, dates in albums.items():
         # generate_xdate_descr(album, date)
 
     if tags:
-        print(tags)
+        # print(tags)
         write_tags(tags)

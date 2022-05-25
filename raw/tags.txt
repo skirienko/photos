@@ -1,0 +1,141 @@
+#adalar
+самолёт #airplane
+аэропорт #airport
+#aksaray
+#animal
+#aqueduct
+#ascensores
+#augusta
+#ayasofya
+бар #bar
+Баталья #batalha
+#bayrampasa
+#belfry
+#bird #birds
+#boat
+#bosporos
+#botafogo
+#breakfast
+мост #bridge #ponte #ponte-luis
+#budaivar
+кафе #cafe #cafe-central
+#cais
+автомобиль #car
+#cascatinha
+#castle #castelo #castelo-obidos
+#cathedral
+Керамика #ceramic #ceramica
+#chocolate
+#cidade-tomar
+цистерна #cistern
+#city
+#clerigos
+часы #clock
+#coast
+#coimbra
+#convento-de-cristo
+#copacabana
+#cork
+#cosmos
+#cristo-redentor
+собака #dog
+#donaukanal
+#douro
+#dune
+#epa
+#food
+#football
+#fort
+#fountain
+#fringilla
+#funiculaire #funikuler
+#gellert
+гуляш #gulyas
+#halic
+гарем #harem
+#hauptbahnhof
+#highlake
+#hippodrome
+#hotel
+#hundertwasser
+IBM #ibm
+Икарус #ikarus
+IKEA #ikea
+#imigrantes
+#ipanema
+#istiklal
+#istvan
+#jantar
+#kabatas
+#karakoy
+#keleti
+#kruje
+озеро #lake #lago #lagoa
+#lello
+#leukos-pyrgos
+#liberdade
+#lighthouse
+#mailbox
+#manuelino
+#margit
+#marmara
+#matyas-templom
+Метро #metro #metro2 #foldalatti
+#minas-shopping
+модель #model
+памятник #monument
+музей #museu #museum #ocean-museum
+#ndk
+ночь #night #noite
+obidos
+панорама #panorama
+#pao-de-acucar
+#park #parque
+#porto
+#portvine
+пляж #praia-vermelha #praia #plage #playa
+#prater
+#rachmaninoff
+#rauschen
+#rei-do-mato
+#rentacar #rent-a-car
+ресторан #restaurant
+#retorna
+#rodrigo-de-freitas
+#rossio
+#rotunda
+#saldanha
+#santa-justa
+#santos #santos-2
+sao-bento
+sao-vicente
+#scheme
+#se #se-velha
+#shkoder
+#sophia
+#spit
+#stefansdom
+#submarine
+#sultanahmet
+#sunset
+#taksim
+#teleferico
+#tirane
+#tomar
+#topkapi
+#torel
+#tower
+#townhall
+#train
+#tram
+#trem-do-corcovado
+университет #university #universidade
+#urca
+#varosliget
+#vauxhall
+#vitrine
+#volkhov
+#volta
+WC #wc
+зоопарк #zoo
+#zubchatka
