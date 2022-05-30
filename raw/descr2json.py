@@ -193,9 +193,13 @@ def create_event_item(outdir, dirname, text, photo):
     item = {}
     item['date'] = dirname
     item['title'] = text
+    data_path = f'{outdir}/{dirname}'
+    data_path = data_path.replace('../public/data/', '')
+    data_path = data_path.replace('./', '')
+    item['data_path'] = data_path
     item['photo'] = f'{dirname}/{photo}'
     if photo:
-        fullname = '%s/%s/%s' % (outdir, dirname, photo)
+        fullname = f'{outdir}/{dirname}/{photo}'
         thumb = generate_thumb(fullname)
         if thumb:
             item['thumb'] = thumb
