@@ -8,7 +8,7 @@ from utils import read_descr_file, rxDate, rxPhoto
 
 date = ''
 outdir = "../public/data"
-redirects_file = "../tag_redirects.txt"
+redirects_file = "../public/tag_redirects.txt"
 
 tags = {}
 secondary_tags = {}
@@ -179,7 +179,8 @@ def write_tag_redirects(tags):
     for tag, data in tags.items():
         for alias in data['tags']:
             if alias != tag:
-                line = f"/data/tags/{alias}.json\t/data/tags/{tag}.json\n"
+                # nginx config format
+                line = f"/data/tags/{alias}.json\t/data/tags/{tag}.json;\n"
                 lines.append(line)
 
     with open(redirects_file, 'w') as fd:
