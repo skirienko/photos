@@ -8,9 +8,11 @@ from utils import read_descr_file, rxDate, rxPhoto
 
 date = ''
 outdir = "../public/data"
+redirects_file = "../tag_redirects.txt"
 
 tags = {}
 secondary_tags = {}
+
 
 def read_preset_tags():
     infile = './tags.txt'
@@ -21,67 +23,11 @@ def read_preset_tags():
     lines = read_descr_file(infile)
     for i, line in enumerate(lines):
         result = strip_end_tags(line)
-        print(result)
         if result['tags']:
             mainTag = result['tags'][0]
             tags[mainTag] = create_tag(result['text'], result['tags'])
 
     print(tags)
-
-
-def lines2tags(lines, album, date):
-    # print("lines2tags in %s / %s" % (album, date))
-    tags = {}
-
-    title = lines[0].strip()
-    descr = ''
-
-    for i, line in enumerate(lines[1:]):
-
-        # strip first term as it is usually a filename or videocode
-        pair = line.strip().split(' ', 1)
-        text = pair[1] if len(pair) > 1 else ''
-
-        if rxDate.match(pair[0]):
-            dirname = pair[0]
-            fullpath = f'{outdir}/{dirname}'        
-            print(f"fullpath {fullpath}")
-
-            if os.path.isdir(fullpath):
-                print(f"{fullpath} -> {text}")
-
-                photo = ''
-                parts = text.split('#')
-                if len(parts) > 1:
-                    text = parts[0].strip()
-                    photo = parts[1].strip()
-                    print(f"photo: {photo}")
-
-                if text == '':
-                    text = dirname
-
-                if not photo:
-                    photo = select_cover(fullpath)
-
-                item = create_event_item(outdir, dirname, text, photo)
-                events.append(item)
-
-            else:
-                print("Directory not found (%s)" % fullpath)
-
-        elif rxPhoto.match(pair[0]):
-            photo = pair[0]
-            if len(pair) > 1:
-                res = strip_end_tags(pair[1])
-                if len(res['tags']) > 0:
-                    tags[pair[0]] = res['tags']
-
-        elif i == 1:
-            descr = line.strip()
-        else:
-            ...
-
-    return tags
 
 
 def strip_end_tags(text):
@@ -101,6 +47,7 @@ def strip_end_tags(text):
     if len(result['tags']) == len(words):
         result['text'] = result['tags'][0]
 
+    result['tags'] = list(reversed(result['tags']))
     return result
 
 
@@ -123,7 +70,6 @@ def find_tags_in_json(path, album, date):
         res = json.load(f)
 
     if res and 'sections' in res:
-        print(res['date'])
 
         title = res['title']
         for section in res['sections']:
@@ -159,30 +105,39 @@ def find_tags_in_json(path, album, date):
                             }
                             add_to_tags(tag, obj)
 
-    return tags
-
 
 def get_client_path(album, date):
     if album == '.':
-        return '/%s' % date
+        return f'/{date}'
     else:
-        return '/%s/%s' % (album, date)
+        return f'/{album}/{date}'
 
 
 def get_tags_from_date(album, date):
-    infile = '%s/%s/descript.ion' % (album, date)
-    injson = '../public/data/%s/%s/descr.json' % (album, date)
+    injson = f'../public/data/{album}/{date}/descr.json'
 
     # outdir = '../public/data/tags'
 
-    print("  %s" % (date))
+    print(f"  {date}")
 
     if not os.path.isfile(injson):
         print("No descr.json file, skipping")
         return
 
-    tags = find_tags_in_json(injson, album, date)
+    find_tags_in_json(injson, album, date)
 
+
+def find_correct_tag(candidate):
+    res = None
+    for tag, data in tags.items():
+        if tag == candidate:
+            res = tag
+            break
+        elif candidate in data['tags']:
+            res = tag
+            break
+
+    return res
 
 def create_tag(title, tags):
     return {
@@ -191,8 +146,13 @@ def create_tag(title, tags):
         "items": []
     }
 
+
 def add_to_tags(tag, obj):
-    if not tag in tags:
+    correct_tag = find_correct_tag(tag)
+
+    if correct_tag:
+        tag = correct_tag
+    else:
         tags[tag] = create_tag(tag, [tag])
     
     tags[tag]["items"].append(obj)
@@ -208,10 +168,22 @@ def write_tag(tag, data):
 def write_index(tags):
     keys = sorted(tags.keys())
     index = [{"tag": k, "len": len(tags[k]['items'])} for k in keys]
-    print(index)
     fullname = "%s/tags.json" % outdir
     with open(fullname, 'w', encoding='utf8') as ofd:
         ofd.write(json.dumps(index, ensure_ascii=False))
+
+
+def write_tag_redirects(tags):
+
+    lines = []
+    for tag, data in tags.items():
+        for alias in data['tags']:
+            if alias != tag:
+                line = f"/data/tags/{alias}.json\t/data/tags/{tag}.json\n"
+                lines.append(line)
+
+    with open(redirects_file, 'w') as fd:
+        fd.writelines(lines)
 
 
 def write_tags(tags):
@@ -224,15 +196,16 @@ def write_tags(tags):
     for tag, data in tags.items():
         write_tag(tag, data)
 
+    write_tag_redirects(tags)
+
+
 read_preset_tags()
 for album, dates in albums.items():
-
-    print(album)
 
     for date in dates:
         get_tags_from_date(album, date)
         # generate_xdate_descr(album, date)
 
-    if tags:
-        # print(tags)
-        write_tags(tags)
+if tags:
+    print(tags)
+    write_tags(tags)

@@ -54,7 +54,6 @@
 #halic
 гарем #harem
 #hauptbahnhof
-#highlake
 #hippodrome
 #hotel
 #hundertwasser
@@ -70,21 +69,21 @@ IKEA #ikea
 #karakoy
 #keleti
 #kruje
-озеро #lake #lago #lagoa
+озеро #lake #lago #lagoa #highlake
 #lello
 #leukos-pyrgos
 #liberdade
-#lighthouse
+маяк #lighthouse
 #mailbox
 #manuelino
 #margit
 #marmara
 #matyas-templom
-Метро #metro #metro2 #foldalatti
+метро #metro #metro2 #foldalatti
 #minas-shopping
 модель #model
 памятник #monument
-музей #museu #museum #ocean-museum
+музей #museum #museu #ocean-museum
 #ndk
 ночь #night #noite
 obidos
@@ -93,7 +92,7 @@ obidos
 #park #parque
 #porto
 #portvine
-пляж #praia-vermelha #praia #plage #playa
+пляж #plage #praia-vermelha #praia #playa
 #prater
 #rachmaninoff
 #rauschen
@@ -117,7 +116,7 @@ sao-vicente
 #stefansdom
 #submarine
 #sultanahmet
-#sunset
+закат #sunset
 #taksim
 #teleferico
 #tirane
@@ -132,7 +131,7 @@ sao-vicente
 университет #university #universidade
 #urca
 #varosliget
-#vauxhall
+вокзал #vauxhall
 #vitrine
 #volkhov
 #volta
