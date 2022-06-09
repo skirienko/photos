@@ -6,30 +6,25 @@ class PlacePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            placeId: null,
+            place: null,
         }
     }
 
-    fetchItem(placeId) {
-        let place = null;
-        if (placeId in this.state) {
-            place = this.state[placeId];
-            document.title = place.title;
-        }
-        else {
-            fetch(`/data/${placeId}/descr.json`).then(d => d.json()).then(result => {
-                if (result) {
-                    this.setState({[placeId]:result});
-                }
-            });
-        }
-        return place;
+    async fetchItem(placeId) {
+        return await fetch(`/data/${placeId}/descr.json`).then(d => d.json());
     }
 
+    async componentDidMount() {
+        const placeId = this.props.match.params.place;
+        const place = await this.fetchItem(placeId);
+        this.setState({placeId: placeId, place: place});
+    }
 
     render() {
-        const placeId = this.props.match.params.place;
-        const place = this.fetchItem(placeId);
-
+        const {placeId, place} = this.state;
+        if (place)
+            document.title = place.title;
         return place ?
             (<div className="place__page">
                 <h2>{place.title}</h2>
@@ -40,7 +35,6 @@ class PlacePage extends React.Component {
             </div>)
             :
             null;
-
     }
 }
 
