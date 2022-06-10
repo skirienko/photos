@@ -12,9 +12,8 @@ class EventPage extends React.Component {
     }
 
     componentDidMount() {
-        const placeId = this.props.match.params.place;
-        const eventId = this.props.match.params.event;
-        this.fetchItem(placeId, eventId);
+        const {match, data_path} = this.props;
+        this.fetchItem(match.params.place, match.params.event, data_path);
     }
 
     async fetchJsonFile(filename) {
@@ -31,21 +30,22 @@ class EventPage extends React.Component {
         return eventId in this.state ? this.state[eventId] : null;
     }
 
-    async fetchItem(placeId, eventId) {
+    async fetchItem(placeId, eventId, dataPath) {
         let event = null;
         if (eventId in this.state) {
             event = this.state[eventId];
         }
         else {
-            let path = `/data/${eventId}`;
-            let parentPath = "/data";
-            let result = await this.fetchJsonFile(`${path}/descr.json`);
-            // second try
-            if (!result) {
-                path = `/data/${placeId}/${eventId}`;
-                parentPath = `/data/${placeId}`;
-                result = await this.fetchJsonFile(`${path}/descr.json`);
+            let path, parentPath;
+            if (dataPath) {
+                path = `/data/${dataPath}/${eventId}`;
+                parentPath = `/data/${dataPath}`;
             }
+            else {
+                path = `/data/${eventId}`;
+                parentPath = "/data";
+            }
+            const result = await this.fetchJsonFile(`${path}/descr.json`);
 
             if (result) {
                 result.path = path;
@@ -62,7 +62,6 @@ class EventPage extends React.Component {
                     parent: parent,
                     title: this.baseTitle(parent, result),
                 });
-                
             }
 
             if (!(parentPath in this.state)) {

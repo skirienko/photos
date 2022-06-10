@@ -8,6 +8,7 @@ import TagsPage from './components/TagsPage';
 import TagPage from './components/TagPage';
 import AppHeader from './components/AppHeader';
 import Experimental from './components/Experimental';
+import paths from './paths.json';
 
 const SNAP_NAME = "scrollSnap";
 
@@ -42,17 +43,15 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    fetch('/data/descr.json').then(d => d.json()).then(result => {
-        if (result) {
-          const events = result;
-          const albums = {};
-          events.filter(ev => 'album' in ev).forEach(ev => {
-            albums[ev.album] = ev.title;
-          });
-          
-          this.setState({events: events, albums: albums});
-        }
-    });      
+    const result = await fetch('/data/descr.json').then(d => d.json());
+    if (result) {
+      const events = result;
+      const albums = {};
+      events.filter(ev => 'album' in ev).forEach(ev => {
+        albums[ev.album] = ev.title;
+      });
+      this.setState({events: events, albums: albums});
+    }
   }
 
   getEventIdFromMatchParams(params) {
@@ -71,11 +70,11 @@ class App extends Component {
         <AppHeader albums={albums}/>
         <div className="app__content">
           <Switch>
-            <Route exact path="/" render={props => <EventsList events={events} {...props}/>} />
+            <Route exact path="/"><EventsList events={events}/></Route>
             <Route exact path="/tags"><TagsPage/></Route>
             <Route path="/tags/:tag" render={props => <TagPage {...props}/>}/>
             <Route exact path="/:place" component={PlacePage}/>
-            <Route path="/:place/:event" render={props => <EventPage {...props}/>}/>
+            <Route path="/:place/:event" render={props => <EventPage data_path={paths[props.match.params.place]} {...props}/>}/>
           </Switch>
         </div>
         <footer className="app__footer">
