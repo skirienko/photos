@@ -11,11 +11,11 @@
 Баталья #batalha
 #bayrampasa
 #belfry
-#bird #birds
+птица #bird #birds
 #boat
-#bosporos
+Босфор #bosporos
 #botafogo
-#breakfast
+завтрак #breakfast
 мост #bridge #ponte #ponte-luis
 #budaivar
 кафе #cafe #cafe-central
@@ -23,8 +23,8 @@
 автомобиль #car
 #cascatinha
 #castle #castelo #castelo-obidos
-#cathedral
-Керамика #ceramic #ceramica
+собор #cathedral #se #se-velha
+керамика #ceramic #ceramica
 #chocolate
 #cidade-tomar
 цистерна #cistern
@@ -46,16 +46,15 @@
 #food
 #football
 #fort
-#fountain
+фонтан #fountain
 #fringilla
 #funiculaire #funikuler
 #gellert
 гуляш #gulyas
 #halic
 гарем #harem
-#hauptbahnhof
 #hippodrome
-#hotel
+отель #hotel
 #hundertwasser
 IBM #ibm
 Икарус #ikarus
@@ -86,7 +85,7 @@ IKEA #ikea
 музей #museum #museu #ocean-museum
 #ndk
 ночь #night #noite
-obidos
+#obidos
 панорама #panorama
 #pao-de-acucar
 #park #parque
@@ -106,10 +105,9 @@ obidos
 #saldanha
 #santa-justa
 #santos #santos-2
-sao-bento
-sao-vicente
+#sao-bento
+#sao-vicente
 #scheme
-#se #se-velha
 #shkoder
 #sophia
 #spit
@@ -131,7 +129,7 @@ sao-vicente
 университет #university #universidade
 #urca
 #varosliget
-вокзал #vauxhall
+вокзал #vauxhall #hauptbahnhof
 #vitrine
 #volkhov
 #volta

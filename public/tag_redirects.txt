@@ -4,6 +4,8 @@
 /data/tags/cafe-central.json	/data/tags/cafe.json;
 /data/tags/castelo.json	/data/tags/castle.json;
 /data/tags/castelo-obidos.json	/data/tags/castle.json;
+/data/tags/se.json	/data/tags/cathedral.json;
+/data/tags/se-velha.json	/data/tags/cathedral.json;
 /data/tags/ceramica.json	/data/tags/ceramic.json;
 /data/tags/funikuler.json	/data/tags/funiculaire.json;
 /data/tags/lago.json	/data/tags/lake.json;
@@ -20,5 +22,5 @@
 /data/tags/playa.json	/data/tags/plage.json;
 /data/tags/rent-a-car.json	/data/tags/rentacar.json;
 /data/tags/santos-2.json	/data/tags/santos.json;
-/data/tags/se-velha.json	/data/tags/se.json;
 /data/tags/universidade.json	/data/tags/university.json;
+/data/tags/hauptbahnhof.json	/data/tags/vauxhall.json;
