@@ -87,7 +87,7 @@ html.scroll-snap body {
   text-transform: uppercase;
 }
 
-.event__date {
+.event__date, .result__tags {
   color: #777;
 }
 

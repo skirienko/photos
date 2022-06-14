@@ -20,7 +20,11 @@ class TagPage extends React.Component {
 
             if (result) {
                 const data = this.prepareData(result['items']);
-                this.setState({[tagName]: {title: result['title'], data: data}});
+                this.setState({[tagName]: {
+                    title: result['title'],
+                    tags: result['tags'],
+                    data: data
+                }});
             }
         }
     }
@@ -57,7 +61,7 @@ class TagPage extends React.Component {
         return data ?
             (<div className="place__page">
                 <h2 className="event__title">{data.title}</h2>
-                <p className="normal-text description">{data.description}</p>
+                <p className="normal-text result__tags">{data.tags.join(" ")}</p>
                 {data.data.map(section => (
                 <div key={section.path}>
                     <h3 className="event__subtitle">{section.title}</h3>
