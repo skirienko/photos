@@ -4,7 +4,6 @@
 #aksaray
 #animal
 #aqueduct
-#ascensores
 #augusta
 #ayasofya
 бар #bar
@@ -25,7 +24,7 @@
 #castle #castelo #castelo-obidos
 собор #cathedral #se #se-velha
 керамика #ceramic #ceramica
-#chocolate
+шоколад #chocolate
 #cidade-tomar
 цистерна #cistern
 #city
@@ -43,12 +42,12 @@
 #douro
 #dune
 #epa
-#food
-#football
+еда #food
+футбол #football
 #fort
 фонтан #fountain
 #fringilla
-#funiculaire #funikuler
+фуникулёр #funiculaire #funiculaires #funikuler
 #gellert
 гуляш #gulyas
 #halic
@@ -105,7 +104,6 @@ IKEA #ikea
 #saldanha
 #santa-justa
 #santos #santos-2
-#sao-bento
 #sao-vicente
 #scheme
 #shkoder
@@ -123,16 +121,15 @@ IKEA #ikea
 #torel
 #tower
 #townhall
-#train
+поезд трамвай #train
 #tram
-#trem-do-corcovado
-университет #university #universidade
+зубчатка #trem-do-corcovado #zubchatka
+университет #university #universidade #puc #ufmg
 #urca
 #varosliget
-вокзал #vauxhall #hauptbahnhof
+вокзал #vauxhall #hauptbahnhof #sao-bento
 #vitrine
 #volkhov
 #volta
 WC #wc
 зоопарк #zoo
-#zubchatka

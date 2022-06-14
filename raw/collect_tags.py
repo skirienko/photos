@@ -78,6 +78,7 @@ def find_tags_in_json(path, album, date):
                 for tag in section['tags']:
                     print(tag)
                     obj = {
+                        "tag": tag,
                         "path": get_client_path(album, date),
                         "place": album,
                         "date": res["date"],
@@ -94,6 +95,7 @@ def find_tags_in_json(path, album, date):
                         for tag in episode['tags']:
                             print(tag)
                             obj = {
+                                "tag": tag,
                                 "path": get_client_path(album, date),
                                 "place": album,
                                 "date": res["date"],

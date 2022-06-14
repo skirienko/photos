@@ -7,6 +7,7 @@
 /data/tags/se.json	/data/tags/cathedral.json;
 /data/tags/se-velha.json	/data/tags/cathedral.json;
 /data/tags/ceramica.json	/data/tags/ceramic.json;
+/data/tags/funiculaires.json	/data/tags/funiculaire.json;
 /data/tags/funikuler.json	/data/tags/funiculaire.json;
 /data/tags/lago.json	/data/tags/lake.json;
 /data/tags/lagoa.json	/data/tags/lake.json;
@@ -22,5 +23,9 @@
 /data/tags/playa.json	/data/tags/plage.json;
 /data/tags/rent-a-car.json	/data/tags/rentacar.json;
 /data/tags/santos-2.json	/data/tags/santos.json;
+/data/tags/zubchatka.json	/data/tags/trem-do-corcovado.json;
 /data/tags/universidade.json	/data/tags/university.json;
+/data/tags/puc.json	/data/tags/university.json;
+/data/tags/ufmg.json	/data/tags/university.json;
 /data/tags/hauptbahnhof.json	/data/tags/vauxhall.json;
+/data/tags/sao-bento.json	/data/tags/vauxhall.json;
