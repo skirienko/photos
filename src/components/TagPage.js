@@ -1,5 +1,5 @@
 import React from 'react';
-import EventListItem from './EventListItem';
+import TagItem from './TagItem';
 
 class TagPage extends React.Component {
 
@@ -61,8 +61,8 @@ class TagPage extends React.Component {
                 {data.data.map(section => (
                 <div key={section.path}>
                     <h3 className="event__subtitle">{section.title}</h3>
-                    <ul className="events__list">
-                        {section.items.map(item => <EventListItem key={item.date+item.episode} {...item} photo={item.path+'/'+item.photo}></EventListItem>)}
+                    <ul className="results__list">
+                        {section.items.map(item => <TagItem key={item.date+item.episode} {...item}></TagItem>)}
                     </ul>
                 </div>))}
             </div>)
