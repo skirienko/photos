@@ -169,7 +169,7 @@ def write_tag(tag, data):
 
 def write_index(tags):
     keys = sorted(tags.keys())
-    index = [{"tag": k, "len": len(tags[k]['items'])} for k in keys]
+    index = [{"tag": k, "title": tags[k]['title'] ,"len": len(tags[k]['items'])} for k in keys]
     fullname = "%s/tags.json" % outdir
     with open(fullname, 'w', encoding='utf8') as ofd:
         ofd.write(json.dumps(index, ensure_ascii=False))

@@ -65,7 +65,6 @@ IKEA #ikea
 #jantar
 #kabatas
 #karakoy
-#keleti
 #kruje
 озеро #lake #lago #lagoa #highlake #rodrigo-de-freitas
 #lello
@@ -119,13 +118,13 @@ McDonald's #mcdonalds
 #torel
 башня #tower #leukos-pyrgos
 #townhall
-поезд трамвай #train
+поезд #train
 трамвай #tram
 зубчатка #trem-do-corcovado #zubchatka
 университет #university #universidade #puc #ufmg
 #urca
 #varosliget
-вокзал #vauxhall #hauptbahnhof #sao-bento
+вокзал #vauxhall #hauptbahnhof #palyaudvar #sao-bento #keleti
 витрина #vitrine
 #volta
 WC #wc
