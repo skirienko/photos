@@ -19,15 +19,15 @@
 #budaivar
 кафе #cafe #cafe-central
 #cais
-автомобиль #car
+автомобиль #car #rentacar #rent-a-car
 #cascatinha
-#castle #castelo #castelo-obidos
-собор #cathedral #se #se-velha
+замок #castle #castelo #castelo-obidos
+собор #cathedral #se #se-velha #stefansdom
 керамика #ceramic #ceramica
 шоколад #chocolate
 #cidade-tomar
 цистерна #cistern
-#city
+город #city
 #clerigos
 часы #clock
 #coast
@@ -67,9 +67,8 @@ IKEA #ikea
 #karakoy
 #keleti
 #kruje
-озеро #lake #lago #lagoa #highlake
+озеро #lake #lago #lagoa #highlake #rodrigo-de-freitas
 #lello
-#leukos-pyrgos
 #liberdade
 маяк #lighthouse
 #mailbox
@@ -77,6 +76,7 @@ IKEA #ikea
 #margit
 #marmara
 #matyas-templom
+McDonald's #mcdonalds
 метро #metro #metro2 #foldalatti
 #minas-shopping
 модель #model
@@ -87,49 +87,46 @@ IKEA #ikea
 #obidos
 панорама #panorama
 #pao-de-acucar
-#park #parque
+парк #park #parque #prater
 #porto
 #portvine
 пляж #plage #praia-vermelha #praia #playa
-#prater
 #rachmaninoff
 #rauschen
 #rei-do-mato
-#rentacar #rent-a-car
 ресторан #restaurant
 #retorna
-#rodrigo-de-freitas
+река #river #volkhov
 #rossio
 #rotunda
 #saldanha
 #santa-justa
 #santos #santos-2
 #sao-vicente
-#scheme
+схема #scheme
 #shkoder
 #sophia
 #spit
-#stefansdom
 #submarine
 #sultanahmet
 закат #sunset
 #taksim
+такси #taxi
 #teleferico
 #tirane
 #tomar
 #topkapi
 #torel
-#tower
+башня #tower #leukos-pyrgos
 #townhall
 поезд трамвай #train
-#tram
+трамвай #tram
 зубчатка #trem-do-corcovado #zubchatka
 университет #university #universidade #puc #ufmg
 #urca
 #varosliget
 вокзал #vauxhall #hauptbahnhof #sao-bento
-#vitrine
-#volkhov
+витрина #vitrine
 #volta
 WC #wc
 зоопарк #zoo

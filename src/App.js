@@ -78,7 +78,10 @@ class App extends Component {
           </Switch>
         </div>
         <footer className="app__footer">
-          <Route exact path="/"><Experimental/></Route>
+          <Route exact path="/">
+            <p className="tags-link"><a href="/tags">Теги</a></p>
+            <Experimental/>
+          </Route>
         </footer>
       </div>
       </Router>

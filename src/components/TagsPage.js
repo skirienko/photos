@@ -1,5 +1,11 @@
 import React from 'react';
 
+function Tag(props) {
+    const {tag, title, len} = props;
+    const featured = title !== tag ? "featured" : null;
+    return <li key={tag} title={len} className={featured}><a href={`/tags/${tag}`}>{title}</a></li>;
+}
+
 class TagsPage extends React.Component {
 
     constructor() {
@@ -29,7 +35,7 @@ class TagsPage extends React.Component {
                 <p className="normal-text description">Все теги</p>
                 <ul className="tags__list">
                     {tags ?
-                        tags.map(t => <li key={t.tag} title={t.len}><a href={`/tags/${t.tag}`}>{t.tag}</a></li>)
+                        tags.map(t => <Tag {...t}/>)
                         :
                         null
                     }

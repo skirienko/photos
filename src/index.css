@@ -44,7 +44,7 @@ html.scroll-snap body {
   transition: all .5s ease-out;
 }
 
-.events__item a:hover, .results__item a:hover {
+.events__item a:hover, .results__item a:hover, .tags-link a:hover {
   color: #CC3333;
 }
 
@@ -62,7 +62,7 @@ html.scroll-snap body {
   line-height: 1.5;
 }
 
-.events__item.album .event-title {
+.events__item.album .event-title, .tags-link a {
   font-weight: bold;
 }
 
@@ -237,6 +237,10 @@ html.scroll-snap body {
   margin-right: .5rem
 }
 
+.featured {
+  font-weight: bold;
+}
+
 .footer__navigation {
   height: 2em;
   margin-top: 1em;
@@ -283,11 +287,11 @@ html.scroll-snap body {
     color: #CCC;
   }
 
-  .events__item a {
+  .events__item a, .tags-link a {
      color: #3590EB;
   }
 
-  .events__item a:hover, .results__item a:hover {
+  .events__item a:hover, .results__item a:hover, .tags-link a:hover {
     color: #EB3333;
  }
 
