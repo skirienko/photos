@@ -116,7 +116,7 @@ McDonald's #mcdonalds
 #tomar
 #topkapi
 #torel
-башня #tower #leukos-pyrgos
+башня #tower #leukos-pyrgos #kokuy
 #townhall
 поезд #train
 трамвай #tram
@@ -127,5 +127,6 @@ McDonald's #mcdonalds
 вокзал #vauxhall #hauptbahnhof #palyaudvar #sao-bento #keleti
 витрина #vitrine
 #volta
+стены #wall #walls
 WC #wc
 зоопарк #zoo

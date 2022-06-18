@@ -29,6 +29,7 @@
 /data/tags/volkhov.json	/data/tags/river.json;
 /data/tags/santos-2.json	/data/tags/santos.json;
 /data/tags/leukos-pyrgos.json	/data/tags/tower.json;
+/data/tags/kokuy.json	/data/tags/tower.json;
 /data/tags/zubchatka.json	/data/tags/trem-do-corcovado.json;
 /data/tags/universidade.json	/data/tags/university.json;
 /data/tags/puc.json	/data/tags/university.json;
@@ -37,3 +38,4 @@
 /data/tags/palyaudvar.json	/data/tags/vauxhall.json;
 /data/tags/sao-bento.json	/data/tags/vauxhall.json;
 /data/tags/keleti.json	/data/tags/vauxhall.json;
+/data/tags/walls.json	/data/tags/wall.json;
