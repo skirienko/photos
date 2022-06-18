@@ -152,7 +152,7 @@ class EventPage extends React.Component {
         return toc && toc.length ? (<nav className="event__toc">
                 {toc
                     .map(item => (<a href={"#" + item.id} key={item.id}>{item.subtitle}</a>))
-                    .reduce((prev, curr) => [prev, ' — ', curr])
+                    .reduce((prev, curr) => [prev, ' — ', curr])
                 }
             </nav>)
             :
