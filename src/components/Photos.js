@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
-import animate from 'dom-helpers/transition/animate';
+import animate from 'dom-helpers/animate';
 import LinkOrSpan from './LinkOrSpan';
 import './Photos.css';
 
