@@ -16,12 +16,14 @@
 #botafogo
 завтрак #breakfast
 мост #bridge #ponte #ponte-luis
-#budaivar
+#budaivars
 кафе #cafe #cafe-central
 #cais
 автомобиль #car #rentacar #rent-a-car
+тележка #cart
 #cascatinha
 замок #castle #castelo #castelo-obidos
+кот #cat
 собор #cathedral #se #se-velha #stefansdom
 керамика #ceramic #ceramica
 шоколад #chocolate
@@ -39,6 +41,7 @@
 #cristo-redentor
 собака #dog
 #donaukanal
+шаурма #doner #gyros #shawarma
 #douro
 #dune
 #epa
@@ -112,6 +115,7 @@ McDonald's #mcdonalds
 #taksim
 такси #taxi
 #teleferico
+плитка #tile #tiles
 #tirane
 #tomar
 #topkapi
