@@ -1,7 +1,7 @@
 #adalar
 самолёт #airplane
 аэропорт #airport
-#aksaray
+Аксарай #aksaray
 #animal
 #aqueduct
 #augusta
@@ -29,7 +29,7 @@
 шоколад #chocolate
 #cidade-tomar
 цистерна #cistern
-город #city
+город #city #cidade
 #clerigos
 часы #clock
 #coast
@@ -91,7 +91,7 @@ McDonald's #mcdonalds
 #pao-de-acucar
 парк #park #parque #prater
 #porto
-#portvine
+портвейн #portwine
 пляж #plage #praia-vermelha #praia #playa
 #rachmaninoff
 #rauschen
