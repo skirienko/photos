@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
-import animate from 'dom-helpers/animate';
 import LinkOrSpan from './LinkOrSpan';
 import './Photos.css';
 
@@ -95,6 +94,7 @@ export class Photos extends Component {
             dragStartX: null,
             dragX: null,
             animating: null,
+            easing: null,
         };
         if (typeof newValue !== 'undefined') {
             state.selected = newValue;
@@ -193,10 +193,8 @@ export class Photos extends Component {
             }
             // transition time should depend on length to glide (even linear is better than const)
             const time = Math.abs(this.state.dragX - to) / w * TRANSITION_TIME;
-            animate(el, {translate: to+'px'}, time, 'ease-out', () => {
-                this.setState({dragX:to});
-                callback.call(this);
-            });    
+            this.setState({dragX:to, easing:time});
+            setTimeout(callback.bind(this), time);
         }
     }
 
@@ -229,6 +227,9 @@ export class Photos extends Component {
             paddingBottom: this.props.aspect ? this.props.aspect+"%" : null,
             transform: this.state.dragX ? `translate(${this.state.dragX}px)` : null,
         };
+        if (this.state.easing) {
+            photosStyle.transition = `transform ${this.state.easing}ms ease-out`;
+        }
 
         const currIdx = this.state.selected % this.len;
         const prevIdx = (this.len + currIdx - 1) % this.len;
