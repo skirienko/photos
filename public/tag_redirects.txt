@@ -10,6 +10,7 @@
 /data/tags/se-velha.json	/data/tags/cathedral.json;
 /data/tags/stefansdom.json	/data/tags/cathedral.json;
 /data/tags/ceramica.json	/data/tags/ceramic.json;
+/data/tags/cidade.json	/data/tags/city.json;
 /data/tags/gyros.json	/data/tags/doner.json;
 /data/tags/shawarma.json	/data/tags/doner.json;
 /data/tags/funiculaires.json	/data/tags/funiculaire.json;

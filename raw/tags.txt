@@ -100,7 +100,7 @@ McDonald's #mcdonalds
 #retorna
 река #river #volkhov
 #rossio
-#rotunda
+ротонда #rotunda
 #saldanha
 #santa-justa
 #santos #santos-2
@@ -112,16 +112,16 @@ McDonald's #mcdonalds
 #submarine
 #sultanahmet
 закат #sunset
-#taksim
+Таксим #taksim
 такси #taxi
 #teleferico
 плитка #tile #tiles
 #tirane
 #tomar
-#topkapi
+Топкапы #topkapi
 #torel
 башня #tower #leukos-pyrgos #kokuy
-#townhall
+ратуша #townhall
 поезд #train
 трамвай #tram
 зубчатка #trem-do-corcovado #zubchatka
