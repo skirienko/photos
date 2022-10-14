@@ -1,4 +1,6 @@
+/data/tags/cerveja.json	/data/tags/beer.json;
 /data/tags/birds.json	/data/tags/bird.json;
+/data/tags/books.json	/data/tags/book.json;
 /data/tags/ponte.json	/data/tags/bridge.json;
 /data/tags/ponte-luis.json	/data/tags/bridge.json;
 /data/tags/cafe-central.json	/data/tags/cafe.json;
@@ -21,6 +23,7 @@
 /data/tags/rodrigo-de-freitas.json	/data/tags/lake.json;
 /data/tags/metro2.json	/data/tags/metro.json;
 /data/tags/foldalatti.json	/data/tags/metro.json;
+/data/tags/subway.json	/data/tags/metro.json;
 /data/tags/museu.json	/data/tags/museum.json;
 /data/tags/ocean-museum.json	/data/tags/museum.json;
 /data/tags/noite.json	/data/tags/night.json;
@@ -29,6 +32,7 @@
 /data/tags/praia-vermelha.json	/data/tags/plage.json;
 /data/tags/praia.json	/data/tags/plage.json;
 /data/tags/playa.json	/data/tags/plage.json;
+/data/tags/beach.json	/data/tags/plage.json;
 /data/tags/volkhov.json	/data/tags/river.json;
 /data/tags/santos-2.json	/data/tags/santos.json;
 /data/tags/tiles.json	/data/tags/tile.json;

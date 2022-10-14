@@ -9,9 +9,11 @@
 бар #bar
 Баталья #batalha
 #bayrampasa
+пиво #beer #cerveja
 #belfry
 птица #bird #birds
 #boat
+книги #book #books
 Босфор #bosporos
 #botafogo
 завтрак #breakfast
@@ -79,7 +81,7 @@ IKEA #ikea
 #marmara
 #matyas-templom
 McDonald's #mcdonalds
-метро #metro #metro2 #foldalatti
+метро #metro #metro2 #foldalatti #subway
 #minas-shopping
 модель #model
 памятник #monument
@@ -92,7 +94,7 @@ McDonald's #mcdonalds
 парк #park #parque #prater
 #porto
 портвейн #portwine
-пляж #plage #praia-vermelha #praia #playa
+пляж #plage #praia-vermelha #praia #playa #beach
 #rachmaninoff
 #rauschen
 #rei-do-mato
@@ -125,6 +127,7 @@ McDonald's #mcdonalds
 поезд #train
 трамвай #tram
 зубчатка #trem-do-corcovado #zubchatka
+троллейбус #trolleybus
 университет #university #universidade #puc #ufmg
 #urca
 #varosliget
