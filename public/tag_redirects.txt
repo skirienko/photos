@@ -15,8 +15,10 @@
 /data/tags/cidade.json	/data/tags/city.json;
 /data/tags/gyros.json	/data/tags/doner.json;
 /data/tags/shawarma.json	/data/tags/doner.json;
+/data/tags/flowers.json	/data/tags/flower.json;
 /data/tags/funiculaires.json	/data/tags/funiculaire.json;
 /data/tags/funikuler.json	/data/tags/funiculaire.json;
+/data/tags/cozinha.json	/data/tags/kitchen.json;
 /data/tags/lago.json	/data/tags/lake.json;
 /data/tags/lagoa.json	/data/tags/lake.json;
 /data/tags/highlake.json	/data/tags/lake.json;

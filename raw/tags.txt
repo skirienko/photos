@@ -47,6 +47,7 @@
 #douro
 #dune
 #epa
+цветы #flower #flowers
 еда #food
 футбол #football
 #fort
@@ -70,6 +71,7 @@ IKEA #ikea
 #jantar
 #kabatas
 #karakoy
+кухня #kitchen #cozinha
 #kruje
 озеро #lake #lago #lagoa #highlake #rodrigo-de-freitas
 #lello
