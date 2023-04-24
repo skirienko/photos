@@ -1,4 +1,3 @@
-import React from 'react';
 import {Photo, Photos} from './Photos';
 import Video from './Video';
 import Vimeo from './Vimeo';
@@ -19,7 +18,7 @@ function Tag({hash}) {
     return <a href={`/tags/${hash}`} className="tag">{hash}</a>;
 }
 
-function Episode ({path, episode}) {
+export default function Episode ({path, episode}) {
     if (episode.hide) {
         return null;
     }
@@ -49,5 +48,3 @@ function Episode ({path, episode}) {
         </div>
     );
 }
-
-export default Episode;
