@@ -10,7 +10,6 @@
 Баталья #batalha
 #bayrampasa
 пиво #beer #cerveja
-#belfry
 птица #bird #birds
 #boat
 книги #book #books
@@ -18,12 +17,10 @@
 #botafogo
 завтрак #breakfast
 мост #bridge #ponte #ponte-luis
-#budaivars
 кафе #cafe #cafe-central
 #cais
 автомобиль #car #rentacar #rent-a-car
 тележка #cart
-#cascatinha
 замок #castle #castelo #castelo-obidos
 кот #cat
 собор #cathedral #se #se-velha #stefansdom
@@ -36,15 +33,12 @@
 часы #clock
 #coast
 #coimbra
-#convento-de-cristo
 #copacabana
-#cork
 #cosmos
 #cristo-redentor
 собака #dog
-#donaukanal
+канал #donaukanal #canal
 шаурма #doner #gyros #shawarma
-#douro
 #dune
 #epa
 цветы #flower #flowers
@@ -62,6 +56,7 @@
 отель #hotel
 #hundertwasser
 IBM #ibm
+мороженое #icecream #ice-cream #sorvete
 Икарус #ikarus
 IKEA #ikea
 #imigrantes
@@ -72,14 +67,11 @@ IKEA #ikea
 #kabatas
 #karakoy
 кухня #kitchen #cozinha
-#kruje
 озеро #lake #lago #lagoa #highlake #rodrigo-de-freitas
-#lello
 #liberdade
 маяк #lighthouse
-#mailbox
+почта #mail #mailbox
 #manuelino
-#margit
 #marmara
 #matyas-templom
 McDonald's #mcdonalds
@@ -88,7 +80,7 @@ McDonald's #mcdonalds
 модель #model
 памятник #monument
 музей #museum #museu #ocean-museum
-#ndk
+НДК #ndk
 ночь #night #noite
 #obidos
 панорама #panorama
@@ -97,17 +89,14 @@ McDonald's #mcdonalds
 #porto
 портвейн #portwine
 пляж #plage #praia-vermelha #praia #playa #beach
-#rachmaninoff
-#rauschen
-#rei-do-mato
 ресторан #restaurant
-#retorna
-река #river #volkhov
+река #river #volkhov #douro
+автовокзал #rodoviaria #otogar
 #rossio
 ротонда #rotunda
 #saldanha
 #santa-justa
-#santos #santos-2
+Сантус #santos #santos-2
 #sao-vicente
 схема #scheme
 #shkoder
@@ -126,6 +115,7 @@ McDonald's #mcdonalds
 #torel
 башня #tower #leukos-pyrgos #kokuy
 ратуша #townhall
+светофор #traffic-light #traffic-lights
 поезд #train
 трамвай #tram
 зубчатка #trem-do-corcovado #zubchatka
@@ -134,8 +124,9 @@ McDonald's #mcdonalds
 #urca
 #varosliget
 вокзал #vauxhall #hauptbahnhof #palyaudvar #sao-bento #keleti
+витраж #vitrage
 витрина #vitrine
-#volta
+обратно #volta #retorna
 стены #wall #walls
 WC #wc
 зоопарк #zoo
