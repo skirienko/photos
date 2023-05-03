@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import { getScrollSnap, setScrollSnap } from '../App';
 
 export default function Experimental() {

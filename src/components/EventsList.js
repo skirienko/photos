@@ -1,36 +1,29 @@
-import React from 'react';
+import {useState, useEffect} from 'react';
 import EventListItem from './EventListItem';
 
-class EventsList extends React.Component {
+export default function EventsList(props) {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            events: props.events
-        };
-    }
+    const [events, setEvents] = useState(props.events);
 
-    componentDidMount() {
+    useEffect(() => {
         document.title = "Фотографии";
-        if (!this.state.events) {
-            fetch('/data/descr.json').then(d => d.json()).then(result => {
-                if (result) {
-                  this.setState({events: result});
-                }
-              });      
+        if (!events || !events.length) {
+            try {
+                fetch('/data/descr.json')
+                    .then(d => d.json())
+                    .then(res => setEvents(res));
+            }
+            catch(e) {
+                console.warn("Could not fetch data");
+            }
         }
-    }
+    }, []);
 
-    render() {
-        if (!this.state.events) {
-            return null;
-        }
-    
-        return (<ul className="events__list">
-                {this.state.events.map(item => <EventListItem key={item.date||item.album} {...item}></EventListItem>)}
-            </ul>);
-    
-    }
+    return (events ?
+        <ul className="events__list">
+            {events.map(item => <EventListItem key={item.date||item.album} {...item}></EventListItem>)}
+        </ul>
+        : null
+    );
+
 }
-
-export default EventsList;

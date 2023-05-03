@@ -1,7 +1,7 @@
 import React from 'react';
 import EventListItem from './EventListItem';
 
-class PlacePage extends React.Component {
+export default class PlacePage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -37,5 +37,3 @@ class PlacePage extends React.Component {
             null;
     }
 }
-
-export default PlacePage;
