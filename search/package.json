@@ -1,0 +1,15 @@
+{
+  "name": "search",
+  "version": "1.0.0",
+  "description": "nodejs search module",
+  "main": "search.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sergey Kirienko",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "minisearch": "^6.0.1"
+  }
+}
