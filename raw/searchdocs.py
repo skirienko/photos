@@ -47,7 +47,7 @@ def get_docs_from_descr(path, album, date):
             if 'episodes' in section:
                 for episode in section['episodes']:
                     obj = {
-                        # "path": get_client_path(album, date),
+                        "path": get_client_path(album, date),
                         # "place": album,
                         # "date": res["date"],
                         # "type": "episode",
@@ -65,6 +65,7 @@ def get_docs_from_descr(path, album, date):
 
 
 def add_to_docs(obj):
+    obj['id'] = len(docs)+1
     print(obj)
     docs.append(obj)
 
