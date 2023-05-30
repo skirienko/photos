@@ -1,0 +1,9 @@
+[Unit]
+Description=Search service for photos.skirienko.info
+
+[Service]
+Environment=NODE_PORT=3001
+ExecStart=/usr/bin/node /var/www/photos.skirienko.info/search/search.js
+Type=simple
+Restart=always
+User=www
