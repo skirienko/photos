@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import TagItem from './TagItem';
+import { useParams } from 'react-router-dom';
+import Result from './Result';
 
 function prepareData(rawData) {
     let sections = {};
@@ -22,18 +23,17 @@ function prepareData(rawData) {
     return data;
 }
 
-export default function TagPage({match}) {
+export default function TagPage() {
 
-    const tagName = match.params.tag;
+    const {tag} = useParams();
     const [data, setData] = useState();
     const [title, setTitle] = useState('');
     const [aliases, setAliases] = useState([]);
 
-
     useEffect(() => {
-        document.title = "Всё с тегом "+tagName;
+        document.title = "Всё с тегом "+tag;
         try {
-            fetch(`/data/tags/${tagName}.json`)
+            fetch(`/data/tags/${tag}.json`)
                 .then(d => d.json())
                 .then(res => {
                     if (res) {
@@ -45,7 +45,7 @@ export default function TagPage({match}) {
 
         }
         catch(e) {
-            console.warn("Could not fetch data for tag "+tagName);
+            console.warn("Could not fetch data for tag "+tag);
         }
     }, []);
 
@@ -57,7 +57,7 @@ export default function TagPage({match}) {
             <div key={section.path}>
                 <h3 className="event__subtitle">{section.title}</h3>
                 <ul className="results__list">
-                    {section.items.map(item => <TagItem key={item.date+item.episode} {...item}></TagItem>)}
+                    {section.items.map(item => <Result key={item.date+item.episode} {...item}></Result>)}
                 </ul>
             </div>))}
         </div>)

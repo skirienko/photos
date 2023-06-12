@@ -1,8 +1,7 @@
-import { withRouter } from 'react-router-dom';
 import LinkOrSpan from './LinkOrSpan';
 
 
-function AppHeader({albums, location}) {
+export default function AppHeader({albums}) {
 
     const links = [
       {path: '/', children: "Фотографии"}
@@ -28,5 +27,3 @@ function AppHeader({albums, location}) {
       </header>
     );
 }
-
-export default withRouter(AppHeader);

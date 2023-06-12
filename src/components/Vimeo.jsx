@@ -11,9 +11,8 @@ export default function Vimeo({video, descr}) {
                 .then(res => {
                     const params = res[0];
                     if (params.height && params.width) {
-                        aspect = params.height / params.width * 100;
+                        setAspect(params.height / params.width * 100);
                     }
-                    setAspect(aspect);
                 });
         }
         catch(e) {

@@ -1,5 +1,7 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import Section from './Section';
+import paths from '../paths.json';
 
 const JOINER = ' — ';
 
@@ -102,6 +104,10 @@ function setDocumentTitle(base, subtitle) {
     document.title = parts.join(JOINER);
 }
 
+function withParams(Component) {
+    return props => <Component {...props} params={useParams()} />;
+}
+
 class EventPage extends React.Component {
 
     constructor(props) {
@@ -111,8 +117,9 @@ class EventPage extends React.Component {
     }
 
     componentDidMount() {
-        const {match, data_path} = this.props;
-        this.fetchItem(match.params.place, match.params.event, data_path);
+        const {params} = this.props;
+        const dataPath = paths[params.place];
+        this.fetchItem(params.place, params.event, dataPath);
     }
 
     getItem(eventId) {
@@ -165,7 +172,7 @@ class EventPage extends React.Component {
     }
 
     render() {
-        const eventId = this.props.match.params.event;
+        const eventId = this.props.params.event;
         const item = this.getItem(eventId);
 
         setDocumentTitle(this.state.title);
@@ -194,4 +201,4 @@ class EventPage extends React.Component {
     
 }
 
-export default EventPage;
+export default withParams(EventPage);

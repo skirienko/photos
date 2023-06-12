@@ -1,15 +1,10 @@
 import {useState} from 'react';
 import { NavLink } from 'react-router-dom';
 
-export default function TagItem(props) {
-    const {date, descr, path, place, episode, photo, tag} = props;
-    const hash = episode ? "e"+episode : tag;
-    const link = `/${place}/${date}#${hash}`;
+export default function Result(props) {
+    const {descr, path, photo, hash} = props;
+    const link = `${path}#${hash}`;
     const src = ["/data", path, photo].join('/');
-    const classNames = ["results__item"];
-    if (!date && props.album) {
-        classNames.push("album");
-    }
 
     let [opacity, setOpacity] = useState(0);
 
@@ -17,7 +12,10 @@ export default function TagItem(props) {
         setOpacity(1);
     }
 
-    return (<li className={classNames.join(' ')}>
+    // link, src, descr
+    // link=(place,date,hash), src=(path,photo), descr
+
+    return (<li className="results__item">
         <NavLink to={link}>
             <div className="progressive-img">
                 <img src={src} alt="" width="240" height="160"

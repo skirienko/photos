@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import EventsList from './components/EventsList';
 import PlacePage from './components/PlacePage';
 import EventPage from './components/EventPage';
 import TagsPage from './components/TagsPage';
+//import SearchPage from './components/SearchPage';
 import TagPage from './components/TagPage';
 import AppHeader from './components/AppHeader';
 import Experimental from './components/Experimental';
@@ -30,8 +31,18 @@ export function setScrollSnap(value) {
   document.querySelector('html').classList[action]('scroll-snap');
 }
 
+function Footer() {
+  return (
+    <>
+      <p className="tags-link"><a href="/tags">Теги</a></p>
+      {/*<p className="tags-link"><a href="/search">Поиск</a></p>*/}
+      <Experimental/>
+    </>
+  );
 
-class App extends Component {
+}
+
+export default class App extends Component {
 
   constructor(props) {
     super(props);
@@ -69,24 +80,27 @@ class App extends Component {
       <div className="app">
         <AppHeader albums={albums}/>
         <div className="app__content">
-          <Switch>
-            <Route exact path="/"><EventsList events={events}/></Route>
-            <Route exact path="/tags"><TagsPage/></Route>
-            <Route path="/tags/:tag" render={props => <TagPage {...props}/>}/>
-            <Route exact path="/:place" component={PlacePage}/>
-            <Route path="/:place/:event" render={props => <EventPage data_path={paths[props.match.params.place]} {...props}/>}/>
-          </Switch>
+          <Routes>
+            <Route exact path="/" element={<EventsList events={events}/>} />
+            <Route path="tags">
+              <Route index element={<TagsPage />} />
+              <Route path=":tag" element={<TagPage />} />
+            </Route>
+            <Route path=":place">
+              <Route index element={<PlacePage />}/>
+              <Route path=":event" element={<EventPage />}/>
+            </Route>
+            {/*<Route path="/search" render={props => <SearchPage {...props}/>}/>*/}
+          </Routes>
         </div>
         <footer className="app__footer">
-          <Route exact path="/">
-            <p className="tags-link"><a href="/tags">Теги</a></p>
-            <Experimental/>
-          </Route>
+          <Routes>
+            <Route exact path="/" element={<Footer/>}>
+            </Route>
+          </Routes>
         </footer>
       </div>
       </Router>
     );
   }
 }
-
-export default App;
