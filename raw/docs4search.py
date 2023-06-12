@@ -35,12 +35,13 @@ def get_docs_from_descr(path, album, date):
             print(section)
             if 'title' in section:
                 obj = {
-                    # "path": get_client_path(album, date),
-                    # "place": album,
-                    # "date": res["date"],
-                    # "type": "subsection",
+                    "path": get_client_path(album, date),
+                    "place": album,
+                    "date": res["date"],
+                    "type": "subsection",
                     "title": title,
                     "descr": section["title"],
+                    "hash": section["id"],
                     "photo": get_section_photo(section),
                 }
 
@@ -48,12 +49,12 @@ def get_docs_from_descr(path, album, date):
                 for episode in section['episodes']:
                     obj = {
                         "path": get_client_path(album, date),
-                        # "place": album,
-                        # "date": res["date"],
-                        # "type": "episode",
+                        "place": album,
+                        "date": res["date"],
+                        "type": "episode",
                         "title": title,
                         "descr": episode["descr"],
-                        # "episode": episode["id"],
+                        "hash": "e"+str(episode["id"]),
                         "photo": get_episode_photo(episode),
                     }
                     searchTerm = obj['photo'].replace('.webp', '')

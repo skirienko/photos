@@ -11,18 +11,20 @@ MAX_SIDE = 1200
 PANO_MIN_SIZE = 600
 quality = 90
 
+SKIP_VIDEO = True
+
 watermarks = {}
 
 # cmd_video_resize = './HandBrakeCLI.exe -i %s -o %s' # Windows
 cmd_video_resize = './HandBrakeCLI -i %s -o %s' # macOS
 
-# albums = {
-#     'portugal': ('2015-04-20',)
-# }
-
 albums = {
-    '.': ('2015-06-11',)
+    'portugal': ('2015-04-22',)
 }
+
+# albums = {
+#     '.': ('2015-06-11',)
+# }
 
 
 def generate_watermark(text):

@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 # date = '2018-09-11'
 # date = '2015-04-17'
 
-dirname = 'portugal/2015-04-20'
+dirname = 'portugal/2015-04-22'
 
 
 EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S'
