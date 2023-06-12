@@ -6,7 +6,7 @@ const docs = require('../public/data/docs.json');
 
 let ms = new MiniSearch({
     fields: ['title', 'descr'],
-    storeFields: ['title', 'descr', 'photo', 'path'],
+    storeFields: ['title', 'descr', 'photo', 'path', 'hash'],
 });
 
 ms.addAll(docs);

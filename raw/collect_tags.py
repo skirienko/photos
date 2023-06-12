@@ -85,6 +85,7 @@ def find_tags_in_json(path, album, date):
                         "type": "subsection",
                         "title": title,
                         "descr": section["title"],
+                        "hash": section["id"],
                         "photo": get_section_photo(section),
                     }
                     add_to_tags(tag, obj)
@@ -102,7 +103,7 @@ def find_tags_in_json(path, album, date):
                                 "type": "episode",
                                 "title": title,
                                 "descr": episode["descr"],
-                                "episode": episode["id"],
+                                "hash": "e"+str(episode["id"]),
                                 "photo": get_episode_photo(episode),
                             }
                             add_to_tags(tag, obj)
