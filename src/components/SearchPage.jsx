@@ -1,35 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Result from './Result';
 
+const SEARCH_URL = '//localhost:5005/search';
 export default function SearchPage() {
 
     const [results, setResults] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
 
-    useEffect(() => {
-        document.title = "Поиск";
-        try {
-            fetch('/data/tags.json')
-                .then(d => d.json())
-                .then(res => setTags(res));
-        }
-        catch(e) {
-            console.warn("Could not fetch tags list");
-        }
-    }, []);
-
-    function runSearch(e) {
-        const form = e.target;
+    function runSearch(event) {
+        const form = event.target;
         if (form && form.q && form.q.value) {
             const q = form.q.value.trim()
-            console.log(q)
-            fetch('//localhost:5005/search?q='+q)
+            fetch(SEARCH_URL+'?q='+q)
                 .then(d => d.json())
                 .then(setResults)
-
+            setSearchParams({q})
         }
-        e.preventDefault();
+        event.preventDefault();
     }
 
     return (
@@ -37,7 +25,7 @@ export default function SearchPage() {
             <h2>Поиск</h2>
             <div>
                 <form onSubmit={runSearch}>
-                    <input type="search" name="q"/>
+                    <input type="search" name="q" defaultValue={searchParams.get('q')}/>
                 </form>
             </div>
             {
