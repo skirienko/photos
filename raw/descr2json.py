@@ -148,6 +148,9 @@ def lines2data(lines, outdir):
                 if not os.path.exists('%s/%s' % (outdir, poster)):
                     poster = None
                 item = create_video_item(filename, text, episode_id, poster)
+                print(tags)
+                tags.append('video')
+                item['tags'] = tags
                 section['episodes'].append(item)
                 episode_id += 1
                 prevItem = item
@@ -156,6 +159,8 @@ def lines2data(lines, outdir):
             m = rxVimeo.match(filename)
             code = m.group(1)
             item = create_vimeo_item(code, text, episode_id)
+            tags.append('video')
+            item['tags'] = tags
             section['episodes'].append(item)
             episode_id += 1
             prevItem = item
