@@ -61,6 +61,8 @@ def get_episode_photo(episode):
         return episode["photo"]
     elif "photos" in episode:
         return episode["photos"][0]
+    elif "poster" in episode:
+        return episode["poster"]
     else:
         return ''
 
