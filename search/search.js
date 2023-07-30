@@ -1,8 +1,9 @@
 
+require('dotenv').config();
 const MiniSearch = require('minisearch');
 const express = require('express');
 
-const docs = require('../public/data/docs.json'); 
+const docs = require(process.env.DOCPATH+'/docs.json'); 
 
 let ms = new MiniSearch({
     fields: ['title', 'descr'],
@@ -10,6 +11,7 @@ let ms = new MiniSearch({
 });
 
 ms.addAll(docs);
+console.log(`${ms.documentCount} docs, ${ms.termCount} terms`);
 
 const app = express();
 
@@ -24,6 +26,7 @@ app.use(function(req, res, next) {
 app.get("/search", (req, res) => {
     if (req.query && req.query.q) {
         const q = req.query.q;
+        console.debug("Searching for: "+q);
         res.json(ms.search(q));
     }
     else
