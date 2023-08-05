@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import EventsList from './components/EventsList';
 import PlacePage from './components/PlacePage';
 import EventPage from './components/EventPage';
 import TagsPage from './components/TagsPage';
-//import SearchPage from './components/SearchPage';
+import SearchPage from './components/SearchPage';
 import TagPage from './components/TagPage';
 import AppHeader from './components/AppHeader';
 import Experimental from './components/Experimental';
-import paths from './paths.json';
+import './App.css';
+
 
 const SNAP_NAME = "scrollSnap";
 
@@ -35,7 +35,7 @@ function Footer() {
   return (
     <>
       <p className="tags-link"><a href="/tags">Теги</a></p>
-      {/*<p className="tags-link"><a href="/search">Поиск</a></p>*/}
+      <p className="tags-link"><a href="/search">Поиск</a></p>
       <Experimental/>
     </>
   );
@@ -86,11 +86,11 @@ export default class App extends Component {
               <Route index element={<TagsPage />} />
               <Route path=":tag" element={<TagPage />} />
             </Route>
+            <Route path="search" element={<SearchPage/>}/>
             <Route path=":place">
               <Route index element={<PlacePage />}/>
               <Route path=":event" element={<EventPage />}/>
             </Route>
-            {/*<Route path="/search" render={props => <SearchPage {...props}/>}/>*/}
           </Routes>
         </div>
         <footer className="app__footer">
