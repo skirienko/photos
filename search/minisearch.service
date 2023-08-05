@@ -1,9 +1,14 @@
 [Unit]
 Description=Search service for photos.skirienko.info
+After=network.target
 
 [Service]
 Environment=NODE_PORT=5005
+WorkingDirectory=/var/www/photos.skirienko.info/search
 ExecStart=/usr/bin/node /var/www/photos.skirienko.info/search/search.js
 Type=simple
 Restart=always
-User=www
+User=nobody
+
+[Install]
+WantedBy=multi-user.target
