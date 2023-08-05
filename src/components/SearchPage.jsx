@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Result from './Result';
 
-const SEARCH_URL = '//localhost:5005/search';
+const SEARCH_URL = '/api/search';
 export default function SearchPage() {
 
     const [results, setResults] = useState([]);

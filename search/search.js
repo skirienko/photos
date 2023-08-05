@@ -23,7 +23,7 @@ app.use(function(req, res, next) {
     next();
 });
   
-app.get("/search", (req, res) => {
+app.get("/api/search", (req, res) => {
     if (req.query && req.query.q) {
         const q = req.query.q;
         console.debug("Searching for: "+q);
