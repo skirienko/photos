@@ -27,7 +27,7 @@ app.get("/api/search", (req, res) => {
     if (req.query && req.query.q) {
         const q = req.query.q;
         console.debug("Searching for: "+q);
-        res.json(ms.search(q));
+        res.json(ms.search(q, {fuzzy:.2}));
     }
     else
         res.json([]);
