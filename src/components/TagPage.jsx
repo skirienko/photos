@@ -57,7 +57,7 @@ export default function TagPage() {
             <div key={section.path}>
                 <h3 className="event__subtitle">{section.title}</h3>
                 <ul className="results__list">
-                    {section.items.map(item => <Result key={item.date+item.episode} {...item}></Result>)}
+                    {section.items.map(item => <Result key={item.date+item.hash} {...item}></Result>)}
                 </ul>
             </div>))}
         </div>)
