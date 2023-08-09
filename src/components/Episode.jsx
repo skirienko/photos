@@ -4,6 +4,10 @@ import Vimeo from './Vimeo';
 
 const rxTxt = /.*[^.:!? ]$/;
 
+/** 
+ *  Create links from Markdown-styled text
+ * @param text text to process
+ * */
 const mdify = (text) => {
     const splitter = /(\[[^\]]+\]\([^)]+\))/;
     const matcher = /^\[([^\]]+)\]\(([^)]+)\)$/;
