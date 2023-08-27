@@ -1,6 +1,8 @@
 .app__header {
   padding: 1em 2%;
   color: #222;
+  display: flex;
+  justify-content: space-between;
 }
 
 .app__content {
