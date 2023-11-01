@@ -16,10 +16,12 @@
 Босфор #bosporos
 #botafogo
 завтрак #breakfast
+остановка #bus-stop #parada
 мост #bridge #ponte #ponte-luis
 кафе #cafe #cafe-central
 #cais
 автомобиль #car #rentacar #rent-a-car
+карета #carriage
 тележка #cart
 замок #castle #castelo #castelo-obidos
 кот #cat
@@ -114,7 +116,7 @@ McDonald's #mcdonalds
 Топкапы #topkapi
 #torel
 башня #tower #leukos-pyrgos #kokuy
-ратуша #townhall
+ратуша #townhall #camara-municipal
 светофор #traffic-light #traffic-lights
 поезд #train
 трамвай #tram

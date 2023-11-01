@@ -1,6 +1,7 @@
 /data/tags/cerveja.json	/data/tags/beer.json;
 /data/tags/birds.json	/data/tags/bird.json;
 /data/tags/books.json	/data/tags/book.json;
+/data/tags/parada.json	/data/tags/bus-stop.json;
 /data/tags/ponte.json	/data/tags/bridge.json;
 /data/tags/ponte-luis.json	/data/tags/bridge.json;
 /data/tags/cafe-central.json	/data/tags/cafe.json;
@@ -46,6 +47,7 @@
 /data/tags/tiles.json	/data/tags/tile.json;
 /data/tags/leukos-pyrgos.json	/data/tags/tower.json;
 /data/tags/kokuy.json	/data/tags/tower.json;
+/data/tags/camara-municipal.json	/data/tags/townhall.json;
 /data/tags/traffic-lights.json	/data/tags/traffic-light.json;
 /data/tags/zubchatka.json	/data/tags/trem-do-corcovado.json;
 /data/tags/universidade.json	/data/tags/university.json;
