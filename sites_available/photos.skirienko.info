@@ -1,0 +1,46 @@
+map $uri $base_tag {
+    default 0;
+    include /var/www/photos.skirienko.info/www/tag_redirects.txt;
+}
+
+server {
+
+    listen 443 ssl http2;
+
+    server_name photos.skirienko.info www.photos.skirienko.info;
+
+    root /var/www/photos.skirienko.info/www/;
+    index index.html;
+
+    location /data {
+        try_files $uri =404;
+    }
+
+    location /data/tags {
+        if ($base_tag) {
+            return 301 $base_tag;
+        }
+        try_files $uri =404;
+    }
+
+    location / {
+        try_files $uri $uri/ /?$args;
+    }
+
+    ssl_certificate /etc/letsencrypt/live/photos.skirienko.info/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/photos.skirienko.info/privkey.pem; # managed by Certbot
+
+}
+server {
+    if ($host = photos.skirienko.info) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80;
+
+    server_name photos.skirienko.info www.photos.skirienko.info;
+    return 404; # managed by Certbot
+
+
+}
