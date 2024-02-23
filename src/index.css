@@ -26,6 +26,11 @@ input[type=search] {
   font-size: 1.1rem;
   appearance: none;
   border: 1px solid gray;
+  border-radius: .25rem;
+  background-color: #FFFFFF33;
+}
+input[type=search]:focus, input[type=search]:not(:placeholder-shown) {
+  background-color: #FFFFFF;
 }
 
 .events__list, .results__list {
