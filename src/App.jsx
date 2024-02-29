@@ -81,12 +81,12 @@ export default class App extends Component {
         <AppHeader albums={albums}/>
         <div className="app__content">
           <Routes>
-            <Route exact path="/" element={<EventsList events={events}/>} />
+            <Route path="/" element={<EventsList events={events}/>} />
             <Route path="tags">
               <Route index element={<TagsPage />} />
               <Route path=":tag" element={<TagPage />} />
             </Route>
-            <Route path="search" element={<SearchPage/>}/>
+            <Route path="search" element={<SearchPage />}/>
             <Route path=":place">
               <Route index element={<PlacePage />}/>
               <Route path=":event" element={<EventPage />}/>
@@ -95,8 +95,8 @@ export default class App extends Component {
         </div>
         <footer className="app__footer">
           <Routes>
-            <Route exact path="/" element={<Footer/>}>
-            </Route>
+            <Route path="/" element={<Footer/>}/>
+            <Route path="*" element={null}/>
           </Routes>
         </footer>
       </div>
