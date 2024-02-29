@@ -1,3 +1,11 @@
+:root {
+  --action-color: #336699;
+  --action-underline-color: #33669966;
+
+  --action-focus-color: #CC3333;
+  --action-focus-underline-color: #CC333366;
+}
+
 html.scroll-snap {
   scroll-snap-type: y proximity;
 }
@@ -12,22 +20,24 @@ html.scroll-snap body {
 }
 
 a {
-  color: #336699;
+  color: var(--action-color);
   text-underline-offset: 2pt;
-  text-decoration-color: #33669966;
+  text-decoration-color: var(--action-underline-color);
 }
 a:hover, a:focus {
-  color: #CC3333;
-  text-decoration-color: #CC333366;
+  color: var(--action-focus-color);
+  text-decoration-color: var(--action-focus-underline-color);
 }
 
 input[type=search] {
   font-family: 'PT Sans', sans-serif;
   font-size: 1.1rem;
   appearance: none;
+  height: 1.7rem;
   border: 1px solid gray;
   border-radius: .25rem;
   background-color: #FFFFFF33;
+  transition: background-color 1s ease-out 0;
 }
 input[type=search]:focus, input[type=search]:not(:placeholder-shown) {
   background-color: #FFFFFF;
@@ -72,7 +82,7 @@ input[type=search]:focus, input[type=search]:not(:placeholder-shown) {
   transition: all .5s ease-out;
 }
 .events__item a:hover img, .results__item a:hover img {
-  border-color: #CC3333;
+  border-color: var(--action-focus-color);
 }
 
 .events__item .event-title, .result__descr {
@@ -129,7 +139,7 @@ input[type=search]:focus, input[type=search]:not(:placeholder-shown) {
   border-bottom-color: #333;
 }
 
-@media screen and  (max-width:919px) {
+@media screen and (max-width:919px) {
 
   .episode__tags {
     font-size: .9rem;
@@ -280,19 +290,17 @@ input[type=search]:focus, input[type=search]:not(:placeholder-shown) {
 }
 
 @media (prefers-color-scheme: dark) {
+  :root {
+    --action-color: #3590EB;
+    --action-underline-color: #3590EB66;
+
+    --action-focus-color: #EB3333;
+    --action-focus-underline-color: #EB333366;
+  }
+  
   body {
     background: #000;
     color: #CCC;
-  }
-
-  a {
-    color: #3590EB;
-    text-decoration-color: #3590EB66;
-  }
-
-  a:hover, a:focus {
-    color: #EB3333;    
-    text-decoration-color: #EB333366;
   }
   
   .events__item a img, .results__item a img {
@@ -322,11 +330,6 @@ input[type=search]:focus, input[type=search]:not(:placeholder-shown) {
     text-decoration-color: #CCC;
   }
 
-  .normal-text a {
-    color: #3590EB;
-    text-decoration-color: #3590EB66;
-  }
-    
   .photo {
     background: #333;
     background: linear-gradient(135deg, #333 0%, #222 100%) #333;
