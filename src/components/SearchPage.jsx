@@ -29,37 +29,26 @@ const SEARCH_URL = '/api/search';
 export default function SearchPage() {
 
     const [results, setResults] = useState([]);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
-    function handleSubmit(event) {
-        runSearch(event.target);
-        event.preventDefault();
-    }
-
-    function runSearch(form) {
-        if (form.q && form.q.value) {
-            const q = form.q.value.trim()
+    function runSearch(q) {
+        if (q) {
             fetch(SEARCH_URL+'?q='+q)
                 .then(d => d.json())
                 .then(results => results.map(highlight)).then(setResults)
-            setSearchParams({q})
         }
     }
 
+    const q = searchParams.get('q');
     useEffect(() => {
-        if (searchParams.get('q')) {
-            runSearch(document.forms['search']);
-        }
+        document.title = "Поиск: "+q;
+        runSearch(q);
     }, []);
 
     return (
         <div className="place__page">
             <h2>Поиск</h2>
-            <div>
-                <form onSubmit={handleSubmit} name="search">
-                    <input type="search" name="q" defaultValue={searchParams.get('q')}/>
-                </form>
-            </div>
+            <p className="normal-text description">{q}</p>
             {
                 results.length?
                 <div>
