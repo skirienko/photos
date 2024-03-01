@@ -22,10 +22,6 @@ albums = {
     'portugal': ('2015-04-22',)
 }
 
-# albums = {
-#     '.': ('2015-06-11',)
-# }
-
 
 def generate_watermark(text):
 
@@ -133,7 +129,7 @@ def resize(orig_path, new_path):
             if img.size[0] > MAX_SIDE or img.size[1] > MAX_SIDE:
                 print("Need to resize")
                 print(limit_size(img.size))
-                resized_img = img.resize(limit_size(img.size), Image.ANTIALIAS)
+                resized_img = img.resize(limit_size(img.size), Image.LANCZOS)
                 resized_img = add_watermark(resized_img).convert('RGB')
                 for path, fmt in tasks.items():
                     resized_img.save(path, fmt, quality=quality, exif=byte_exif)
