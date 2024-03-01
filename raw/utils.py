@@ -39,7 +39,7 @@ def generate_thumb(fullname):
     thumb = None
     if path.isfile(fullname):
         with Image.open(fullname) as img:
-            thumb = img.resize([32, 24], Image.ANTIALIAS)
+            thumb = img.resize([32, 24], Image.LANCZOS)
             output = io.BytesIO()
             thumb.save(output, format='JPEG', optimize=True, quality=60)
             b64 = base64.b64encode(output.getvalue())
