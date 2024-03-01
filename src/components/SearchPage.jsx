@@ -43,7 +43,7 @@ export default function SearchPage() {
     useEffect(() => {
         document.title = "Поиск: "+q;
         runSearch(q);
-    }, []);
+    }, [q]);
 
     return (
         <div className="place__page">
