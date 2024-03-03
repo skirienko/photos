@@ -2,8 +2,10 @@
 require('dotenv').config();
 const MiniSearch = require('minisearch');
 const express = require('express');
+const fs = require('fs');
 
-const docs = require(process.env.DOCPATH+'/docs.json'); 
+const DOCS_FILE = process.env.DOCPATH+'docs.json';
+const docs = require(DOCS_FILE); 
 
 let ms = new MiniSearch({
     fields: ['title', 'descr'],
@@ -12,6 +14,29 @@ let ms = new MiniSearch({
 
 ms.addAll(docs);
 console.log(`${ms.documentCount} docs, ${ms.termCount} terms`);
+
+fs.watch(DOCS_FILE, async (eventType) => {
+    console.log(eventType);
+    if (eventType === 'change') {
+        setTimeout(updateDocs, 1000);
+    }
+});
+
+async function updateDocs() {
+    fs.readFile(DOCS_FILE, "utf-8", async (err, data) => {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            const dd = await JSON.parse(data);
+            if (dd && dd.length > 100) {
+                console.log(`Replacing docs with newer ${dd.length} items`);
+                ms.removeAll();
+                ms.addAll(dd);
+            }
+        }
+    });
+}
 
 const app = express();
 
