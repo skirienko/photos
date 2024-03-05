@@ -1,6 +1,6 @@
 {
   "name": "search",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "nodejs search module",
   "main": "search.js",
   "scripts": {
