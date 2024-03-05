@@ -54,10 +54,10 @@ export default function AppHeader({albums}) {
           {links.map(l => <LinkOrSpan key={l.path} className="app__home" {...l}/>).reduce((a, b) => [a, ' › ', b])}
         </h1>
         <form className="app__search" action="/search" onSubmit={handleSubmit}>
-          <input type="search" className="app_search-input" name="q" placeholder="" defaultValue={searchParams.get('q')}/>
+          <input type="search" className="app_search-input" name="q" placeholder=" " defaultValue={searchParams.get('q')}/>
           <button className="app__search-button"><svg viewBox="0 0 16 16" fill="none">
-            <circle cx="6.5" cy="6.5" r="5.75" strokeWidth="1.5"/>
-            <line x1="11" y1="11" x2="15" y2="15" strokeWidth="1.5" strokeLinecap="round"/>
+            <circle cx="6.5" cy="6.5" r="5.75"/>
+            <line x1="11" y1="11" x2="15" y2="15" strokeLinecap="round"/>
             </svg></button>
         </form>
       </header>

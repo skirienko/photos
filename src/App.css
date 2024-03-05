@@ -37,6 +37,7 @@ a.app__home[href]:hover {
 
 .app__search-button svg * {
   stroke: var(--action-color);
+  stroke-width: 1.5px;
 }
 .app__search-button:hover svg *, .app__search-button:focus svg * {
   stroke: var(--action-focus-color);
@@ -54,6 +55,7 @@ a.app__home[href]:hover {
     }
 
     .app__search:focus-within input[type=search],
+    .app__search:hover input[type=search],
     .app__search input[type=search]:not(:placeholder-shown)  {
       display: block;
     }
