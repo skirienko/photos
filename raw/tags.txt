@@ -70,6 +70,7 @@ IKEA #ikea
 #karakoy
 кухня #kitchen #cozinha
 озеро #lake #lago #lagoa #highlake #rodrigo-de-freitas
+бельё #laundry
 #liberdade
 маяк #lighthouse
 почта #mail #mailbox
@@ -125,7 +126,7 @@ McDonald's #mcdonalds
 университет #university #universidade #puc #ufmg
 #urca
 #varosliget
-вокзал #vauxhall #hauptbahnhof #palyaudvar #sao-bento #keleti
+вокзал #vauxhall #hauptbahnhof #palyaudvar #sao-bento #keleti #gare
 витраж #vitrage
 витрина #vitrine
 обратно #volta #retorna

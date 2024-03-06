@@ -57,5 +57,6 @@
 /data/tags/palyaudvar.json	/data/tags/vauxhall.json;
 /data/tags/sao-bento.json	/data/tags/vauxhall.json;
 /data/tags/keleti.json	/data/tags/vauxhall.json;
+/data/tags/gare.json	/data/tags/vauxhall.json;
 /data/tags/retorna.json	/data/tags/volta.json;
 /data/tags/walls.json	/data/tags/wall.json;
