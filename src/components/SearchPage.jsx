@@ -20,7 +20,7 @@ function mark(txt, terms) {
 
 function highlight(res) {
     if (res.terms && res.terms.length) {
-        res.descr = mark(res.descr, res.terms);
+        res.snip = mark(res.descr, res.terms);
     }
     return res;
 }
