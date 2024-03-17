@@ -16,6 +16,12 @@
   "categories":["photos", "travel"],
   "orientation":"any",
   "start_url": "./",
+  "shortcuts":[
+    {
+      "name":"Tags",
+      "url":"/tags"
+    }
+  ],
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
