@@ -6,6 +6,9 @@ import viteTsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   server: {
     open: true,
+    proxy: {
+      '/api/search': 'http://localhost:5005'
+    }
   },
   build: {
     outDir: 'build',
