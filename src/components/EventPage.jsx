@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import Section from './Section';
 import paths from '../paths.json';
 
@@ -116,6 +116,7 @@ function baseTitle(parent, event) {
 
 export default function EventPage() {
     const {place, event} = useParams();
+    const {hash} = useLocation();
     const [data, setData] = useState();
     const [setTitle, setSubtitle] = usePageTitle();
 
@@ -144,6 +145,18 @@ export default function EventPage() {
         }
         fetchData();
     }, []);
+    // scroll to hashed place
+    useEffect(() => {
+        if (data && data['sections']) {
+            if (hash) {
+                const node = document.querySelector(hash);
+                if (node) {
+                    node.scrollIntoView();
+                }
+            }
+        }
+    }, [data]);
+
     // page title 
     useEffect(() => {
         function changeSubtitle(entries) {
