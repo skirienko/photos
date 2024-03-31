@@ -1,15 +1,33 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Section from './Section';
 import paths from '../paths.json';
 
 const JOINER = ' — ';
 
+function usePageTitle() {
+    const [title, setTitle] = useState('');
+    const [subtitle, setSubtitle] = useState();
+    useEffect(() => {
+        const parts = [title];
+        if (subtitle)
+            parts.push(subtitle);
+        const full = parts.join(JOINER);
+        if (full !== document.title) {
+            document.title = full;
+        }
+    }, [title, subtitle]);
+    return [setTitle, setSubtitle];
+}
+
 function Navigation({nav}) {
+    const Arr = ({o, dir}) => (
+        o ? <div className={`footer-nav__${dir}`}><a href={'/'+o.data_path}>{o.title}</a></div> : null
+    )
     return (nav && (nav.prev || nav.next)) ?
         <footer className="footer__navigation">
-            {nav.prev ? <div className="footer-nav__prev"><a href={nav.prev.date}>{nav.prev.title}</a></div> : null}
-            {nav.next ? <div className="footer-nav__next"><a href={nav.next.date}>{nav.next.title}</a></div> : null}
+            <Arr o={nav.prev} dir="prev"/>
+            <Arr o={nav.next} dir="next"/>
         </footer>
         :
         null;
@@ -96,109 +114,66 @@ function baseTitle(parent, event) {
     return arrTitle.join(JOINER);
 }
 
-function setDocumentTitle(base, subtitle) {
-    const parts = [base];
-    if (subtitle) {
-        parts.push(subtitle);
-    }
-    document.title = parts.join(JOINER);
-}
+export default function EventPage() {
+    const {place, event} = useParams();
+    const [data, setData] = useState();
+    const [setTitle, setSubtitle] = usePageTitle();
 
-function withParams(Component) {
-    return props => <Component {...props} params={useParams()} />;
-}
-
-class EventPage extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {};
-        this.io = new IntersectionObserver(this.changeTitle.bind(this));
-    }
-
-    componentDidMount() {
-        const {params} = this.props;
-        const dataPath = paths[params.place];
-        this.fetchItem(params.place, params.event, dataPath);
-    }
-
-    getItem(eventId) {
-        return eventId in this.state ? this.state[eventId] : null;
-    }
-
-    async fetchItem(placeId, eventId, dataPath) {
-        const res = await fetchItem(placeId, eventId, dataPath);
-
-        if (res) {
-            this.setState({[eventId]:res});
-            const parentPath = res.parentPath;
-
-            let parent;
-            if (this.state[parentPath]) {
-                parent = this.state[parentPath];
-            }
-            else {
-                parent = await fetchParent(parentPath, eventId);
-                this.setState({[parentPath]:parent});
-            }
-            this.setState({
-                [eventId]: {...res, parent: parent},
-                title: baseTitle(parent, res),
-            });
-        }
-    }
-
-    changeTitle(entries) {
-        const visibles = entries.filter(en => en.isIntersecting);
-        if (visibles.length) {
-            const header = visibles[0].target.querySelectorAll("h3")[0];
-            const subtitle = header ? header.innerText : null;
-            setDocumentTitle(this.state.title, subtitle);
-        }
-    }
-
-    componentDidUpdate() {
-        let hash = document.location.hash.replace('#', '');
-        if (hash) {
-            let node = document.getElementById(hash);
-            if (node) {
-                node.scrollIntoView();
-                if (node.tagName==='H3')
-                    setDocumentTitle(this.state.title, node.innerText);
-            }
-        }
-        const targets = document.querySelectorAll("main section");
-        targets.forEach(t => this.io.observe(t))
-    }
-
-    render() {
-        const eventId = this.props.params.event;
-        const item = this.getItem(eventId);
-
-        setDocumentTitle(this.state.title);
-
-        var sections = null;
-        if (item) {
-            sections = 'sections' in item ? item.sections : [{id:'section-0', episodes: item.episodes}];
-        }
-
-        return item ?
-            (<article className="event__page">
-                <header>
-                <h2 className="event__title">{item.title}</h2>
-                    <p className="normal-text event__date">{item.date}</p>
-                    <Toc toc={item.toc} />
-                    <p className="normal-text description">{item.description}</p>
-                </header>
-                <main>
-                    {sections.map(sec => (<Section key={sec.id} path={item.path} {...sec} />))}
-                </main>
-                <Navigation nav={item.parent}/>
-            </article>)
-            :
-            null;
-    }
+    useEffect(() => {
+        async function fetchData() {
+            if (data)
+                return;
+            try {
+                const dataPath = paths[place];
+                const res = await fetchItem(place, event, dataPath);
+                if (res) {
+                    if (!res['sections']) {
+                        res['sections'] = [{id:'section-0', episodes: res.episodes}];
+                    }
+                    const parent = await fetchParent(res.parentPath, event);
+                    res['parent'] = parent;
     
-}
+                    setTitle(baseTitle(parent, res));
+                    setData(res);
+                }
+            }
+            catch(e) {
+                console.warn("Could not fetch data");
+                console.warn(e);
+            }    
+        }
+        fetchData();
+    }, []);
+    // page title 
+    useEffect(() => {
+        function changeSubtitle(entries) {
+            let subtitle;
+            const visibles = entries.filter(ntr => ntr.isIntersecting);
+            if (visibles.length) {
+                const header = visibles.map(v => v.target.querySelector("h3")).filter(h=>h)[0]
+                subtitle = header ? header.innerText : null;
+            }
+            setSubtitle(subtitle);
+        }
+        if (data && data['sections']) {
+            const io = new IntersectionObserver(changeSubtitle);
+            const targets = document.querySelectorAll("main section");
+            targets.forEach(t => io.observe(t))    
+        }
+    }); // yes, on every rerender
 
-export default withParams(EventPage);
+    return data && data['sections'] ?
+        <article className="event__page">
+            <header>
+                <h2 className="event__title">{data.title}</h2>
+                <p className="normal-text event__date">{data.date}</p>
+                <Toc toc={data.toc} />
+                <p className="normal-text description">{data.description}</p>
+            </header>
+            <main>
+                {data.sections.map(sec => (<Section key={sec.id} path={data.path} {...sec} />))}
+            </main>
+            <Navigation nav={data.parent}/>
+        </article>
+    : null;
+}
