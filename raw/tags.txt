@@ -19,7 +19,6 @@
 остановка #bus-stop #parada
 мост #bridge #ponte #ponte-luis
 кафе #cafe #cafe-central
-#cais
 автомобиль #car #rentacar #rent-a-car
 карета #carriage
 тележка #cart
@@ -74,12 +73,14 @@ IKEA #ikea
 #liberdade
 маяк #lighthouse
 почта #mail #mailbox
+люк #manhole
 #manuelino
 Мраморное море #marmara
 #matyas-templom
 McDonald's #mcdonalds
 метро #metro #metro2 #foldalatti #subway
 #minas-shopping
+зеркало #mirror
 модель #model
 памятник #monument
 музей #museum #museu #ocean-museum
@@ -89,6 +90,7 @@ McDonald's #mcdonalds
 панорама #panorama
 #pao-de-acucar
 парк #park #parque #prater
+пристань #pier #iskele #cais
 #porto
 портвейн #portwine
 пляж #plage #praia-vermelha #praia #playa #beach
@@ -105,6 +107,7 @@ McDonald's #mcdonalds
 #shkoder
 #sophia
 #spit
+Starbuck's #starbucks
 #submarine
 #sultanahmet
 закат #sunset

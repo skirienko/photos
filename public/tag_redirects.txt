@@ -36,6 +36,8 @@
 /data/tags/noite.json	/data/tags/night.json;
 /data/tags/parque.json	/data/tags/park.json;
 /data/tags/prater.json	/data/tags/park.json;
+/data/tags/iskele.json	/data/tags/pier.json;
+/data/tags/cais.json	/data/tags/pier.json;
 /data/tags/praia-vermelha.json	/data/tags/plage.json;
 /data/tags/praia.json	/data/tags/plage.json;
 /data/tags/playa.json	/data/tags/plage.json;
