@@ -7,7 +7,7 @@ from PIL.ExifTags import TAGS
 import os.path
 
 from presets import albums
-from utils import get_aspect, select_cover, generate_thumb, read_descr_file, rxDate, rxPhoto
+from utils import get_aspect, select_cover, generate_thumb, read_descr_file, rxDate, rxPhoto, rxVideo
 from collect_tags import strip_end_tags
 
 args = sys.argv[1:]
@@ -25,7 +25,6 @@ if '-f' in args or '--force' in args:
 
 date = ''
 
-rxVideo = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.mov', re.I)
 rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
 
 
@@ -166,6 +165,7 @@ def lines2data(lines, outdir):
             prevItem = item
 
         else:
+            print(f'{filename} does not match')
             if i == 0:
                 descr = line
 

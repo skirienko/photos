@@ -6,6 +6,7 @@ from shutil import copy2
 import piexif
 
 from presets import albums
+from utils import rxPhoto, rxVideo
 
 MAX_SIDE = 1200
 PANO_MIN_SIZE = 600
@@ -19,7 +20,7 @@ watermarks = {}
 cmd_video_resize = './HandBrakeCLI -i %s -o %s' # macOS
 
 albums = {
-    'portugal': ('2015-04-22',)
+    'portugal': ('2015-04-23',)
 }
 
 
@@ -151,9 +152,6 @@ def resize_video(orig_path, new_path):
     call(['./HandBrakeCLI', '-i', orig_path, '-o', new_path])
 
 
-
-rxPhoto = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.jpe?g', re.I) 
-rxVideo = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.mov', re.I) 
 
 for album, dates in albums.items():
 

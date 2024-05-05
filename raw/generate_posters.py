@@ -4,11 +4,9 @@ import re
 from subprocess import call
 
 from presets import albums
-from utils import get_aspect, select_cover, generate_thumb
+from utils import get_aspect, select_cover, generate_thumb, rxVideo
 
 date = ''
-
-rxVideo = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.mov$', re.I)
 
 cmd_video_img = './ffmpeg -v quiet -i %s -ss 00:00:00 -vframes 1 -y %s'
 

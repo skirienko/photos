@@ -6,7 +6,9 @@ import re
 import cchardet as chardet
 
 rxDate = re.compile(r'\d{4}-\d\d-\d\d', re.I)
-rxPhoto = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.(jpe?g|png|gif|webp)', re.I)
+rxPhoto = re.compile(r'[a-z_\-\d]+\.(jpe?g|png|gif|webp)', re.I)
+rxVideo = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.mov$', re.I)
+
 
 def select_cover(dirname):
     candidate = None
