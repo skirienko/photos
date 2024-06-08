@@ -15,9 +15,11 @@
 /public/data/**/*.jpg
 /public/data/**/*.jpeg
 /public/data/**/*.webp
+/public/data/**/*.HEIC
 /raw/**/*.JPG
 /raw/**/*.jpeg
 /raw/**/*.PNG
+/raw/**/*.HEIC
 
 # video
 /raw/**/*.mp4
