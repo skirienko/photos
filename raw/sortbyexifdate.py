@@ -3,14 +3,17 @@ import io
 import sys
 from PIL import Image
 from PIL.ExifTags import TAGS
+from pillow_heif import register_heif_opener
 import os.path
 from datetime import datetime, timedelta
+from utils import rxPhoto, rxVideo
 
 # date = '2017-07-11'
 # date = '2018-09-11'
 # date = '2015-04-17'
 
-dirname = 'portugal/2015-04-22'
+# dirname = 'portugal/2015-04-23'
+dirname = '2022-07-14'
 
 
 EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S'
@@ -18,7 +21,7 @@ EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S'
 filename = '%s/descript_orig.ion' % dirname
 file2 = io.open('%s/descript.ion' % dirname, 'w')
 
-rxPhoto = re.compile(r'[a-z_\-]+\d+\.(jpg|jpeg)', re.I)
+register_heif_opener()
 
 with open(filename, 'r') as fd:
     lines = fd.readlines()
@@ -46,15 +49,17 @@ with open(filename, 'r') as fd:
             print(filepath)
             with Image.open(filepath) as img:
                 try:
-                    raw_exif = img._getexif()
+                    raw_exif = img.getexif()
                     if not raw_exif:
+                        print('No _EXIF')
                         raise IOError('No EXIF for %s' % filepath)
                     exif = {}
                     print('got EXIF')
                     for tag, value in raw_exif.items():
                         exif[TAGS.get(tag)] = value
-                    if 'DateTimeOriginal' in exif:
-                        item['dt'] = datetime.strptime(exif['DateTimeOriginal'], EXIF_DT_FORMAT)
+                    print(exif)
+                    if 'DateTime' in exif:
+                        item['dt'] = datetime.strptime(exif['DateTime'], EXIF_DT_FORMAT)
                     if 'Model' in exif:
                         item['model'] = exif['Model']
 #                        if item['model'] == 'Canon PowerShot SX50 HS':

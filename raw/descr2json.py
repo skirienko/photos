@@ -19,9 +19,9 @@ if '-f' in args or '--force' in args:
     REBUILD_ALL = True
 
 
-# albums = {
-#     'portugal': ('2015-04-17','2015-04-18','2015-04-19','2015-04-20')
-# }
+albums = {
+    '.': ('2022-07-14',)
+}
 
 date = ''
 
@@ -132,6 +132,9 @@ def lines2data(lines, outdir):
                     prevItem = item
                 else:
                     add_photo_to_item(filename, prevItem)
+            # if there's only WEBP version
+            elif os.path.isfile(fullpath+".webp"):
+                filename = filename+".webp"
 
             else:
                 print("file not found (%s)" % fullpath)

@@ -4,14 +4,20 @@ from subprocess import call
 import re
 from shutil import copy2
 import piexif
+from pillow_heif import register_heif_opener
 
 from presets import albums
 from utils import rxPhoto, rxVideo
+
+rxWebp = re.compile(r'.*\.webp$', re.I)
 
 MAX_SIDE = 1200
 PANO_MIN_SIZE = 600
 quality = 90
 
+
+SAVE_JPEG = True
+SAVE_WEBP = True
 SKIP_VIDEO = True
 
 watermarks = {}
@@ -20,9 +26,11 @@ watermarks = {}
 cmd_video_resize = './HandBrakeCLI -i %s -o %s' # macOS
 
 albums = {
-    'portugal': ('2015-04-23',)
+    # 'portugal': ('2015-04-23',)
+    '.': ('2022-07-14',)
 }
 
+register_heif_opener()
 
 def generate_watermark(text):
 
@@ -87,15 +95,18 @@ def repair_exif(exif):
 
 def resize(orig_path, new_path):
 
-    new_path_webp = new_path+'.webp'
 
     with Image.open(orig_path, 'r') as img:
         if img:
             # print(img.size)
-            tasks = {
-                new_path: 'JPEG',
-                new_path_webp: 'WEBP'
-            }
+            if rxWebp.match(new_path):
+                new_path_webp = new_path
+            else:
+                new_path_webp = new_path+'.webp'
+
+            tasks = {}
+            if SAVE_JPEG: tasks[new_path] = 'JPEG'
+            if SAVE_WEBP: tasks[new_path_webp] = 'WEBP'
 
             paths = list(tasks.keys())
             for path in paths:
@@ -109,8 +120,13 @@ def resize(orig_path, new_path):
             byte_exif = b''
             if 'exif' in img.info:
                 byte_exif = img.info['exif']
-                exif = piexif.load(byte_exif)
-                repair_exif(exif)
+                try:
+                    exif = piexif.load(byte_exif)
+                    repair_exif(exif)
+                except Exception:
+                    print("Could not load EXIF")
+                    print(byte_exif)
+                    exif = None
 
                 if exif and byte_exif:
                     if piexif.ImageIFD.Orientation in exif['0th']:
