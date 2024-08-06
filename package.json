@@ -1,6 +1,6 @@
 {
   "name": "photos-app",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "type": "module",
   "proxy": "http://localhost:5005",
   "private": true,

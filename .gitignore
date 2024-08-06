@@ -20,6 +20,7 @@
 /raw/**/*.jpeg
 /raw/**/*.PNG
 /raw/**/*.HEIC
+/raw/**/*.webp
 
 # video
 /raw/**/*.mp4
