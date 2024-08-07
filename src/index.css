@@ -21,8 +21,8 @@ html.scroll-snap body {
 
 a {
   color: var(--action-color);
+  text-decoration: underline var(--action-underline-color) 1pt;
   text-underline-offset: 2pt;
-  text-decoration-color: var(--action-underline-color);
 }
 a:hover, a:focus {
   color: var(--action-focus-color);
