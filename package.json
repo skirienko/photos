@@ -1,6 +1,6 @@
 {
   "name": "photos-app",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "type": "module",
   "proxy": "http://localhost:5005",
   "private": true,
@@ -24,7 +24,10 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "deploy": "rclone sync build/ hosting:photos/"
+    "deploy": "rclone sync build/ hosting:photos/",
+    "descr": "python3 raw/descr2json.py",
+    "tags": "python3 raw/collect_tags.py",
+    "docs": "python3 raw/docs4search.py"
   },
   "browserslist": [
     ">0.2%",
