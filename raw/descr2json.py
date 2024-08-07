@@ -4,7 +4,11 @@ import json
 import io
 from PIL import Image
 from PIL.ExifTags import TAGS
-import os.path
+import os
+
+# set directory
+abspath = os.path.abspath(__file__)
+os.chdir(os.path.dirname(abspath))
 
 from presets import albums
 from utils import get_aspect, select_cover, generate_thumb, read_descr_file, rxDate, rxPhoto, rxVideo
@@ -17,11 +21,6 @@ REBUILD_ALL = False
 
 if '-f' in args or '--force' in args:
     REBUILD_ALL = True
-
-
-albums = {
-    '.': ('2022-07-14',)
-}
 
 date = ''
 

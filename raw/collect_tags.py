@@ -1,7 +1,12 @@
 import re
 import json
-import os.path
 import cchardet as chardet
+import os
+
+# set directory
+abspath = os.path.abspath(__file__)
+os.chdir(os.path.dirname(abspath))
+
 
 from presets import albums
 from utils import read_descr_file, rxDate, rxPhoto
