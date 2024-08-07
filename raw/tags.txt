@@ -111,6 +111,7 @@ Starbuck's #starbucks
 #submarine
 #sultanahmet
 закат #sunset
+табло #tableau
 Таксим #taksim
 такси #taxi
 #teleferico
