@@ -28,6 +28,7 @@
 /data/tags/highlake.json	/data/tags/lake.json;
 /data/tags/rodrigo-de-freitas.json	/data/tags/lake.json;
 /data/tags/mailbox.json	/data/tags/mail.json;
+/data/tags/minas-shopping.json	/data/tags/mall.json;
 /data/tags/metro2.json	/data/tags/metro.json;
 /data/tags/foldalatti.json	/data/tags/metro.json;
 /data/tags/subway.json	/data/tags/metro.json;

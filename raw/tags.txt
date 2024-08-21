@@ -74,13 +74,13 @@ IKEA #ikea
 #license-plate
 маяк #lighthouse
 почта #mail #mailbox
+ТЦ #mall #minas-shopping
 люк #manhole
 #manuelino
 Мраморное море #marmara
 #matyas-templom
 McDonald's #mcdonalds
 метро #metro #metro2 #foldalatti #subway
-#minas-shopping
 зеркало #mirror
 модель #model
 памятник #monument
@@ -91,6 +91,7 @@ McDonald's #mcdonalds
 панорама #panorama
 #pao-de-acucar
 парк #park #parque #prater
+тротуар #pavement
 пристань #pier #iskele #cais
 #porto
 портвейн #portwine
@@ -121,6 +122,7 @@ Starbuck's #starbucks
 #tomar
 Топкапы #topkapi
 #torel
+турникет #tourniquet
 башня #tower #leukos-pyrgos #kokuy
 ратуша #townhall #camara-municipal
 светофор #traffic-light #traffic-lights
