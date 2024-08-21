@@ -32,6 +32,7 @@
 /data/tags/foldalatti.json	/data/tags/metro.json;
 /data/tags/subway.json	/data/tags/metro.json;
 /data/tags/museu.json	/data/tags/museum.json;
+/data/tags/museo.json	/data/tags/museum.json;
 /data/tags/ocean-museum.json	/data/tags/museum.json;
 /data/tags/noite.json	/data/tags/night.json;
 /data/tags/parque.json	/data/tags/park.json;

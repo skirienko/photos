@@ -71,6 +71,7 @@ IKEA #ikea
 озеро #lake #lago #lagoa #highlake #rodrigo-de-freitas
 бельё #laundry
 #liberdade
+#license-plate
 маяк #lighthouse
 почта #mail #mailbox
 люк #manhole
@@ -83,7 +84,7 @@ McDonald's #mcdonalds
 зеркало #mirror
 модель #model
 памятник #monument
-музей #museum #museu #ocean-museum
+музей #museum #museu #museo #ocean-museum
 НДК #ndk
 ночь #night #noite
 #obidos
