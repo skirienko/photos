@@ -7,7 +7,7 @@ abspath = os.path.abspath(__file__)
 os.chdir(os.path.dirname(abspath))
 
 
-from presets import albums
+from presets import albums, single_dates
 from utils import read_descr_file, rxDate, rxPhoto
 
 date = ''
@@ -78,7 +78,8 @@ def add_to_docs(obj):
 
 def get_client_path(album, date):
     if album == '.':
-        return f'/{date}'
+        place = single_dates[date]
+        return f'/{place}/{date}'
     else:
         return f'/{album}/{date}'
 

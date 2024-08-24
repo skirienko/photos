@@ -10,7 +10,7 @@ import os
 abspath = os.path.abspath(__file__)
 os.chdir(os.path.dirname(abspath))
 
-from presets import albums
+from presets import albums, single_dates
 from utils import get_aspect, select_cover, generate_thumb, read_descr_file, rxDate, rxPhoto, rxVideo
 from collect_tags import strip_end_tags
 
@@ -22,6 +22,7 @@ REBUILD_ALL = False
 if '-f' in args or '--force' in args:
     REBUILD_ALL = True
 
+album = ''
 date = ''
 
 rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
@@ -185,9 +186,14 @@ def lines2data(lines, outdir):
                 section_id += 1
 
     sections.append(section)
+
+    place = album
+    if place == '.':
+        place = single_dates[date]
     data = {
         "title": title,
         "description": descr,
+        "place": place,
         "date": date,
         "sections": sections
     }
