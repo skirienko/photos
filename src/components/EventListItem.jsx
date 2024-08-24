@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function EventListItem(props) {
     const {date, title, photo, thumb} = props;
-    const place = props.place || props.city;
+    const place = props.place;
     const link = date ? "/"+place+"/"+date : "/"+place;
     const src = ["/data", photo].join('/');
     const classNames = ["events__item"];
