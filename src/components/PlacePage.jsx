@@ -1,23 +1,27 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import EventListItem from './EventListItem';
 
 export default function PlacePage() {
 
     const {place:placeId} = useParams();
     const [place, setPlace] = useState();
+    const navigate = useNavigate();
+    const {hash} = useLocation();
 
     useEffect(()=>{
         try {
             fetch(`/data/${placeId}/descr.json`)
                 .then(d => d.json())
                 .then(place => {
+                    if ("sections" in place) {
+                        navigate(`/${place.place}/${place.date}${hash}`)
+                    }
                     if (place) {
                         document.title = place.title;
                         setPlace(place);
                     }
                 });
-
         }
         catch(e) {
             console.warn("Could not fetch data for place "+tag);
