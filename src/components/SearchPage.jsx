@@ -15,7 +15,7 @@ function mark(txt, terms) {
 
     const rest = terms.slice(1);
     const splitter = new RegExp(`(${t})`, 'i');
-    return <>{txt.split(splitter).map((w,i) => w.toLowerCase()===t ? <mark>{w}</mark> : mark(w, rest))}</>;
+    return <>{txt.split(splitter).map((w,i) => w.toLowerCase()===t ? <mark key={w+i}>{w}</mark> : mark(w, rest))}</>;
 };
 
 function highlight(res) {
