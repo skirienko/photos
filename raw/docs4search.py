@@ -62,9 +62,7 @@ def get_docs_from_descr(path, album, date):
                         "hash": "e"+str(episode["id"]),
                         "photo": get_episode_photo(episode),
                     }
-                    searchTerm = obj['photo'].replace('.webp', '')
-                    print('searchTerm: '+searchTerm)
-                    if re.search(searchTerm, obj['descr']):
+                    if is_undone(episode):
                         print("REJECT")
                     else:
                         add_to_docs(obj)
@@ -98,6 +96,14 @@ def get_episode_photo(episode):
         return episode["poster"]
     else:
         return ''
+
+
+def is_undone(episode):
+    first_photo = get_episode_photo(episode)
+    searchTerm = first_photo.replace('.webp', '')
+    if searchTerm == '':
+        return False
+    return episode['descr'] == '...' or bool(re.search(searchTerm, episode['descr']))
 
 
 def write_docs(docs):

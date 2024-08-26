@@ -13,6 +13,7 @@ os.chdir(os.path.dirname(abspath))
 from presets import albums, single_dates
 from utils import get_aspect, select_cover, generate_thumb, read_descr_file, rxDate, rxPhoto, rxVideo
 from collect_tags import strip_end_tags
+from docs4search import is_undone
 
 args = sys.argv[1:]
 
@@ -27,6 +28,7 @@ date = ''
 
 rxVimeo = re.compile(r'^vimeo:(\d+)$', re.I)
 
+total_undone = 0
 
 def need_to_rebuild(infile, outfile):
     return not os.path.exists(outfile) \
@@ -137,20 +139,19 @@ def lines2data(lines, outdir):
                 filename = filename+".webp"
 
             else:
-                print("file not found (%s)" % fullpath)
+                print(f"file not found ({fullpath})")
 
             if text != '':
                 prevText = text
 
         elif rxVideo.match(filename):
-            fullpath = '%s/%s' % (outdir, filename)
+            fullpath = f'{outdir}/{filename}'
             if os.path.isfile(fullpath):
-                print("%s -> %s" % (fullpath, text))
+                print(f"{fullpath} -> {text}")
                 poster = filename+'.jpg'
-                if not os.path.exists('%s/%s' % (outdir, poster)):
+                if not os.path.exists(f'{outdir}/{poster}'):
                     poster = None
                 item = create_video_item(filename, text, episode_id, poster)
-                print(tags)
                 tags.append('video')
                 item['tags'] = tags
                 section['episodes'].append(item)
@@ -265,7 +266,7 @@ def create_vimeo_item(code, text, episode_id):
 
 
 def create_subtitle_item(line, subtitle_id):
-    print("=== %s" % line)
+    print(f"=== {line}")
     item = {}
     subtitle = line.strip()
     hash = "section-%d" % subtitle_id
@@ -281,11 +282,11 @@ def create_subtitle_item(line, subtitle_id):
 
 
 def generate_album_descr(album):
-    infile = '%s/descript.ion' % album
-    outdir = '../public/data/%s' % album
-    outfile = '%s/descr.json' % outdir
+    infile = f'{album}/descript.ion'
+    outdir = f'../public/data/{album}'
+    outfile = f'{outdir}/descr.json'
 
-    print("== %s ==" % outdir)
+    print(f"== {outdir} ==")
     if not os.path.isfile(infile):
         print("No descript.ion file, skipping")
         return
@@ -304,17 +305,25 @@ def generate_album_descr(album):
 
 
 def generate_date_descr(album, date):
-    infile = '%s/%s/descript.ion' % (album, date)
-    outdir = '../public/data/%s/%s' % (album, date)
-    outfile = '%s/descr.json' % outdir
+    infile = f'{album}/{date}/descript.ion'
+    outdir = f'../public/data/{album}/{date}'
+    outfile = f'{outdir}/descr.json'
 
-    print("=== %s ===" % outdir)
+    print(f"=== {album}/{date} ===")
+    local_undone = 0
+    global total_undone
+
     if not os.path.isfile(infile):
         print("No descript.ion file, skipping")
         return
 
     if not need_to_rebuild(infile, outfile):
         print("Already exists, origin hasn't changed")
+        with open(outfile, "r") as f:
+            data = json.load(f)
+            local_undone = calculate_undone(data)
+            print(f"Local undone: {local_undone}")
+            total_undone = total_undone + local_undone
         return
 
     lines = read_descr_file(infile)
@@ -324,6 +333,18 @@ def generate_date_descr(album, date):
 
     with open(outfile, 'w', encoding='utf8') as ofd:
         ofd.write(jsondump)
+
+
+def calculate_undone(data):
+    undone = 0
+    for section in data['sections']:
+        for episode in section['episodes']:
+            if is_undone(episode):
+                print("UNDONE: "+episode['descr'])
+                undone += 1
+
+    return undone
+
 
 # albums = {
 #     'portugal': (
@@ -339,3 +360,5 @@ for album, dates in albums.items():
     for date in dates:
 
         generate_date_descr(album, date)
+
+print(f"Total undone: {total_undone}")
