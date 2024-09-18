@@ -322,7 +322,8 @@ def generate_date_descr(album, date):
         with open(outfile, "r") as f:
             data = json.load(f)
             local_undone = calculate_undone(data)
-            print(f"Local undone: {local_undone}")
+            if local_undone:
+                print(f"Local undone: {local_undone}")
             total_undone = total_undone + local_undone
         return
 
