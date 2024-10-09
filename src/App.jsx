@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import EventsList from './components/EventsList';
 import PlacePage from './components/PlacePage';
@@ -39,46 +39,38 @@ function Footer() {
       <Experimental/>
     </>
   );
-
 }
 
-export default class App extends Component {
 
-  constructor(props) {
-    super(props);
+export default function App() {
+
+  const [albums, setAlbums] = useState();
+  const [events, setEvents] = useState();
+  
+  useEffect(()=>{
     setScrollSnap(getScrollSnap());
-    this.state = {
-      events: null,
-      albums: null,
-    };
-  }
+  }, []);
 
-  async componentDidMount() {
-    const result = await fetch('/data/descr.json').then(d => d.json());
-    if (result) {
-      const events = result;
-      const albums = {};
-      events.filter(ev => 'album' in ev).forEach(ev => {
-        albums[ev.album] = ev.title;
-      });
-      this.setState({events: events, albums: albums});
-    }
-  }
+  useEffect(() => {
+    fetch('/data/descr.json')
+        .then(d => d.json())
+        .then(result => {
+          if (result) {
+            setEvents(result);
+            const albums = {};
+            result.filter(ev => 'album' in ev).forEach(ev => {
+              albums[ev.album] = ev.title;
+            });
+            setAlbums(albums);
+          }
+        });
+  }, []);
 
-  getEventIdFromMatchParams(params) {
-    if (params.event) {
-      return params.event;
-    }
-    return null;
-  }
-
-  render() {
-    const {albums, events} = this.state;
-
-    return (
-      <Router>
+  return (
+    <Router>
       <div className="app">
         <AppHeader albums={albums}/>
+  
         <div className="app__content">
           <Routes>
             <Route path="/" element={<EventsList events={events}/>} />
@@ -93,6 +85,7 @@ export default class App extends Component {
             </Route>
           </Routes>
         </div>
+  
         <footer className="app__footer">
           <Routes>
             <Route path="/" element={<Footer/>}/>
@@ -100,7 +93,6 @@ export default class App extends Component {
           </Routes>
         </footer>
       </div>
-      </Router>
-    );
-  }
+    </Router>
+  );
 }
