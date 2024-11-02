@@ -3,7 +3,7 @@ import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 function Loupe() {
-  return <svg viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5.75"/><line x1="11" y1="11" x2="15" y2="15" strokeLinecap="round"/></svg>
+  return <svg viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5.75"/><line x1="11" y1="11" x2="15" y2="15"/></svg>
 }
 
 function getHeaderParts(albums, location) {
