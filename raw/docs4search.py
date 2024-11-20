@@ -58,7 +58,7 @@ def get_docs_from_descr(path, album, date):
                         "date": res["date"],
                         "type": "episode",
                         "title": title,
-                        "descr": episode["descr"],
+                        "descr": strip_md(episode["descr"]),
                         "hash": "e"+str(episode["id"]),
                         "photo": get_episode_photo(episode),
                     }
@@ -96,6 +96,10 @@ def get_episode_photo(episode):
         return episode["poster"]
     else:
         return ''
+
+
+def strip_md(text):
+    return re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
 
 
 def is_undone(episode):
