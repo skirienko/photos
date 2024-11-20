@@ -9,7 +9,7 @@ os.chdir(os.path.dirname(abspath))
 
 
 from presets import albums
-from utils import read_descr_file, rxDate, rxPhoto
+from utils import read_descr_file, rxDate, rxPhoto, strip_md
 
 date = ''
 outdir = "../public/data"
@@ -109,7 +109,7 @@ def find_tags_in_json(path, album, date):
                                 "date": res["date"],
                                 "type": "episode",
                                 "title": title,
-                                "descr": episode["descr"],
+                                "descr": strip_md(episode["descr"]),
                                 "hash": "e"+str(episode["id"]),
                                 "photo": get_episode_photo(episode),
                             }
@@ -184,7 +184,6 @@ def write_index(tags):
 
 
 def write_tag_redirects(tags):
-
     lines = []
     for tag, data in tags.items():
         for alias in data['tags']:

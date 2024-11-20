@@ -8,7 +8,7 @@ os.chdir(os.path.dirname(abspath))
 
 
 from presets import albums, single_dates
-from utils import read_descr_file, rxDate, rxPhoto
+from utils import read_descr_file, rxDate, rxPhoto, strip_md
 
 date = ''
 outdir = "../public/data"
@@ -96,10 +96,6 @@ def get_episode_photo(episode):
         return episode["poster"]
     else:
         return ''
-
-
-def strip_md(text):
-    return re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
 
 
 def is_undone(episode):

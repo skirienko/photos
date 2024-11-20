@@ -10,6 +10,10 @@ rxPhoto = re.compile(r'[a-z_\-\d]+\.(jpe?g|png|gif|webp|heic)', re.I)
 rxVideo = re.compile(r'[a-z_\-]+\d+[a-z_\-]*\.mov$', re.I)
 
 
+def strip_md(text):
+    return re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+
+
 def select_cover(dirname):
     candidate = None
     maxsize = 0
