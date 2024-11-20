@@ -1,6 +1,6 @@
 import re
 import json
-import cchardet as chardet
+import chardet
 import os
 
 # set directory

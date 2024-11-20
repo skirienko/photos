@@ -3,7 +3,7 @@ from os import path, listdir
 import io
 import base64
 import re
-import cchardet as chardet
+import chardet
 
 rxDate = re.compile(r'\d{4}-\d\d-\d\d', re.I)
 rxPhoto = re.compile(r'[a-z_\-\d]+\.(jpe?g|png|gif|webp|heic)', re.I)
