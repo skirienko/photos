@@ -32,12 +32,10 @@ def read_preset_tags():
             mainTag = result['tags'][0]
             tags[mainTag] = create_tag(result['text'], result['tags'])
 
-    print(tags)
-
 
 def strip_end_tags(text):
     result = {'text': text, 'tags': []}
-    rxTag = re.compile('^#([a-z0-9\-_]+)')
+    rxTag = re.compile('^#([a-z0-9_-]+)')
     words = text.split(' ')
     for i, word in enumerate(reversed(words)):
         m = rxTag.match(word) 
@@ -217,5 +215,4 @@ for album, dates in albums.items():
         # generate_xdate_descr(album, date)
 
 if tags:
-    print(tags)
     write_tags(tags)

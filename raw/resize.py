@@ -26,8 +26,9 @@ watermarks = {}
 cmd_video_resize = './HandBrakeCLI -i %s -o %s' # macOS
 
 albums = {
-    # 'portugal': ('2015-04-23',)
-    '.': ('2022-07-14',)
+    'portugal': ('2015-04-23',)
+    # '.': ('2022-07-14',)
+    #'brasil': ('2007-03-05',)
 }
 
 register_heif_opener()
