@@ -114,12 +114,25 @@ function baseTitle(parent, event) {
     return arrTitle.join(JOINER);
 }
 
-export default function EventPage() {
+export default function EventPage({setPageTitle}) {
     const {place, event} = useParams();
     const {hash} = useLocation();
     const [data, setData] = useState();
     const [setTitle, setSubtitle] = usePageTitle();
 
+    const changeSubtitle = (entries) => {
+        let subtitle;
+        if (entries.length==1 && !entries[0].isIntersecting)
+            return;
+        const visibles = entries.filter(ntr => ntr.isIntersecting);
+        if (visibles.length) {
+            const header = visibles.map(v => v.target.querySelector("h3")).filter(h=>h)[0]
+            subtitle = header ? header.innerText : null;
+        }
+        setSubtitle(subtitle);
+    }
+    const io = new IntersectionObserver(changeSubtitle);
+    
     useEffect(() => {
         async function fetchData() {
             if (data)
@@ -135,6 +148,7 @@ export default function EventPage() {
                     res['parent'] = parent;
     
                     setTitle(baseTitle(parent, res));
+                    setPageTitle(res.title);
                     setData(res);
                 }
             }
@@ -159,17 +173,8 @@ export default function EventPage() {
 
     // page title 
     useEffect(() => {
-        function changeSubtitle(entries) {
-            let subtitle;
-            const visibles = entries.filter(ntr => ntr.isIntersecting);
-            if (visibles.length) {
-                const header = visibles.map(v => v.target.querySelector("h3")).filter(h=>h)[0]
-                subtitle = header ? header.innerText : null;
-            }
-            setSubtitle(subtitle);
-        }
         if (data && data['sections']) {
-            const io = new IntersectionObserver(changeSubtitle);
+            io.disconnect();
             const targets = document.querySelectorAll("main section");
             targets.forEach(t => io.observe(t))    
         }
@@ -178,7 +183,6 @@ export default function EventPage() {
     return data && data['sections'] ?
         <article className="event__page">
             <header>
-                <h2 className="event__title">{data.title}</h2>
                 <p className="normal-text event__date">{data.date}</p>
                 <Toc toc={data.toc} />
                 <p className="normal-text description">{data.description}</p>

@@ -6,9 +6,10 @@ function Tag(props) {
     return <li title={len} className={featured}><a href={`/tags/${tag}`}>{title}</a></li>;
 }
 
-export default function TagsPage() {
+export default function TagsPage({setPageTitle}) {
 
     const [tags, setTags] = useState();
+    setPageTitle("Теги");
 
     useEffect(() => {
         document.title = "Теги";
@@ -24,7 +25,6 @@ export default function TagsPage() {
 
     return (
         <div className="place__page">
-            <h2>Теги</h2>
             <p className="normal-text description">Все теги</p>
             <ul className="tags__list">
                 {tags ?

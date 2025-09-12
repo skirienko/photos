@@ -41,11 +41,11 @@ function Footer() {
   );
 }
 
-
 export default function App() {
 
   const [albums, setAlbums] = useState();
   const [events, setEvents] = useState();
+  const [title, setTitle] = useState();
   
   useEffect(()=>{
     setScrollSnap(getScrollSnap());
@@ -69,19 +69,19 @@ export default function App() {
   return (
     <Router>
       <div className="app">
-        <AppHeader albums={albums}/>
+        <AppHeader albums={albums} title={title}/>
   
         <div className="app__content">
           <Routes>
-            <Route path="/" element={<EventsList events={events}/>} />
+            <Route path="/" element={<EventsList events={events} setPageTitle={setTitle}/>} />
             <Route path="tags">
-              <Route index element={<TagsPage />} />
-              <Route path=":tag" element={<TagPage />} />
+              <Route index element={<TagsPage setPageTitle={setTitle}/>} />
+              <Route path=":tag" element={<TagPage setPageTitle={setTitle}/>} />
             </Route>
-            <Route path="search" element={<SearchPage />}/>
+            <Route path="search" element={<SearchPage setPageTitle={setTitle}/>}/>
             <Route path=":place">
-              <Route index element={<PlacePage />}/>
-              <Route path=":event" element={<EventPage />}/>
+              <Route index element={<PlacePage setPageTitle={setTitle}/>}/>
+              <Route path=":event" element={<EventPage setPageTitle={setTitle}/>}/>
             </Route>
           </Routes>
         </div>

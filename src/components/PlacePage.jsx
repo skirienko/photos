@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import EventListItem from './EventListItem';
 
-export default function PlacePage() {
+export default function PlacePage({setPageTitle}) {
 
     const {place:placeId} = useParams();
     const [place, setPlace] = useState();
@@ -20,6 +20,7 @@ export default function PlacePage() {
                     if (place) {
                         document.title = place.title;
                         setPlace(place);
+                        setPageTitle(place.title);
                     }
                 });
         }
@@ -32,7 +33,6 @@ export default function PlacePage() {
 
     return place ?
         (<div className="place__page">
-            <h2>{place.title}</h2>
             <p className="normal-text description">{place.description}</p>
             <ul className="events__list">
                 {place.events.map(item => <EventListItem key={item.date} {...item} photo={placeId+'/'+item.photo} place={placeId}></EventListItem>)}

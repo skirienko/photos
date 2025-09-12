@@ -1,17 +1,24 @@
 .app__header {
-  padding: 1em 2%;
+  padding: 1em 2% 0;
   color: #222;
   display: flex;
   justify-content: space-between;
+  background: var(--bg-color);
+  position: sticky;
+  top: -50px;
+  z-index: 20;
 }
 
 .app__content {
-  margin: 0 2%;
+  margin: .5em 2%;
 }
 
-.app__title {
-  margin: 0;
+.app__title > * {
+  margin: 0 0 .5em 0;
   font-size: 1.5em;
+}
+.app__title > *:first-letter {
+  text-transform: uppercase;
 }
 
 a.app__home[href] {
@@ -64,7 +71,6 @@ a.app__home[href]:hover {
 
 @media (prefers-color-scheme: dark) {
   .app__header {
-    padding: 1em 2%;
     color: #EEE;
   }
 }

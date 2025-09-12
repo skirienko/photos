@@ -23,7 +23,7 @@ function prepareData(rawData) {
     return data;
 }
 
-export default function TagPage() {
+export default function TagPage({setPageTitle}) {
 
     const {tag} = useParams();
     const [data, setData] = useState();
@@ -39,6 +39,7 @@ export default function TagPage() {
                     if (res) {
                         setData(prepareData(res['items']));
                         setTitle(res['title']);
+                        setPageTitle(res['title']);
                         setAliases(res['tags']);
                     }
                 });
@@ -51,7 +52,6 @@ export default function TagPage() {
 
     return data ?
         (<div className="place__page">
-            <h2 className="event__title">{title}</h2>
             <p className="normal-text result__tags">{aliases.join(" ")}</p>
             {data.map(section => (
             <div key={section.path}>

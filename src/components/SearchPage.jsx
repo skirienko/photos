@@ -26,10 +26,11 @@ function highlight(res) {
 }
 
 const SEARCH_URL = '/api/search';
-export default function SearchPage() {
+export default function SearchPage({setPageTitle}) {
 
     const [results, setResults] = useState([]);
     const [searchParams] = useSearchParams();
+    setPageTitle("Поиск");
 
     function runSearch(q) {
         if (q) {
@@ -47,7 +48,6 @@ export default function SearchPage() {
 
     return (
         <div className="place__page">
-            <h2>Поиск</h2>
             <p className="normal-text description">{q}</p>
             {
                 results.length?

@@ -26,7 +26,8 @@ function getHeaderParts(albums, location) {
   return links;  
 }
 
-export default function AppHeader({albums}) {
+
+export default function AppHeader({albums, title}) {
 
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -54,9 +55,12 @@ export default function AppHeader({albums}) {
 
     return (
       <header className="app__header">
-        <h1 className="app__title">
-          {links.map(l => <LinkOrSpan key={l.path} className="app__home" {...l}/>).reduce((a, b) => [a, ' › ', b])}
-        </h1>
+        <div className="app__title">
+          <h1>
+            {links.map(l => <LinkOrSpan key={l.path} className="app__home" {...l}/>).reduce((a, b) => [a, ' › ', b])}
+          </h1>
+          {title ? <h2>{title}</h2> : null}
+        </div>
         <form className="app__search" action="/search" onSubmit={handleSubmit}>
           <input type="search" className="app_search-input" name="q" placeholder=" " defaultValue={searchParams.get('q')}/>
           <button className="app__search-button"><Loupe/></button>
