@@ -27,18 +27,16 @@ export default function TagPage({setPageTitle}) {
 
     const {tag} = useParams();
     const [data, setData] = useState();
-    const [title, setTitle] = useState('');
     const [aliases, setAliases] = useState([]);
 
     useEffect(() => {
-        document.title = "Всё с тегом "+tag;
+        document.title = "Всё с тегом " + tag;
         try {
             fetch(`/data/tags/${tag}.json`)
                 .then(d => d.json())
                 .then(res => {
                     if (res) {
                         setData(prepareData(res['items']));
-                        setTitle(res['title']);
                         setPageTitle(res['title']);
                         setAliases(res['tags']);
                     }
