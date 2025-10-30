@@ -1,6 +1,6 @@
 {
   "name": "photos-app",
-  "version": "1.3.4",
+  "version": "1.4.0",
   "type": "module",
   "proxy": "http://localhost:5005",
   "private": true,
@@ -15,7 +15,7 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.1.2",
+    "vite": "^6.4.1",
     "vite-bundle-visualizer": "^1.0.1",
     "vite-tsconfig-paths": "^4.3.1"
   },
