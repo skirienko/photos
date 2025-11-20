@@ -48,8 +48,10 @@
 #fort
 фонтан #fountain
 #fringilla
+фрукты #fruits #fruit
 фуникулёр #funiculaire #funiculaires #funikuler
 #gellert
+гуси #goose #geese
 гуляш #gulyas
 Золотой Рог #halic
 гарем #harem

@@ -18,8 +18,10 @@
 /data/tags/gyros.json	/data/tags/doner.json;
 /data/tags/shawarma.json	/data/tags/doner.json;
 /data/tags/flowers.json	/data/tags/flower.json;
+/data/tags/fruit.json	/data/tags/fruits.json;
 /data/tags/funiculaires.json	/data/tags/funiculaire.json;
 /data/tags/funikuler.json	/data/tags/funiculaire.json;
+/data/tags/geese.json	/data/tags/goose.json;
 /data/tags/ice-cream.json	/data/tags/icecream.json;
 /data/tags/sorvete.json	/data/tags/icecream.json;
 /data/tags/cozinha.json	/data/tags/kitchen.json;
