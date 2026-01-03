@@ -6,6 +6,7 @@ import subprocess
 from datetime import datetime, timezone
 
 from PIL import Image, ExifTags
+import piexif
 
 # HEIC support
 try:
@@ -22,39 +23,43 @@ IMAGE_EXTS = {
 
 VIDEO_EXTS = {".mov"}
 
+EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S%z'
 
-def get_image_datetime(path):
-    try:
-        with Image.open(path) as img:
-            exif = img._getexif()
-            if exif:
-                exif_data = {
-                    ExifTags.TAGS.get(tag, tag): value
-                    for tag, value in exif.items()
-                }
+def get_media_datetime(path):
+    ext = os.path.splitext(path)[1].lower()
 
-                for key in ("DateTimeOriginal", "DateTimeDigitized", "DateTime"):
-                    if key in exif_data:
-                        return datetime.strptime(
-                            exif_data[key], "%Y:%m:%d %H:%M:%S"
-                        )
-    except Exception:
-        pass
-    return None
+    # Fast path: JPEG / TIFF
+    if ext in {".jpg", ".jpeg", ".tif", ".tiff"}:
+        try:
+            with Image.open(path) as img:
+                if hasattr(img, "_getexif"):
+                    exif = img._getexif()
+                    if exif:
+                        exif_data = {
+                            ExifTags.TAGS.get(k, k): v
+                            for k, v in exif.items()
+                        }
+                        for key in (
+                            "DateTimeOriginal",
+                            "DateTimeDigitized",
+                            "DateTime",
+                        ):
+                            if key in exif_data:
+                                return datetime.strptime(
+                                    exif_data[key], "%Y:%m:%d %H:%M:%S"
+                                )
+        except Exception:
+            pass
 
-
-def get_mov_datetime(path):
-    """
-    Uses exiftool to extract QuickTime creation date.
-    """
+    # Fallback: HEIC, MOV, PNG, RAW, etc.
     try:
         result = subprocess.run(
             [
                 "exiftool",
-                "-api",
-                "QuickTimeUTC",
-                "-CreationDate",
+                "-api", "QuickTimeUTC",
+                "-DateTimeOriginal",
                 "-CreateDate",
+                "-CreationDate",
                 "-TrackCreateDate",
                 "-j",
                 path,
@@ -67,14 +72,18 @@ def get_mov_datetime(path):
         import json
         data = json.loads(result.stdout)[0]
 
-        for key in ("CreationDate", "CreateDate", "TrackCreateDate"):
+        for key in (
+            "DateTimeOriginal",
+            "CreateDate",
+            "CreationDate",
+            "TrackCreateDate",
+        ):
             if key in data:
-                dt = datetime.fromisoformat(
-                    data[key].replace("Z", "+00:00")
-                )
-                return dt.astimezone(timezone.utc).replace(tzinfo=None)
+                dt = datetime.strptime(data[key], EXIF_DT_FORMAT)
+                return dt
 
-    except Exception:
+    except Exception as e:
+        print(e)
         pass
 
     return None
@@ -115,12 +124,7 @@ def process_pattern(pattern):
 
         ext = os.path.splitext(path)[1].lower()
 
-        if ext in IMAGE_EXTS:
-            dt = get_image_datetime(path)
-        elif ext in VIDEO_EXTS:
-            dt = get_mov_datetime(path)
-        else:
-            continue
+        dt = get_media_datetime(path)
 
         if not dt:
             print(f"SKIP (no date): {path}")
