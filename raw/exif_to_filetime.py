@@ -23,7 +23,8 @@ IMAGE_EXTS = {
 
 VIDEO_EXTS = {".mov"}
 
-EXIF_DT_FORMAT = '%Y:%m:%d %H:%M:%S%z'
+EXIF_DT_FORMAT1 = '%Y:%m:%d %H:%M:%S'
+EXIF_DT_FORMAT2 = '%Y:%m:%d %H:%M:%S%z'
 
 def get_media_datetime(path):
     ext = os.path.splitext(path)[1].lower()
@@ -45,9 +46,8 @@ def get_media_datetime(path):
                             "DateTime",
                         ):
                             if key in exif_data:
-                                return datetime.strptime(
-                                    exif_data[key], "%Y:%m:%d %H:%M:%S"
-                                )
+                                dt = datetime.strptime(exif_data[key], EXIF_DT_FORMAT1)
+                                return dt
         except Exception:
             pass
 
@@ -79,7 +79,13 @@ def get_media_datetime(path):
             "TrackCreateDate",
         ):
             if key in data:
-                dt = datetime.strptime(data[key], EXIF_DT_FORMAT)
+                try:
+                    dt = datetime.strptime(data[key], EXIF_DT_FORMAT1)
+                    #print(f'format {EXIF_DT_FORMAT1} OK')
+                except Exception:
+                    dt = datetime.strptime(data[key], EXIF_DT_FORMAT2)
+                    #print(f'format {EXIF_DT_FORMAT2} OK')
+
                 return dt
 
     except Exception as e:
