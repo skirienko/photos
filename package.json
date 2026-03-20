@@ -1,24 +1,24 @@
 {
   "name": "photos-app",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "type": "module",
   "proxy": "http://localhost:5005",
   "private": true,
   "homepage": "https://photos.skirienko.info/",
   "dependencies": {
-    "express": "^4.22.1",
-    "minisearch": "^3.2.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.2"
+    "express": "^5.2.1",
+    "minisearch": "^7.2.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.13.1"
   },
   "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^6.4.1",
-    "vite-bundle-visualizer": "^1.0.1",
-    "vite-tsconfig-paths": "^4.3.1"
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "vite": "^8.0.1",
+    "vite-bundle-visualizer": "^1.2.1",
+    "vite-tsconfig-paths": "^6.1.1"
   },
   "scripts": {
     "analyze": "vite-bundle-visualizer",

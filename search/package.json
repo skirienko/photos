@@ -1,6 +1,6 @@
 {
   "name": "search",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "nodejs search module",
   "main": "search.js",
   "scripts": {
@@ -9,8 +9,8 @@
   "author": "Sergey Kirienko",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "minisearch": "^6.0.1"
+    "dotenv": "^17.3.1",
+    "express": "5.2.1",
+    "minisearch": "^7.2.0"
   }
 }
