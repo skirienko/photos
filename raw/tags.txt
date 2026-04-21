@@ -2,6 +2,7 @@
 самолёт #airplane
 аэропорт #airport
 Аксарай #aksaray
+якорь #anchor
 #animal
 #aqueduct
 #augusta
