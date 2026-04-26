@@ -15,7 +15,6 @@ MAX_SIDE = 1200
 PANO_MIN_SIZE = 600
 quality = 90
 
-
 SAVE_JPEG = True
 SAVE_WEBP = True
 SKIP_VIDEO = True
@@ -23,7 +22,7 @@ SKIP_VIDEO = True
 watermarks = {}
 
 # cmd_video_resize = './HandBrakeCLI.exe -i %s -o %s' # Windows
-cmd_video_resize = './HandBrakeCLI -i %s -o %s' # macOS
+cmd_video_resize = './HandBrakeCLI -i %s -o %s'  # macOS
 
 albums = {
     'portugal': ('2015-04-23',)
@@ -33,8 +32,8 @@ albums = {
 
 register_heif_opener()
 
-def generate_watermark(text):
 
+def generate_watermark(text):
     font_size_px = 20
 
     if text in watermarks:
@@ -42,7 +41,7 @@ def generate_watermark(text):
 
     font_size_pt = font_size_px // 4 * 3
     s = (len(text) + 2) * font_size_px // 2
-    img = Image.new('RGBA', (s, s), (0,0,0,0))
+    img = Image.new('RGBA', (s, s), (0, 0, 0, 0))
     drawing = ImageDraw.Draw(img)
     font = ImageFont.truetype(font='./fonts/PTSansBold.ttf', size=font_size_pt)
 
@@ -57,8 +56,7 @@ def generate_watermark(text):
 
 
 def add_watermark(img):
-
-    transparent = Image.new('RGBA', img.size, (0,0,0,0))
+    transparent = Image.new('RGBA', img.size, (0, 0, 0, 0))
     transparent.paste(img)
 
     watermark = generate_watermark('Sergey Kirienko')
@@ -95,15 +93,13 @@ def repair_exif(exif):
 
 
 def resize(orig_path, new_path):
-
-
     with Image.open(orig_path, 'r') as img:
         if img:
             # print(img.size)
             if rxWebp.match(new_path):
                 new_path_webp = new_path
             else:
-                new_path_webp = new_path+'.webp'
+                new_path_webp = new_path + '.webp'
 
             tasks = {}
             if SAVE_JPEG: tasks[new_path] = 'JPEG'
@@ -140,7 +136,7 @@ def resize(orig_path, new_path):
                             print('Rotating 90')
                             img = img.transpose(Image.ROTATE_90)
                             exif['0th'][piexif.ImageIFD.Orientation] = 1
-                    
+
                     del exif['thumbnail']
                     byte_exif = piexif.dump(exif)
 
@@ -159,7 +155,6 @@ def resize(orig_path, new_path):
 
 
 def resize_video(orig_path, new_path):
-
     if os.path.exists(new_path):
         if os.path.getmtime(new_path) >= os.path.getmtime(orig_path):
             print("already exists, origin hasn't changed")
@@ -169,11 +164,10 @@ def resize_video(orig_path, new_path):
     call(['./HandBrakeCLI', '-i', orig_path, '-o', new_path])
 
 
-
 for album, dates in albums.items():
 
     for date in dates:
-        
+
         outdir = f"../public/data/{album}/{date}"
         indir = f"{album}/{date}/orig"
         indir2 = f"{album}/{date}"
@@ -202,4 +196,3 @@ for album, dates in albums.items():
                 new_path = '/'.join(('.', outdir, filename))
 
                 resize_video(orig_path, new_path)
-
