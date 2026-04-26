@@ -20,6 +20,8 @@
 остановка #bus-stop #parada
 мост #bridge #ponte #ponte-luis
 кафе #cafe #cafe-central
+касса #caixa
+пушка #cannon
 автомобиль #car #rentacar #rent-a-car
 карета #carriage
 тележка #cart
@@ -52,6 +54,7 @@
 фрукты #fruits #fruit
 фуникулёр #funiculaire #funiculaires #funikuler
 #gellert
+глобус #globus
 гуси #goose #geese
 гуляш #gulyas
 Золотой Рог #halic
