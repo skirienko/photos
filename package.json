@@ -1,6 +1,6 @@
 {
   "name": "photos-app",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "type": "module",
   "proxy": "http://localhost:5005",
   "private": true,
@@ -8,16 +8,16 @@
   "dependencies": {
     "express": "5.2.1",
     "minisearch": "7.2.0",
-    "react": "19.2.5",
-    "react-dom": "19.2.5",
-    "react-router-dom": "7.14.2"
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "react-router-dom": "7.16.0"
   },
   "devDependencies": {
-    "@types/react": "19.2.14",
+    "@types/react": "19.2.15",
     "@types/react-dom": "19.2.3",
-    "@vitejs/plugin-react": "6.0.1",
+    "@vitejs/plugin-react": "6.0.2",
     "typescript": "6.0.3",
-    "vite": "8.0.10",
+    "vite": "8.0.14",
     "vite-bundle-visualizer": "1.2.1"
   },
   "scripts": {
