@@ -13,6 +13,7 @@
 /data/tags/se-velha.json	/data/tags/cathedral.json;
 /data/tags/stefansdom.json	/data/tags/cathedral.json;
 /data/tags/ceramica.json	/data/tags/ceramic.json;
+/data/tags/igreja.json	/data/tags/church.json;
 /data/tags/cidade.json	/data/tags/city.json;
 /data/tags/canal.json	/data/tags/donaukanal.json;
 /data/tags/gyros.json	/data/tags/doner.json;

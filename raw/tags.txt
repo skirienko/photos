@@ -30,6 +30,7 @@
 собор #cathedral #se #se-velha #stefansdom
 керамика #ceramic #ceramica
 шоколад #chocolate
+церковь #church #igreja
 #cidade-tomar
 цистерна #cistern
 город #city #cidade
@@ -61,7 +62,6 @@
 гарем #harem
 #hippodrome
 отель #hotel
-#hundertwasser
 IBM #ibm
 мороженое #icecream #ice-cream #sorvete
 Икарус #ikarus
