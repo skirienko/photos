@@ -9,6 +9,7 @@
 /data/tags/rent-a-car.json	/data/tags/car.json;
 /data/tags/castelo.json	/data/tags/castle.json;
 /data/tags/castelo-obidos.json	/data/tags/castle.json;
+/data/tags/castelo-dos-mouros.json	/data/tags/castle.json;
 /data/tags/se.json	/data/tags/cathedral.json;
 /data/tags/se-velha.json	/data/tags/cathedral.json;
 /data/tags/stefansdom.json	/data/tags/cathedral.json;
