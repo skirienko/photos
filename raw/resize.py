@@ -21,7 +21,7 @@ SKIP_VIDEO = True
 cmd_video_resize = './HandBrakeCLI -i %s -o %s'  # macOS
 
 albums = {
-    'portugal': ('2015-04-23',)
+    'portugal': ('2015-04-21',)
     # '.': ('2022-07-14',)
     #'brasil': ('2007-03-05',)
 }

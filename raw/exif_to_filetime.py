@@ -3,10 +3,9 @@ import sys
 import glob
 import platform
 import subprocess
-from datetime import datetime, timezone
+from datetime import datetime
 
 from PIL import Image, ExifTags
-import piexif
 
 # HEIC support
 try:
