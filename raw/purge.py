@@ -41,9 +41,10 @@ def purge_dir(dirname, useful):
         return
 
     for filename in sorted(os.listdir(dirname)):
-        trimmed = filename.removesuffix('.webp')
-        extended = filename+'.webp'
-        if not (filename in useful) and not (trimmed in useful) and not (extended in useful):
+        trimmed = filename.removesuffix('.webp').removesuffix('.avif')
+        webp = trimmed+'.webp'
+        avif = trimmed+'.avif'
+        if not (filename in useful) and not (trimmed in useful) and not (webp in useful) and not (avif in useful):
             print(f'  delete {filename}')
             os.remove('%s/%s' % (dirname, filename))
 
@@ -59,7 +60,7 @@ for album, dates in albums.items():
             print('Directory "%s" not found, ignoring this date' % dirname)
             continue
 
-        jsonfile = '%s/descr.json' % (dirname)
+        jsonfile = '%s/descr.json' % dirname
 
         if not os.path.isfile(jsonfile):
             print('JSON file "%s" not found, ignoring this date' % jsonfile)

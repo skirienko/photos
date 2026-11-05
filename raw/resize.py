@@ -10,21 +10,23 @@ from presets import albums
 from utils import rxPhoto, rxVideo, add_watermark, repair_exif, limit_size, MAX_SIDE
 
 rxWebp = re.compile(r'.*\.webp$', re.I)
+rxAvif = re.compile(r'.*\.avif$', re.I)
 
 quality = 90
 
 SAVE_JPEG = True
 SAVE_WEBP = True
+SAVE_AVIF = True
 SKIP_VIDEO = True
 
 # cmd_video_resize = './HandBrakeCLI.exe -i %s -o %s' # Windows
 cmd_video_resize = './HandBrakeCLI -i %s -o %s'  # macOS
 
-albums = {
-    'portugal': ('2015-04-21',)
-    # '.': ('2022-07-14',)
-    #'brasil': ('2007-03-05',)
-}
+# albums = {
+#     'portugal': ('2015-04-21',)
+#     # '.': ('2022-07-14',)
+#     #'brasil': ('2007-03-05',)
+# }
 
 register_heif_opener()
 
@@ -51,9 +53,15 @@ def resize_photo(orig_path, new_path):
             else:
                 new_path_webp = new_path + '.webp'
 
+            if rxAvif.match(new_path):
+                new_path_avif = new_path
+            else:
+                new_path_avif = new_path + '.avif'
+
             tasks = {}
             if SAVE_JPEG: tasks[new_path] = 'JPEG'
             if SAVE_WEBP: tasks[new_path_webp] = 'WEBP'
+            if SAVE_AVIF: tasks[new_path_avif] = 'AVIF'
 
             paths = list(tasks.keys())
             for path in paths:
