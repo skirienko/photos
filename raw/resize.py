@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageOps
 import os
 from subprocess import call
 import re
@@ -12,7 +12,10 @@ from utils import rxPhoto, rxVideo, add_watermark, repair_exif, limit_size, MAX_
 rxWebp = re.compile(r'.*\.webp$', re.I)
 rxAvif = re.compile(r'.*\.avif$', re.I)
 
-quality = 90
+JPEG_QUALITY = 90
+WEBP_QUALITY = 82
+AVIF_QUALITY = 65
+AVIF_SPEED = 2
 
 SAVE_JPEG = True
 SAVE_WEBP = True
@@ -22,11 +25,11 @@ SKIP_VIDEO = True
 # cmd_video_resize = './HandBrakeCLI.exe -i %s -o %s' # Windows
 cmd_video_resize = './HandBrakeCLI -i %s -o %s'  # macOS
 
-# albums = {
-#     'portugal': ('2015-04-21',)
-#     # '.': ('2022-07-14',)
-#     #'brasil': ('2007-03-05',)
-# }
+albums = {
+    'portugal': ('2015-04-21',)
+    # '.': ('2022-07-14',)
+    #'brasil': ('2007-03-05',)
+}
 
 register_heif_opener()
 
@@ -47,6 +50,7 @@ def resize_file(filename):
 def resize_photo(orig_path, new_path):
     with Image.open(orig_path, 'r') as img:
         if img:
+            img = ImageOps.exif_transpose(img)
             # print(img.size)
             if rxWebp.match(new_path):
                 new_path_webp = new_path
@@ -84,32 +88,44 @@ def resize_photo(orig_path, new_path):
                     exif = None
 
                 if exif and byte_exif:
-                    if piexif.ImageIFD.Orientation in exif['0th']:
-                        orientation = exif['0th'][piexif.ImageIFD.Orientation]
-                        if orientation == 6:
-                            print('Rotating 270')
-                            img = img.transpose(Image.ROTATE_270)
-                            exif['0th'][piexif.ImageIFD.Orientation] = 1
-                        elif orientation == 8:
-                            print('Rotating 90')
-                            img = img.transpose(Image.ROTATE_90)
-                            exif['0th'][piexif.ImageIFD.Orientation] = 1
-
+                    exif['0th'].pop(piexif.ImageIFD.Orientation, None)
+                    components_configuration = piexif.ExifIFD.ComponentsConfiguration
+                    if isinstance(exif['Exif'].get(components_configuration), tuple):
+                        exif['Exif'][components_configuration] = bytes(exif['Exif'][components_configuration])
+                    exif['Exif'].pop(piexif.ExifIFD.MakerNote, None)
+                    exif['Exif'].pop(piexif.ExifIFD.SceneType, None)
                     del exif['thumbnail']
-                    byte_exif = piexif.dump(exif)
+                    while True:
+                        try:
+                            byte_exif = piexif.dump(exif)
+                            break
+                        except ValueError as error:
+                            invalid_tag = re.search(r'(\d+) in (\w+) IFD\.', str(error))
+                            if not invalid_tag or invalid_tag.group(2) not in exif:
+                                raise
+                            tag = int(invalid_tag.group(1))
+                            if tag not in exif[invalid_tag.group(2)]:
+                                raise
+                            print(f"Dropping invalid EXIF tag {tag} from {invalid_tag.group(2)} IFD")
+                            del exif[invalid_tag.group(2)][tag]
 
             if img.size[0] > MAX_SIDE or img.size[1] > MAX_SIDE:
                 print("Need to resize")
-                print(limit_size(img.size))
-                resized_img = img.resize(limit_size(img.size), Image.LANCZOS)
-                resized_img = add_watermark(resized_img).convert('RGB')
-                for path, fmt in tasks.items():
-                    resized_img.save(path, fmt, quality=quality, exif=byte_exif)
-
+                output_img = img.resize(limit_size(img.size), Image.LANCZOS)
             else:
                 print("Copy intact")
-                copy2(orig_path, new_path)
-                # TODO: other tasks
+                output_img = img.copy()
+
+            output_img = add_watermark(output_img).convert('RGB')
+            for path, fmt in tasks.items():
+                save_options = {'exif': byte_exif}
+                if fmt == 'JPEG':
+                    save_options.update(quality=JPEG_QUALITY, optimize=True)
+                elif fmt == 'WEBP':
+                    save_options.update(quality=WEBP_QUALITY, method=6)
+                elif fmt == 'AVIF':
+                    save_options.update(quality=AVIF_QUALITY, speed=AVIF_SPEED)
+                output_img.save(path, fmt, **save_options)
 
 
 def resize_video(orig_path, new_path):
