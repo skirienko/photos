@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import EventListItem from './EventListItem';
 
 export default function EventsList({events, setPageTitle}) {
-
-    setPageTitle(null);
+    useEffect(() => {
+        setPageTitle(null);
+    }, [setPageTitle]);
 
     return (events ?
         <ul className="events__list">

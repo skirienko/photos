@@ -16,14 +16,19 @@ export function Photo(props) {
 function Frame(props) {
     const {type, photo, style, path} = props;
     let src = `${path}/${photo}`;
-    let webp = null;
+    let webp = null, avif = null;
     if (photo.match(/\.(jpe?g|png|gif)\.webp$/i)) {
         webp = `${path}/${photo}`;
         src = `${path}/${photo.replace(/\.webp$/i, "")}`;
     }
+    if (photo.match(/\.(jpe?g|png|gif)\.avif$/i)) {
+        avif = `${path}/${photo}`;
+        src = `${path}/${photo.replace(/\.avif$/i, "")}`;
+    }
     return (
         <div key={type + photo} className={'photo ' + type} style={style}>
             <picture>
+                {avif ? <source srcSet={avif} type="image/avif"/> : null}
                 {webp ? <source srcSet={webp} type="image/webp"/> : null}
                 <img src={src} alt=""/>
             </picture>
@@ -270,5 +275,3 @@ export class Photos extends Component {
           );
     }
 }
-
-export default Photos;
