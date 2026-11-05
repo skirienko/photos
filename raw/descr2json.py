@@ -137,6 +137,9 @@ def lines2data(lines, outdir):
             # if there's only WEBP version
             elif os.path.isfile(fullpath+".webp"):
                 filename = filename+".webp"
+            # if there's only AVIF version
+            elif os.path.isfile(fullpath+".avif"):
+                filename = filename+".avif"
 
             else:
                 print(f"file not found ({fullpath})")
